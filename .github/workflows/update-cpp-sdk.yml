@@ -58,7 +58,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-ios:
-    if: true
+    if: false
     runs-on: macos-latest
 
     steps:
@@ -73,4 +73,22 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: iOS
+          path: ./build/vcpkg/packages/*/lib/*
+
+  build-linux:
+    if: true
+    runs-on: linux-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat 
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Linux
           path: ./build/vcpkg/packages/*/lib/*
