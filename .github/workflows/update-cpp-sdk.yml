@@ -14,6 +14,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.bat
           ./build/vcpkg/vcpkg install configcat --triplet x64-windows
+          New-Item ./lib-files -ItemType Directory
           Get-ChildItem -Path /build/vcpkg/packages/*/lib/*.lib -Recurse -File | Move-Item -Destination ./lib-files
 
       - uses: actions/upload-artifact@v3
