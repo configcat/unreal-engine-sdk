@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build-win64:
+    if: false
     runs-on: windows-latest
 
     steps:
@@ -21,6 +22,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*.lib
 
   build-android:
+    if: false
     runs-on: windows-latest
 
     steps:
@@ -31,6 +33,23 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.bat
           ./build/vcpkg/vcpkg install configcat --triplet arm64-android
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Android-Arm
+          path: ./build/vcpkg/packages/*/lib/*.lib
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat
 
       - uses: actions/upload-artifact@v3
         with:
