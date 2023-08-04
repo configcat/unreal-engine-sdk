@@ -50,7 +50,7 @@ jobs:
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat --triplet x64_osx
+          ./build/vcpkg/vcpkg install configcat --triplet x64-osx
 
       - uses: actions/upload-artifact@v3
         with:
