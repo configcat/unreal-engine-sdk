@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build-depedencies:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -12,5 +12,10 @@ jobs:
       - name: Install dependencies
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
-          ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat
+          ./build/vcpkg/bootstrap-vcpkg.bat
+          ./build/vcpkg/vcpkg install configcat --triplet x64-windows
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Win64
+          path: ./build/vcpkg/packages/*/lib/*.lib
