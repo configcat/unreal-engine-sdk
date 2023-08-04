@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build-win64:
-    if: false
+    if: true
     runs-on: windows-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-android:
-    if: false
+    if: true
     runs-on: windows-latest
 
     steps:
@@ -40,7 +40,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-macos:
-    if: false
+    if: true
     runs-on: macos-latest
 
     steps:
@@ -58,7 +58,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-ios:
-    if: false
+    if: true
     runs-on: macos-latest
 
     steps:
