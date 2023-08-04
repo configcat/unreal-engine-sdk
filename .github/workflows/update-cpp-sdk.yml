@@ -3,13 +3,13 @@ name: Build depedencies
 on: [push]
 
 jobs:
-  build-depedencies:
+  build-win64:
     runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.bat
@@ -18,4 +18,21 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Win64
+          path: ./build/vcpkg/packages/*/lib/*.lib
+
+  build-android:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.bat
+          ./build/vcpkg/vcpkg install configcat --triplet arm64-android
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Android-Arm
           path: ./build/vcpkg/packages/*/lib/*.lib
