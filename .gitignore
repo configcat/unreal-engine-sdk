@@ -1,2 +1,5 @@
 Binaries/
 Intermediate/
+
+# Prebuilt binaries need to be distributed with the plugin
+!Source/ThirdParty/**
