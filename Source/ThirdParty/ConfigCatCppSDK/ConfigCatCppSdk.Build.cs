@@ -1,7 +1,9 @@
 // Copyright (c) ConfigCat 2023. All Rights Reserved.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnrealBuildTool;
 
 public class ConfigCatCppSdk : ModuleRules
@@ -10,33 +12,40 @@ public class ConfigCatCppSdk : ModuleRules
 	{
 		Type = ModuleType.External;
 
-		AddEngineThirdPartyPrivateStaticDependencies(Target, "libcurl");
-		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
-
-
-		string libraryPath = Path.Combine(ModuleDirectory, "Binaries", Target.Platform.ToString());
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "cpr" + ".lib"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libcurl" + ".lib"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "hash-library" + ".lib"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "configcat" + ".lib"));
+			string Folder = Path.Combine(ModuleDirectory, "Binaries", "Win64");
+			AddPrecompiledLibraries(Folder, "*.lib");
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Mac)
 		{
-			//TODO: add mac libraries
+			string Folder = Path.Combine(ModuleDirectory, "Binaries", "Mac");
+			AddPrecompiledLibraries(Folder, "*.a");
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libcpr" + ".a"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libhash-library" + ".a"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libconfigcat" + ".a"));
+			string Folder = Path.Combine(ModuleDirectory, "Binaries", "Linux");
+			AddPrecompiledLibraries(Folder, "*.a");
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Android)
 		{
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libcpr" + ".a"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libhash-library" + ".a"));
-			PublicAdditionalLibraries.Add(Path.Combine(libraryPath, "libconfigcat" + ".a"));
+			string Folder = Path.Combine(ModuleDirectory, "Binaries", "Android");
+			AddPrecompiledLibraries(Folder, "*.a");
+		}
+		else if(Target.Platform == UnrealTargetPlatform.IOS)
+		{
+			string Folder = Path.Combine(ModuleDirectory, "Binaries", "iOS");
+			AddPrecompiledLibraries(Folder, "*.a");
+		}
+	}
+	
+	public void AddPrecompiledLibraries(string FolderPath, string Extension)
+	{
+		List<string> Files = Directory.GetFiles(FolderPath, Extension, SearchOption.AllDirectories).ToList();
+		foreach (string File in Files)
+		{
+			PublicAdditionalLibraries.Add(Path.Combine(FolderPath, File));
+			Console.WriteLine("Adding library:" + File);
 		}
 	}
 }

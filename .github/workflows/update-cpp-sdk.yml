@@ -39,7 +39,7 @@ jobs:
           name: Android
           path: ./build/vcpkg/packages/*/lib/*
 
-  build-macos:
+  build-mac:
     if: true
     runs-on: macos-latest
 
@@ -54,7 +54,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: MacOs
+          name: Mac
           path: ./build/vcpkg/packages/*/lib/*
 
   build-ios:
