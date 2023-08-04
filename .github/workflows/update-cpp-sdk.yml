@@ -77,7 +77,7 @@ jobs:
 
   build-linux:
     if: true
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
