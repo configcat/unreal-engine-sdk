@@ -86,7 +86,11 @@ jobs:
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.sh
+
           cp "$GITHUB_WORKSPACE/Extras/triplets/x64-linux-unreal.cmake" "./build/vcpkg/triplets/x64-linux-unreal.cmake"
+          export CC=clang
+          export CXX=clang++
+
           ./build/vcpkg/vcpkg install configcat --triplet x64-linux-unreal
 
       - uses: actions/upload-artifact@v3
