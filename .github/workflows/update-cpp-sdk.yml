@@ -88,7 +88,6 @@ jobs:
           ./build/vcpkg/bootstrap-vcpkg.sh
 
           # Extra steps for Unreal Engine integration
-          # cp "$GITHUB_WORKSPACE/Extras/triplets/x64-linux-unreal.cmake" "./build/vcpkg/triplets/x64-linux-unreal.cmake"
           export CC=clang
           export CXX=clang++
 
