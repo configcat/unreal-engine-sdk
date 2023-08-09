@@ -12,6 +12,9 @@ public class ConfigCatCppSdk : ModuleRules
 	{
 		Type = ModuleType.External;
 
+		AddEngineThirdPartyPrivateStaticDependencies(Target, "libcurl");
+		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
+
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			string Folder = Path.Combine(ModuleDirectory, "Binaries", "Win64");
