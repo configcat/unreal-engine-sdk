@@ -170,7 +170,7 @@ struct Config {
     static std::shared_ptr<Config> fromJson(const std::string& jsonString);
     static std::shared_ptr<Config> fromFile(const std::string& filePath);
 
-    static inline std::shared_ptr<Config> empty = std::make_shared<Config>();
+    static std::shared_ptr<Config> empty;
 
     Config() {};
     Config(const Config&) = delete; // Disable copy
@@ -184,23 +184,27 @@ struct ConfigEntry {
     static constexpr char kConfig[] = "config";
     static constexpr char kETag[] = "etag";
     static constexpr char kFetchTime[] = "fetch_time";
+    static constexpr char kSerializationFormatVersion[] = "v2";
 
-    static inline std::shared_ptr<ConfigEntry> empty = std::make_shared<ConfigEntry>(Config::empty, "empty");
+    static std::shared_ptr<ConfigEntry> empty;
 
     ConfigEntry(std::shared_ptr<Config> config = Config::empty,
                 const std::string& eTag = "",
+                const std::string& configJsonString = "{}",
                 double fetchTime = kDistantPast):
             config(config),
             eTag(eTag),
+            configJsonString(configJsonString),
             fetchTime(fetchTime) {
     }
     ConfigEntry(const ConfigEntry&) = delete; // Disable copy
 
-    static std::shared_ptr<ConfigEntry> fromJson(const std::string& jsonString);
-    std::string toJson() const;
+    static std::shared_ptr<ConfigEntry> fromString(const std::string& text);
+    std::string serialize() const;
 
     std::shared_ptr<Config> config;
     std::string eTag;
+    std::string configJsonString;
     double fetchTime;
 };
 
