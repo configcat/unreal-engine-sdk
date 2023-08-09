@@ -4,8 +4,8 @@
 
 #include <ConfigCatCppSDK/Include/configcatclient.h>
 #include <ConfigCatCppSDK/Include/configcatuser.h>
-#include <CoreGlobals.h>
 #include <Logging/LogVerbosity.h>
+#include <Misc/ConfigCacheIni.h>
 
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
