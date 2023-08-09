@@ -4,12 +4,13 @@
 
 #include <ConfigCatCppSDK/Include/configcatclient.h>
 #include <ConfigCatCppSDK/Include/configcatuser.h>
+#include <CoreGlobals.h>
+#include <Logging/LogVerbosity.h>
 
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
 #include "ConfigCatSettings.h"
 #include "ConfigCatuser.h"
-#include "Logging/LogVerbosity.h"
 
 using namespace configcat;
 
