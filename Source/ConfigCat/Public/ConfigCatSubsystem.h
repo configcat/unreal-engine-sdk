@@ -29,16 +29,16 @@ class CONFIGCAT_API UConfigCatSubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Boolean)", meta = (AdvancedDisplay = "bDefaultValue, User", AutoCreateRefTerm = "User"))
+	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Boolean)", Category = "ConfigCat", meta = (AdvancedDisplay = "bDefaultValue, User", AutoCreateRefTerm = "User"))
 	bool GetBoolValue(const FString& Key, bool bDefaultValue, const FConfigCatUser& User);
 
-	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Integer)", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
+	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Integer)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
 	int32 GetIntValue(const FString& Key, int32 DefaultValue, const FConfigCatUser& User);
 
-	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Double)", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
+	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Double)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
 	double GetDoubleValue(const FString& Key, double DefaultValue, const FConfigCatUser& User);
 
-	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (String)", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
+	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (String)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
 	FString GetStringValue(const FString& Key, FString DefaultValue, const FConfigCatUser& User);
 
 	// std::shared_ptr<Value> getValue(const std::string& key, const ConfigCatUser* user = nullptr) const;

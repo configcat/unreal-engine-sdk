@@ -17,16 +17,16 @@ struct CONFIGCAT_API FConfigCatUser
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
 	FString Id;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
 	FString Email;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
 	FString Country;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
 	TMap<FString, FString> Attributes;
 
 	configcat::ConfigCatUser ToNative() const;
