@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build-win64:
-    if: true
+    if: false
     runs-on: windows-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-android:
-    if: true
+    if: false
     runs-on: windows-latest
 
     steps:
@@ -39,8 +39,8 @@ jobs:
           name: Android
           path: ./build/vcpkg/packages/*/lib/*
 
-  build-mac:
-    if: true
+  build-macos:
+    if: false
     runs-on: macos-latest
 
     steps:
@@ -54,11 +54,11 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Mac
+          name: MacOs
           path: ./build/vcpkg/packages/*/lib/*
 
   build-ios:
-    if: true
+    if: false
     runs-on: macos-latest
 
     steps:
@@ -86,7 +86,12 @@ jobs:
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat --triplet x64-linux
+
+          # Extra steps for Unreal Engine integration
+          export CC=clang
+          export CXX=clang++
+
+          ./build/vcpkg/vcpkg install configcat --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
