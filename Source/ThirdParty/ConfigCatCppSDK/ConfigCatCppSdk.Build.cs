@@ -14,6 +14,7 @@ public class ConfigCatCppSdk : ModuleRules
 
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "libcurl");
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
+		AddEngineThirdPartyPrivateStaticDependencies(Target, "nghttp2");
 
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
