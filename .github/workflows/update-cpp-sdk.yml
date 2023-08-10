@@ -1,0 +1,101 @@
+name: Build depedencies
+
+on: [workflow_dispatch ]
+
+jobs:
+  build-win64:
+    if: true
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.bat
+          ./build/vcpkg/vcpkg install configcat --triplet x64-windows
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Win64
+          path: ./build/vcpkg/packages/*/lib/*
+
+  build-android:
+    if: true
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.bat
+          ./build/vcpkg/vcpkg install configcat --triplet arm64-android
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Android
+          path: ./build/vcpkg/packages/*/lib/*
+
+  build-macos:
+    if: true
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat --triplet x64-osx
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MacOs
+          path: ./build/vcpkg/packages/*/lib/*
+
+  build-ios:
+    if: true
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat --triplet arm64-ios
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: iOS
+          path: ./build/vcpkg/packages/*/lib/*
+
+  build-linux:
+    if: true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+
+          # Extra steps for Unreal Engine integration
+          export CC=clang
+          export CXX=clang++
+
+          # TODO: We need to apply patches for Linx builds from the Extras/patches folder for configcat and cpr
+
+          ./build/vcpkg/vcpkg install configcat --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Linux
+          path: ./build/vcpkg/packages/*/lib/*

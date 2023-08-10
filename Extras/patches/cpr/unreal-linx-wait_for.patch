@@ -1,0 +1,13 @@
+diff --git a/cpr/threadpool.cpp b/cpr/threadpool.cpp
+index 8ab1ee8..1298b74 100644
+--- a/cpr/threadpool.cpp
++++ b/cpr/threadpool.cpp
+@@ -80,7 +80,7 @@ bool ThreadPool::CreateThread() {
+             Task task;
+             {
+                 std::unique_lock<std::mutex> locker(task_mutex);
+-                task_cond.wait_for(locker, std::chrono::milliseconds(max_idle_time), [this]() { return status == STOP || !tasks.empty(); });
++                task_cond.wait(locker, [this]() { return status == STOP || !tasks.empty(); });
+                 if (status == STOP) {
+                     return;
+                 }

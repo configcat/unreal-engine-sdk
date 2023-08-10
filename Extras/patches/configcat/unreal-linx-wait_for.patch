@@ -1,0 +1,22 @@
+diff --git a/src/configservice.cpp b/src/configservice.cpp
+index ce0b45b..bb69c6c 100644
+--- a/src/configservice.cpp
++++ b/src/configservice.cpp
+@@ -57,7 +57,7 @@ SettingResult ConfigService::getSettings() {
+         if (elapsedTime < autoPollingMode.maxInitWaitTimeInSeconds) {
+             unique_lock<mutex> lock(initMutex);
+             chrono::duration<double> timeout(autoPollingMode.maxInitWaitTimeInSeconds - elapsedTime);
+-            init.wait_for(lock, timeout, [&]{ return initialized; });
++            init.wait(lock, [&]{ return initialized; });
+ 
+             // Max wait time expired without result, notify subscribers with the cached config.
+             if (!initialized) {
+@@ -225,7 +225,7 @@ void ConfigService::run() {
+     do {
+         {
+             unique_lock<mutex> lock(initMutex);
+-            stop.wait_for(lock, chrono::seconds(autoPollingMode.autoPollIntervalInSeconds), [&]{ return stopRequested; });
++            stop.wait(lock, [&]{ return stopRequested; });
+             if (stopRequested) {
+                 break;
+             }
