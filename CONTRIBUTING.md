@@ -58,7 +58,7 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *MyValue);
 
 Or via Blueprints:
 
-TODO
+![image](https://github.com/outoftheboxplugins/configcat-unreal/assets/21221169/acbecd4a-43b0-4829-8e3a-52ac777808c2)
 
 ## Advanced usage
 
