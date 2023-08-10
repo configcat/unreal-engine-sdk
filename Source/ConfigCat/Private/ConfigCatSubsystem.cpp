@@ -4,6 +4,7 @@
 
 #include <ConfigCatCppSDK/Include/configcatclient.h>
 #include <ConfigCatCppSDK/Include/configcatuser.h>
+#include <Kismet/GameplayStatics.h>
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 
@@ -33,6 +34,12 @@ namespace
 	}
 } // namespace
 
+
+UConfigCatSubsystem* UConfigCatSubsystem::Get(const UObject* WorldContext)
+{
+	const UGameInstance* GameInstance = UGameplayStatics::GetGameInstance(WorldContext);
+	return GameInstance->GetSubsystem<UConfigCatSubsystem>();
+}
 
 bool UConfigCatSubsystem::GetBoolValue(const FString& Key, bool bDefaultValue, const FConfigCatUser& User)
 {

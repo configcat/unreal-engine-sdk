@@ -29,6 +29,11 @@ class CONFIGCAT_API UConfigCatSubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
+	/**
+	 * Static wrapper for getting this GameInstance subsystem
+	 */
+	static UConfigCatSubsystem* Get(const UObject* WorldContext);
+
 	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (Boolean)", Category = "ConfigCat", meta = (AdvancedDisplay = "bDefaultValue, User", AutoCreateRefTerm = "User"))
 	bool GetBoolValue(const FString& Key, bool bDefaultValue, const FConfigCatUser& User);
 
