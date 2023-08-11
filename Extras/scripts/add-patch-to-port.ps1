@@ -26,7 +26,7 @@ Copy-Item $patchFile -Destination $portFolder
 
 
 $patchToAdd = "`r`n        ${[System.IO.Path]::GetFileName($patchFile)}"
-$file = "$patchFolder\portfile.cmake"
+$file = "$portFolder\portfile.cmake"
 $fileContent = Get-Content $file
 
 $lastPatchLine =  GetLastOccurange -content $fileContent -regexMatch "\.patch"
