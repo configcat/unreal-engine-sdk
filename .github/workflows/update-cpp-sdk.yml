@@ -89,11 +89,11 @@ jobs:
 
           ./build/vcpkg/vcpkg install configcat --only-downloads --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
-        - name: Append patches
-          shell: pwsh
-          run: |
-            &"$GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/configcat" -patchFile "$GITHUB_WORKSPACE/Extras/patches/configcat/unreal-linux-wait_for.patch"
-            &"$GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/cpr" -patchFile "$GITHUB_WORKSPACE/Extras/patches/cpr/unreal-linux-wait_for.patch"
+      - name: Append patches
+        shell: pwsh
+        run: |
+          &"$GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/configcat" -patchFile "$GITHUB_WORKSPACE/Extras/patches/configcat/unreal-linux-wait_for.patch"
+          &"$GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/cpr" -patchFile "$GITHUB_WORKSPACE/Extras/patches/cpr/unreal-linux-wait_for.patch"
 
       - name: Install via vcpkg
         run: |
