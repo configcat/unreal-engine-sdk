@@ -1,10 +1,10 @@
 name: Build depedencies
 
-on: [workflow_dispatch ]
+on: [push]
 
 jobs:
   build-win64:
-    if: true
+    if: false
     runs-on: windows-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-android:
-    if: true
+    if: false
     runs-on: windows-latest
 
     steps:
@@ -40,7 +40,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-macos:
-    if: true
+    if: false
     runs-on: macos-latest
 
     steps:
@@ -58,7 +58,7 @@ jobs:
           path: ./build/vcpkg/packages/*/lib/*
 
   build-ios:
-    if: true
+    if: false
     runs-on: macos-latest
 
     steps:
@@ -82,16 +82,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install via vcpkg
+      - name: Prepare files
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           ./build/vcpkg/bootstrap-vcpkg.sh
 
+          ./build/vcpkg/vcpkg install configcat --only-downloads --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+
+      - name: Append patches
+        shell: pwsh
+        run: |
+          &"$env:GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/configcat" -patchFile "$env:GITHUB_WORKSPACE/Extras/patches/configcat/unreal-linux-wait_for.patch"
+          &"$env:GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/cpr" -patchFile "$env:GITHUB_WORKSPACE/Extras/patches/cpr/unreal-linux-wait_for.patch"
+
+      - name: Install via vcpkg
+        run: |
           # Extra steps for Unreal Engine integration
           export CC=clang
           export CXX=clang++
-
-          # TODO: We need to apply patches for Linx builds from the Extras/patches folder for configcat and cpr
 
           ./build/vcpkg/vcpkg install configcat --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
