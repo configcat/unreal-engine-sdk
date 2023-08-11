@@ -101,6 +101,8 @@ jobs:
           export CC=clang
           export CXX=clang++
 
+          cat ./build/vcpkg/ports/configcat/portfile.cmake
+
           ./build/vcpkg/vcpkg install configcat --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
