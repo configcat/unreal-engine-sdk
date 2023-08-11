@@ -92,8 +92,8 @@ jobs:
       - name: Append patches
         shell: pwsh
         run: |
-          &"$env:GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/configcat" -patchFile "$GITHUB_WORKSPACE/Extras/patches/configcat/unreal-linux-wait_for.patch"
-          &"$env:GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/cpr" -patchFile "$GITHUB_WORKSPACE/Extras/patches/cpr/unreal-linux-wait_for.patch"
+          &"$env:GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/configcat" -patchFile "env:$GITHUB_WORKSPACE/Extras/patches/configcat/unreal-linux-wait_for.patch"
+          &"$env:GITHUB_WORKSPACE/Extras/scripts/add-patch-to-port" -portFolder "./build/vcpkg/ports/cpr" -patchFile "$env:GITHUB_WORKSPACE/Extras/patches/cpr/unreal-linux-wait_for.patch"
 
       - name: Install via vcpkg
         run: |
