@@ -24,7 +24,7 @@ function GetLastOccurange {
 Write-Host Copying $patchFile to $portFolder
 Copy-Item $patchFile -Destination $portFolder
 
-$patchToAdd = "`r`n        ${[System.IO.Path]::GetFileName($patchFile)}"
+$patchToAdd = "`r`n        $([System.IO.Path]::GetFileName($patchFile))"
 $file = "$portFolder\portfile.cmake"
 $fileContent = Get-Content $file
 
