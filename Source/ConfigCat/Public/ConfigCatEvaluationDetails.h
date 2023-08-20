@@ -52,10 +52,33 @@ class UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
 	static FString GetError(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
 	static bool HasRolloutRule(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	static FConfigCatValue GetRuleValue(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	static FString GetRuleComparisonAttribute(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	static FString GetRuleComparator(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	static FString GetRuleComparisonValue(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	static FString GetRuleVariationId(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
 	static bool HasPercentageItem(const FConfigCatEvaluationDetails& Struct);
 
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	static FConfigCatValue GetPercentageValue(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	static double GetPercentagePercentage(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	static FString GetPercentageVariationId(const FConfigCatEvaluationDetails& Struct);
 };
