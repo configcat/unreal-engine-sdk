@@ -37,7 +37,7 @@ enum class EPollingMode : uint8
 /**
  * Holds configuration for integrating the ConfigCat feature flags SDK
  */
-UCLASS(Config = ConfigCat)
+UCLASS(DefaultConfig, Config = ConfigCat)
 class CONFIGCAT_API UConfigCatSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
