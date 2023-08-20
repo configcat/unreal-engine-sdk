@@ -27,10 +27,9 @@ namespace
 			return DefaultValue;
 		}
 
-		const ConfigCatUser NativeUser = User.ToNative();
-		const ConfigCatUser* TargetUser = User.IsValid() ? &NativeUser : nullptr;
-
+		const ConfigCatUser* TargetUser = User.User.get();
 		const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
+
 		return Client->getValue(FlagKey, DefaultValue, TargetUser);
 	}
 } // namespace
@@ -72,9 +71,7 @@ FConfigCatValue UConfigCatSubsystem::GetFeatureFlagValue(const FString& Key, con
 		return {};
 	}
 
-	const ConfigCatUser NativeUser = User.ToNative();
-	const ConfigCatUser* TargetUser = User.IsValid() ? &NativeUser : nullptr;
-
+	const ConfigCatUser* TargetUser = User.User.get();
 	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
 	const std::shared_ptr<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, TargetUser);
@@ -123,9 +120,13 @@ void UConfigCatSubsystem::SetDefaultUser(const FConfigCatUser& User)
 		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
+	if (!User.User)
+	{
+		UE_LOG(LogConfigCat, Warning, TEXT("Trying to set Default User with invalid pointer."));
+		return;
+	}
 
-	const std::shared_ptr<ConfigCatUser> DefaultUser = std::make_shared<ConfigCatUser>(User.ToNative());
-	ConfigCatClient->setDefaultUser(DefaultUser);
+	ConfigCatClient->setDefaultUser(User.User);
 }
 
 void UConfigCatSubsystem::ClearDefaultUser()

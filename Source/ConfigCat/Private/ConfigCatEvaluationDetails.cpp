@@ -19,7 +19,7 @@ FConfigCatEvaluationDetails::FConfigCatEvaluationDetails(const configcat::Evalua
 	const auto MillisecondsSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(InValue.fetchTime.time_since_epoch()).count();
 	FetchTime = FDateTime(MillisecondsSinceEpoch);
 
-	User = FConfigCatUser(InValue.user);
+	User = FConfigCatUser(const_cast<configcat::ConfigCatUser*>(InValue.user));
 	bIsDefaultValue = InValue.isDefaultValue;
 	Error = UTF8_TO_TCHAR(InValue.error.c_str());
 	MatchedEvaluationRule = InValue.matchedEvaluationRule ? FConfigCatRolloutRule(InValue.matchedEvaluationRule.value()) : FConfigCatRolloutRule();
