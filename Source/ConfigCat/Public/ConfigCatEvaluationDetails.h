@@ -19,6 +19,9 @@ struct FConfigCatEvaluationDetails
 {
 	GENERATED_BODY()
 
+	FConfigCatEvaluationDetails() = default;
+	FConfigCatEvaluationDetails(configcat::EvaluationDetails InValue);
+
 	std::shared_ptr<configcat::EvaluationDetails> EvaluationDetails;
 };
 

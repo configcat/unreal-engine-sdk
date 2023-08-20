@@ -8,6 +8,7 @@
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 
+#include "ConfigCatEvaluationDetails.h"
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
 #include "ConfigCatSettings.h"
@@ -76,6 +77,21 @@ FConfigCatValue UConfigCatSubsystem::GetConfigValue(const FString& Key, const FC
 
 	const std::shared_ptr<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, TargetUser);
 	return FConfigCatValue(FeatureFlagValue);
+}
+
+FConfigCatEvaluationDetails UConfigCatSubsystem::GetValueDetails(const FString& Key, bool DefaultValue, const FConfigCatUser& User) const
+{
+	if (!ensure(ConfigCatClient))
+	{
+		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		return {};
+	}
+
+	const ConfigCatUser* TargetUser = User.User.get();
+	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
+
+	EvaluationDetails EvaluationDetails = ConfigCatClient->getValueDetails(FlagKey, DefaultValue, TargetUser);
+	return FConfigCatEvaluationDetails(EvaluationDetails);
 }
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const

@@ -2,12 +2,21 @@
 
 #include "ConfigCatEvaluationDetails.h"
 
+// clang-format off
+//TODO: This should go directly in evaluationdetails.h
+#include <chrono>
+// clang-format on
+
 #include "ConfigCatCppSDK/Include/evaluationdetails.h"
 #include "ConfigCatUser.h"
 #include "ConfigCatValue.h"
-#include <chrono>
 
 using namespace configcat;
+
+FConfigCatEvaluationDetails::FConfigCatEvaluationDetails(configcat::EvaluationDetails InValue)
+{
+	EvaluationDetails = std::make_shared<configcat::EvaluationDetails>(InValue);
+}
 
 FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetKey(const FConfigCatEvaluationDetails& Struct)
 {
