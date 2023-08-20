@@ -32,7 +32,7 @@ FConfigCatUser::FConfigCatUser(const FString& Id, const FString& Email, const FS
 	User = std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes);
 }
 
-FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
+FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, TMap<FString, FString> Attributes)
 {
 	return FConfigCatUser(Id, Email, Country, Attributes);
 }

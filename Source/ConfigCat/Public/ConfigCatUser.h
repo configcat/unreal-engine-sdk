@@ -31,12 +31,12 @@ class UConfigCatUserAccessorsBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|User")
-	static FConfigCatUser CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
+	static FConfigCatUser CreateUser(const FString& Id, const FString& Email, const FString& Country, TMap<FString, FString> Attributes);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|User")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
 	static FString GetIdentifier(const FConfigCatUser& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|User")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
 	static FString GetAttribute(const FConfigCatUser& Struct, const FString& Key);
 };

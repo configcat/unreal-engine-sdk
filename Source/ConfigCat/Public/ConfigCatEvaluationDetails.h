@@ -31,54 +31,54 @@ class UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlueprintFunctionL
 {
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FString GetKey(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FConfigCatValue GetValue(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FString GetVariationId(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FDateTime GetFetchTime(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FConfigCatUser GetUser(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static bool IsDefaultValue(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FString GetError(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
 	static bool HasRolloutRule(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
 	static FConfigCatValue GetRuleValue(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
 	static FString GetRuleComparisonAttribute(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
 	static FString GetRuleComparator(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
 	static FString GetRuleComparisonValue(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
 	static FString GetRuleVariationId(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
 	static bool HasPercentageItem(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
 	static FConfigCatValue GetPercentageValue(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
 	static double GetPercentagePercentage(const FConfigCatEvaluationDetails& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
 	static FString GetPercentageVariationId(const FConfigCatEvaluationDetails& Struct);
 };

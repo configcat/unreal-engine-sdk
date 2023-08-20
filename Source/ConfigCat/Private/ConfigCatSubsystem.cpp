@@ -57,22 +57,22 @@ UConfigCatSubsystem* UConfigCatSubsystem::Get(const UObject* WorldContext)
 	return GameInstance->GetSubsystem<UConfigCatSubsystem>();
 }
 
-bool UConfigCatSubsystem::GetBoolValue(const FString& Key, bool bDefaultValue, const FConfigCatUser& User)
+bool UConfigCatSubsystem::GetBoolValue(const FString& Key, bool bDefaultValue, const FConfigCatUser& User) const
 {
 	return GetValue(ConfigCatClient, Key, bDefaultValue, User);
 }
 
-int32 UConfigCatSubsystem::GetIntValue(const FString& Key, int32 DefaultValue, const FConfigCatUser& User)
+int32 UConfigCatSubsystem::GetIntValue(const FString& Key, int32 DefaultValue, const FConfigCatUser& User) const
 {
 	return GetValue(ConfigCatClient, Key, DefaultValue, User);
 }
 
-double UConfigCatSubsystem::GetDoubleValue(const FString& Key, double DefaultValue, const FConfigCatUser& User)
+double UConfigCatSubsystem::GetDoubleValue(const FString& Key, double DefaultValue, const FConfigCatUser& User) const
 {
 	return GetValue(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& DefaultValue, const FConfigCatUser& User)
+FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& DefaultValue, const FConfigCatUser& User) const
 {
 	const std::string& StringDefaultValue = TCHAR_TO_UTF8(*DefaultValue);
 	const std::string& StringResult = GetValue(ConfigCatClient, Key, StringDefaultValue, User);

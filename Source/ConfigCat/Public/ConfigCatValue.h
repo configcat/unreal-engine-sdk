@@ -28,24 +28,24 @@ class UConfigCatValueAccessorsBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasAnyValue(const FConfigCatValue& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasBooleanValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasStringValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasIntegerValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasDecimalValue(const FConfigCatValue& Struct);
 
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool GetBooleanValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static FString GetStringValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static int GetIntegerValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintCallable, Category = "ConfigCat|Value")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static double GetDecimalValue(const FConfigCatValue& Struct);
 };
