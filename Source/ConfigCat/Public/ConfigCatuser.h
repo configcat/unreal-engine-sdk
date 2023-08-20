@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ConfigCatuser.generated.h"
+#include "ConfigCatUser.generated.h"
 
 namespace configcat
 {

@@ -11,7 +11,8 @@
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
 #include "ConfigCatSettings.h"
-#include "ConfigCatuser.h"
+#include "ConfigCatUser.h"
+#include "ConfigCatValue.h"
 
 using namespace configcat;
 
@@ -61,6 +62,28 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, FString DefaultV
 	const std::string& StringDefaultValue = TCHAR_TO_UTF8(*DefaultValue);
 	const std::string& StringResult = GetValue(ConfigCatClient, Key, StringDefaultValue, User);
 	return UTF8_TO_TCHAR(StringResult.c_str());
+}
+
+FConfigCatValue UConfigCatSubsystem::GetFeatureFlagValue(const FString& Key, const FConfigCatUser& User) const
+{
+	if (!ensure(ConfigCatClient))
+	{
+		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		return {};
+	}
+
+	const ConfigCatUser NativeUser = User.ToNative();
+	const ConfigCatUser* TargetUser = User.IsValid() ? &NativeUser : nullptr;
+
+	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
+
+	const std::shared_ptr<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, TargetUser);
+	if (!FeatureFlagValue)
+	{
+		return {};
+	}
+
+	return FConfigCatValue(*FeatureFlagValue);
 }
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const

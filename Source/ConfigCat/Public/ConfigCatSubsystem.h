@@ -46,7 +46,8 @@ public:
 	UFUNCTION(BlueprintCallable, DisplayName = "Get Value (String)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
 	FString GetStringValue(const FString& Key, FString DefaultValue, const FConfigCatUser& User);
 
-	// std::shared_ptr<Value> getValue(const std::string& key, const ConfigCatUser* user = nullptr) const;
+	UFUNCTION(BlueprintCallable, DisplayName = "Get Feature Flag Value", Category = "ConfigCat", meta = (AdvancedDisplay = "User", AutoCreateRefTerm = "User"))
+	FConfigCatValue GetFeatureFlagValue(const FString& Key, const FConfigCatUser& User) const;
 	// EvaluationDetails getValueDetails(const std::string& key, bool defaultValue, const ConfigCatUser* user = nullptr) const;
 	// EvaluationDetails getValueDetails(const std::string& key, int defaultValue, const ConfigCatUser* user = nullptr) const;
 	// EvaluationDetails getValueDetails(const std::string& key, double defaultValue, const ConfigCatUser* user = nullptr) const;

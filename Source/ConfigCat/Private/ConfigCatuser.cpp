@@ -1,6 +1,6 @@
 ﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
 
-#include "ConfigCatuser.h"
+#include "ConfigCatUser.h"
 
 #include <ConfigCatCppSDK/Include/configcatuser.h>
 
