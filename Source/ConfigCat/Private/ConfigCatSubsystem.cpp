@@ -63,7 +63,7 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, FString DefaultV
 	return UTF8_TO_TCHAR(StringResult.c_str());
 }
 
-FConfigCatValue UConfigCatSubsystem::GetFeatureFlagValue(const FString& Key, const FConfigCatUser& User) const
+FConfigCatValue UConfigCatSubsystem::GetConfigValue(const FString& Key, const FConfigCatUser& User) const
 {
 	if (!ensure(ConfigCatClient))
 	{
@@ -75,12 +75,7 @@ FConfigCatValue UConfigCatSubsystem::GetFeatureFlagValue(const FString& Key, con
 	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
 	const std::shared_ptr<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, TargetUser);
-	if (!FeatureFlagValue)
-	{
-		return {};
-	}
-
-	return FConfigCatValue(*FeatureFlagValue);
+	return FConfigCatValue(FeatureFlagValue);
 }
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const

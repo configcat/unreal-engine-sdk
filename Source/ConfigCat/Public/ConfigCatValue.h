@@ -2,9 +2,14 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/config.h>
+#include <memory>
 
 #include "ConfigCatValue.generated.h"
+
+namespace configcat
+{
+	struct Value;
+}
 
 USTRUCT(BlueprintType)
 struct FConfigCatValue
@@ -13,8 +18,9 @@ struct FConfigCatValue
 
 	FConfigCatValue() = default;
 	FConfigCatValue(const configcat::Value& InValue);
+	FConfigCatValue(std::shared_ptr<configcat::Value> InValue);
 
-	TVariant<bool, FString, int, double> Value;
+	std::shared_ptr<configcat::Value> Value;
 };
 
 UCLASS()

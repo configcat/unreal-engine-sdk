@@ -2,51 +2,50 @@
 
 #pragma once
 
-// clang-format off
-//TODO: This should go directly in evaluationdetails.h
-#include <chrono>
-// clang-format on
-
-#include <ConfigCatCppSDK/Include/evaluationdetails.h>
-
-#include "ConfigCatUser.h"
-#include "ConfigCatValue.h"
+#include <memory>
 
 #include "ConfigCatEvaluationDetails.generated.h"
 
-USTRUCT()
-struct FConfigCatRolloutPercentageItem
+
+struct FConfigCatUser;
+struct FConfigCatValue;
+namespace configcat
 {
-	GENERATED_BODY()
-
-	FConfigCatRolloutPercentageItem() = default;
-	FConfigCatRolloutPercentageItem(const configcat::RolloutPercentageItem& InValue);
-};
-
-USTRUCT()
-struct FConfigCatRolloutRule
-{
-	GENERATED_BODY()
-
-	FConfigCatRolloutRule() = default;
-	FConfigCatRolloutRule(const configcat::RolloutRule& InValue);
-};
+	struct EvaluationDetails;
+}
 
 USTRUCT(BlueprintType)
 struct FConfigCatEvaluationDetails
 {
 	GENERATED_BODY()
 
-	FConfigCatEvaluationDetails() = default;
-	FConfigCatEvaluationDetails(const configcat::EvaluationDetails& InValue);
+	std::shared_ptr<configcat::EvaluationDetails> EvaluationDetails;
+};
 
-	FString Key;
-	FConfigCatValue Value;
-	FString VariationId;
-	FDateTime FetchTime;
-	FConfigCatUser User;
-	bool bIsDefaultValue;
-	FString Error;
-	FConfigCatRolloutRule MatchedEvaluationRule;
-	FConfigCatRolloutPercentageItem MatchedEvaluationPercentageRule;
+
+UCLASS()
+class UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static FString GetKey(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static FConfigCatValue GetValue(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static FString GetVariationId(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static FDateTime GetFetchTime(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static FConfigCatUser GetUser(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static bool IsDefaultValue(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static FString GetError(const FConfigCatEvaluationDetails& Struct);
 };

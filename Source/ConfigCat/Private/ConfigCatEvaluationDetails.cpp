@@ -2,26 +2,82 @@
 
 #include "ConfigCatEvaluationDetails.h"
 
-FConfigCatRolloutPercentageItem::FConfigCatRolloutPercentageItem(const configcat::RolloutPercentageItem& InValue)
+#include "ConfigCatCppSDK/Include/evaluationdetails.h"
+#include "ConfigCatUser.h"
+#include "ConfigCatValue.h"
+#include <chrono>
+
+using namespace configcat;
+
+FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetKey(const FConfigCatEvaluationDetails& Struct)
 {
+	if (Struct.EvaluationDetails)
+	{
+		return UTF8_TO_TCHAR(Struct.EvaluationDetails->key.c_str());
+	}
+
+	return TEXT("");
 }
 
-FConfigCatRolloutRule::FConfigCatRolloutRule(const configcat::RolloutRule& InValue)
+FConfigCatValue UConfigCatEvaluationDetailsAccessorsBPLibrary::GetValue(const FConfigCatEvaluationDetails& Struct)
 {
+	if (Struct.EvaluationDetails)
+	{
+		return FConfigCatValue(Struct.EvaluationDetails->value);
+	}
+
+	return {};
 }
 
-FConfigCatEvaluationDetails::FConfigCatEvaluationDetails(const configcat::EvaluationDetails& InValue)
+FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetVariationId(const FConfigCatEvaluationDetails& Struct)
 {
-	Key = UTF8_TO_TCHAR(InValue.key.c_str());
-	Value = FConfigCatValue(InValue.value);
-	VariationId = UTF8_TO_TCHAR(InValue.variationId.c_str());
+	if (Struct.EvaluationDetails)
+	{
+		return UTF8_TO_TCHAR(Struct.EvaluationDetails->variationId.c_str());
+	}
 
-	const auto MillisecondsSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(InValue.fetchTime.time_since_epoch()).count();
-	FetchTime = FDateTime(MillisecondsSinceEpoch);
+	return TEXT("");
+}
 
-	User = FConfigCatUser(const_cast<configcat::ConfigCatUser*>(InValue.user));
-	bIsDefaultValue = InValue.isDefaultValue;
-	Error = UTF8_TO_TCHAR(InValue.error.c_str());
-	MatchedEvaluationRule = InValue.matchedEvaluationRule ? FConfigCatRolloutRule(InValue.matchedEvaluationRule.value()) : FConfigCatRolloutRule();
-	MatchedEvaluationPercentageRule = InValue.matchedEvaluationPercentageRule ? FConfigCatRolloutPercentageItem(InValue.matchedEvaluationPercentageRule.value()) : FConfigCatRolloutPercentageItem();
+FDateTime UConfigCatEvaluationDetailsAccessorsBPLibrary::GetFetchTime(const FConfigCatEvaluationDetails& Struct)
+{
+	if (Struct.EvaluationDetails)
+	{
+		const auto TimeSinceEpoch = Struct.EvaluationDetails->fetchTime.time_since_epoch();
+		const auto MillisecondsSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(TimeSinceEpoch).count();
+		return FDateTime(MillisecondsSinceEpoch);
+	}
+
+	return {};
+}
+
+FConfigCatUser UConfigCatEvaluationDetailsAccessorsBPLibrary::GetUser(const FConfigCatEvaluationDetails& Struct)
+{
+	if (Struct.EvaluationDetails)
+	{
+		// TODO: Discuss if we can make everything const? ideally the configcat client should not need the non-const version for SetUser
+		return FConfigCatUser(const_cast<ConfigCatUser*>(Struct.EvaluationDetails->user));
+	}
+
+	return {};
+}
+
+bool UConfigCatEvaluationDetailsAccessorsBPLibrary::IsDefaultValue(const FConfigCatEvaluationDetails& Struct)
+{
+	if (Struct.EvaluationDetails)
+	{
+		return Struct.EvaluationDetails->isDefaultValue;
+	}
+
+	return false;
+}
+
+FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetError(const FConfigCatEvaluationDetails& Struct)
+{
+	if (Struct.EvaluationDetails)
+	{
+		return UTF8_TO_TCHAR(Struct.EvaluationDetails->error.c_str());
+	}
+
+	return TEXT("");
 }
