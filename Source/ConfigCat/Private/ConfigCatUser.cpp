@@ -6,6 +6,18 @@
 
 using namespace configcat;
 
+FConfigCatUser::FConfigCatUser(const configcat::ConfigCatUser* User)
+{
+	if (User)
+	{
+		Id = UTF8_TO_TCHAR(User->identifier.c_str());
+		Email = UTF8_TO_TCHAR(User->getAttribute("Email")->c_str());
+		Country = UTF8_TO_TCHAR(User->getAttribute("Country")->c_str());
+
+		// TODO: check solution for Attributes + hardcoded values above.
+	}
+}
+
 ConfigCatUser FConfigCatUser::ToNative() const
 {
 	const std::string& UserId = TCHAR_TO_UTF8(*Id);

@@ -17,6 +17,9 @@ struct CONFIGCAT_API FConfigCatUser
 {
 	GENERATED_BODY()
 
+	FConfigCatUser() = default;
+	FConfigCatUser(const configcat::ConfigCatUser* User);
+
 	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
 	FString Id;
 
