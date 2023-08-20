@@ -51,4 +51,11 @@ class UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
 	static FString GetError(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static bool HasRolloutRule(const FConfigCatEvaluationDetails& Struct);
+
+	UFUNCTION(BlueprintCallable, Category = "ConfigCat|EvaluationDetails")
+	static bool HasPercentageItem(const FConfigCatEvaluationDetails& Struct);
+
 };

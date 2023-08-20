@@ -90,3 +90,23 @@ FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetError(const FConfigCat
 
 	return TEXT("");
 }
+
+bool UConfigCatEvaluationDetailsAccessorsBPLibrary::HasRolloutRule(const FConfigCatEvaluationDetails& Struct)
+{
+	if (Struct.EvaluationDetails)
+	{
+		return Struct.EvaluationDetails->matchedEvaluationRule.has_value();
+	}
+
+	return false;
+}
+
+bool UConfigCatEvaluationDetailsAccessorsBPLibrary::HasPercentageItem(const FConfigCatEvaluationDetails& Struct)
+{
+	if (Struct.EvaluationDetails)
+	{
+		return Struct.EvaluationDetails->matchedEvaluationPercentageRule.has_value();
+	}
+
+	return false;
+}
