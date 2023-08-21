@@ -2,31 +2,16 @@
 
 #include "ConfigCatValue.h"
 
-#include "ConfigCatLog.h"
+#include <ConfigCatCppSDK/Include/config.h>
 
 FConfigCatValue::FConfigCatValue(const configcat::Value& InValue)
 {
-	if (std::holds_alternative<bool>(InValue))
-	{
-		Value.Set<bool>(std::get<bool>(InValue));
-	}
-	else if (std::holds_alternative<std::string>(InValue))
-	{
-		Value.Set<FString>(UTF8_TO_TCHAR(std::get<std::string>(InValue).c_str()));
-	}
-	else if (std::holds_alternative<int>(InValue))
-	{
-		Value.Set<int>(std::get<int>(InValue));
-	}
-	else if (std::holds_alternative<double>(InValue))
-	{
-		Value.Set<double>(std::get<double>(InValue));
-	}
-	else
-	{
-		const FString InValueString = UTF8_TO_TCHAR(configcat::valueToString(InValue).c_str());
-		UE_LOG(LogConfigCat, Error, TEXT("Could not parse std::variant (%s) to TVariant inside FConfigCatValue"), *InValueString);
-	}
+	Value = std::make_shared<configcat::Value>(InValue);
+}
+
+FConfigCatValue::FConfigCatValue(std::shared_ptr<configcat::Value> InValue)
+{
+	Value = InValue;
 }
 
 bool UConfigCatValueAccessorsBPLibrary::HasAnyValue(const FConfigCatValue& Struct)
@@ -35,37 +20,53 @@ bool UConfigCatValueAccessorsBPLibrary::HasAnyValue(const FConfigCatValue& Struc
 }
 bool UConfigCatValueAccessorsBPLibrary::HasBooleanValue(const FConfigCatValue& Struct)
 {
-	return Struct.Value.IsType<bool>();
+	return Struct.Value && std::holds_alternative<bool>(*Struct.Value);
 }
 bool UConfigCatValueAccessorsBPLibrary::HasStringValue(const FConfigCatValue& Struct)
 {
-	return Struct.Value.IsType<FString>();
+	return Struct.Value && std::holds_alternative<bool>(*Struct.Value);
 }
 bool UConfigCatValueAccessorsBPLibrary::HasIntegerValue(const FConfigCatValue& Struct)
 {
-	return Struct.Value.IsType<int>();
+	return Struct.Value && std::holds_alternative<int>(*Struct.Value);
 }
 bool UConfigCatValueAccessorsBPLibrary::HasDecimalValue(const FConfigCatValue& Struct)
 {
-	return Struct.Value.IsType<double>();
+	return Struct.Value && std::holds_alternative<bool>(*Struct.Value);
 }
 bool UConfigCatValueAccessorsBPLibrary::GetBooleanValue(const FConfigCatValue& Struct)
 {
-	const bool* Result = Struct.Value.TryGet<bool>();
-	return Result ? *Result : false;
+	if (HasBooleanValue(Struct))
+	{
+		return std::get<bool>(*Struct.Value);
+	}
+
+	return false;
 }
 FString UConfigCatValueAccessorsBPLibrary::GetStringValue(const FConfigCatValue& Struct)
 {
-	const FString* Result = Struct.Value.TryGet<FString>();
-	return Result ? *Result : TEXT("");
+	if (HasStringValue(Struct))
+	{
+		return UTF8_TO_TCHAR(std::get<std::string>(*Struct.Value).c_str());
+	}
+
+	return TEXT("");
 }
 int UConfigCatValueAccessorsBPLibrary::GetIntegerValue(const FConfigCatValue& Struct)
 {
-	const int* Result = Struct.Value.TryGet<int>();
-	return Result ? *Result : 0;
+	if (HasIntegerValue(Struct))
+	{
+		return std::get<int>(*Struct.Value);
+	}
+
+	return 0;
 }
 double UConfigCatValueAccessorsBPLibrary::GetDecimalValue(const FConfigCatValue& Struct)
 {
-	const double* Result = Struct.Value.TryGet<double>();
-	return Result ? *Result : 0.0;
+	if (HasDecimalValue(Struct))
+	{
+		return std::get<double>(*Struct.Value);
+	}
+
+	return 0.0;
 }

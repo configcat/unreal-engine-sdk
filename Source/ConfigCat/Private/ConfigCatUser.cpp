@@ -6,7 +6,15 @@
 
 using namespace configcat;
 
-ConfigCatUser FConfigCatUser::ToNative() const
+FConfigCatUser::FConfigCatUser(ConfigCatUser* InUser)
+{
+	if (InUser)
+	{
+		User = std::make_shared<ConfigCatUser>(*InUser);
+	}
+}
+
+FConfigCatUser::FConfigCatUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
 {
 	const std::string& UserId = TCHAR_TO_UTF8(*Id);
 	const std::string& UserEmail = TCHAR_TO_UTF8(*Email);
@@ -21,15 +29,32 @@ ConfigCatUser FConfigCatUser::ToNative() const
 		UserAttributes.emplace(AttributeKey, AttributeValue);
 	}
 
-	return ConfigCatUser(UserId, UserEmail, UserCountry, UserAttributes);
+	User = std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes);
 }
 
-bool FConfigCatUser::IsValid() const
+FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, TMap<FString, FString> Attributes)
 {
-	if (Id.IsEmpty() && Email.IsEmpty() && Country.IsEmpty() && Attributes.IsEmpty())
+	return FConfigCatUser(Id, Email, Country, Attributes);
+}
+
+FString UConfigCatUserAccessorsBPLibrary::GetIdentifier(const FConfigCatUser& Struct)
+{
+	if (Struct.User)
 	{
-		return false;
+		return UTF8_TO_TCHAR(Struct.User->identifier.c_str());
 	}
 
-	return true;
+	return TEXT("");
+}
+
+FString UConfigCatUserAccessorsBPLibrary::GetAttribute(const FConfigCatUser& Struct, const FString& Key)
+{
+	const std::string* Result = nullptr;
+	if (Struct.User)
+	{
+		const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
+		Result = Struct.User->getAttribute(AttributeKey);
+	}
+
+	return Result ? UTF8_TO_TCHAR(Result->c_str()) : TEXT("");
 }

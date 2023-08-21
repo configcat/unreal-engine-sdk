@@ -2,12 +2,14 @@
 
 #pragma once
 
+#include <memory>
+
 #include "ConfigCatUser.generated.h"
 
 namespace configcat
 {
 	class ConfigCatUser;
-} // namespace configcat
+}
 
 /**
  *
@@ -17,19 +19,24 @@ struct CONFIGCAT_API FConfigCatUser
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
-	FString Id;
+	FConfigCatUser() = default;
+	FConfigCatUser(configcat::ConfigCatUser* InUser);
+	FConfigCatUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
 
-	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
-	FString Email;
+	std::shared_ptr<configcat::ConfigCatUser> User;
+};
 
-	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
-	FString Country;
+UCLASS()
+class UConfigCatUserAccessorsBPLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite, Category = "ConfigCat")
-	TMap<FString, FString> Attributes;
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
+	static FConfigCatUser CreateUser(const FString& Id, const FString& Email, const FString& Country, TMap<FString, FString> Attributes);
 
-	configcat::ConfigCatUser ToNative() const;
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
+	static FString GetIdentifier(const FConfigCatUser& Struct);
 
-	bool IsValid() const;
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
+	static FString GetAttribute(const FConfigCatUser& Struct, const FString& Key);
 };
