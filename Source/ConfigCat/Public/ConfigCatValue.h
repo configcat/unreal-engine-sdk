@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <Kismet/BlueprintFunctionLibrary.h>
+
 #include <memory>
 
 #include "ConfigCatValue.generated.h"
