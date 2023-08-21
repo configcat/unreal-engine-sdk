@@ -24,7 +24,7 @@ struct CONFIGCAT_API FConfigCatEvaluationDetails
 	GENERATED_BODY()
 
 	FConfigCatEvaluationDetails() = default;
-	FConfigCatEvaluationDetails(configcat::EvaluationDetails InValue);
+	FConfigCatEvaluationDetails(configcat::EvaluationDetails InDetails);
 	/**
 	 * Internal evaluation details we want to expose in blueprints
 	 */

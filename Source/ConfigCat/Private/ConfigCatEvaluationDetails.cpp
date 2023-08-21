@@ -13,9 +13,9 @@
 
 using namespace configcat;
 
-FConfigCatEvaluationDetails::FConfigCatEvaluationDetails(configcat::EvaluationDetails InValue)
+FConfigCatEvaluationDetails::FConfigCatEvaluationDetails(configcat::EvaluationDetails InDetails)
 {
-	EvaluationDetails = std::make_shared<configcat::EvaluationDetails>(InValue);
+	EvaluationDetails = std::make_shared<configcat::EvaluationDetails>(InDetails);
 }
 
 FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetKey(const FConfigCatEvaluationDetails& Struct)
