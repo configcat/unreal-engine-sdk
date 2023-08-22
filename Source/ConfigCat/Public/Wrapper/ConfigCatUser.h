@@ -46,8 +46,8 @@ class CONFIGCAT_API UConfigCatUserAccessorsBPLibrary : public UBlueprintFunction
 	 * @param Country Country of the user (note: will be converted into Attribute internally)
 	 * @param Attributes Additional Key-Value pairs associated with the user
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
-	static FConfigCatUser CreateUser(const FString& Id, const FString& Email, const FString& Country, TMap<FString, FString> Attributes);
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User", meta = (AutoCreateRefTerm = "Attributes"))
+	static FConfigCatUser CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
 	/**
 	 * Gets the Id of a ConfigCatUser
 	 */
