@@ -17,8 +17,6 @@ namespace configcat
 	class ConfigCatUser;
 } // namespace configcat
 
-
-// TODO: Create blueprint version of all events.
 using FOnClientReady = FSimpleMulticastDelegate;
 using FOnConfigChanged = TMulticastDelegate<void(const FConfigCatConfig& Config)>;
 using FOnFlagEvaluated = TMulticastDelegate<void(const FConfigCatEvaluationDetails& Details)>;
@@ -30,7 +28,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagEvaluatedBp, const FConfigCat
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnErrorBp, const FString&, Error);
 
 /**
- *
+ * TODO: Comment out this class and all the functions
  */
 UCLASS()
 class CONFIGCAT_API UConfigCatSubsystem : public UGameInstanceSubsystem

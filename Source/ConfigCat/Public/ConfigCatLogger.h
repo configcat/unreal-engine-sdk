@@ -4,6 +4,9 @@
 
 #include <ConfigCatCppSDK/Include/log.h>
 
+/**
+ * Implementation of the configcat::ILogger so we can display the messages directly inside Unreal
+ */
 class FConfigCatLogger : public configcat::ILogger
 {
 public:
