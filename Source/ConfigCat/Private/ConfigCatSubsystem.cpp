@@ -377,10 +377,22 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		}
 	);
 	Options.hooks->addOnConfigChanged(
-		[WeakThis](std::shared_ptr<Settings> Config)
+		[WeakThis](const std::shared_ptr<Settings>& Config)
 		{
 			if (WeakThis.IsValid())
 			{
+				TMap<FString, FConfigCatSetting> NewConfig;
+
+				// TODO: Check if Config will be ever nullptr
+				if (Config)
+				{
+					for (const std::pair<const std::string, Setting>& Setting : *Config)
+					{
+						NewConfig.Emplace(UTF8_TO_TCHAR(Setting.first.c_str()), Setting.second);
+					}
+				}
+
+				WeakThis->OnConfigChanged.Broadcast(NewConfig);
 			}
 		}
 	);
@@ -389,6 +401,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		{
 			if (WeakThis.IsValid())
 			{
+				WeakThis->OnFeatureLevelChanged.Broadcast(EvaluationDetails);
 			}
 		}
 	);

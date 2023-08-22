@@ -8,6 +8,7 @@
 #include "ConfigCatSubsystem.generated.h"
 
 
+struct FConfigCatSetting;
 struct FConfigCatEvaluationDetails;
 namespace configcat
 {
@@ -18,8 +19,8 @@ namespace configcat
 
 // TODO: Create blueprint version of all events.
 using FOnClientReady = FSimpleMulticastDelegate;
-using FOnConfigChanged = TMulticastDelegate<void()>; // TODO: Translate type from config cat
-using FOnFlagEvaluated = TMulticastDelegate<void()>; // TODO: Translate type from config cat
+using FOnConfigChanged = TMulticastDelegate<void(TMap<FString, FConfigCatSetting>)>;
+using FOnFlagEvaluated = TMulticastDelegate<void(const FConfigCatEvaluationDetails& Details)>;
 using FOnError = TMulticastDelegate<void(const FString& Error)>;
 
 /**
@@ -95,6 +96,8 @@ public:
 
 	// TODO: Expose these to blueprints
 	FOnClientReady OnClientReady;
+	FOnConfigChanged OnConfigChanged;
+	FOnFlagEvaluated OnFeatureLevelChanged;
 	FOnError OnError;
 
 private:
