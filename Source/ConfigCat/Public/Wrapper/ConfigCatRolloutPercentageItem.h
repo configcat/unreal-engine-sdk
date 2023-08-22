@@ -41,21 +41,21 @@ class CONFIGCAT_API UConfigCatPercentageItemAccessorsBPLibrary : public UBluepri
 	/**
 	 * Checks if the underlying percentage item is valid
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Percentage")
 	static bool IsValid(const FConfigCatRolloutPercentageItem& Struct);
 	/**
 	 * Gets the value of the percentage item
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Percentage")
 	static FConfigCatValue GetPercentageValue(const FConfigCatRolloutPercentageItem& Struct);
 	/**
 	 * Gets the percentage of the percentage item
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Percentage")
 	static double GetPercentagePercentage(const FConfigCatRolloutPercentageItem& Struct);
 	/**
 	 * Gets the variation identifier of the percentage item
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Percentage")
 	static FString GetPercentageVariationId(const FConfigCatRolloutPercentageItem& Struct);
 };

@@ -42,31 +42,31 @@ class CONFIGCAT_API UConfigCatRuleAccessorsBPLibrary : public UBlueprintFunction
 	/**
 	 * Checks if the underlying rule is valid
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Rule")
 	static bool IsValid(const FConfigCatRolloutRule& Struct);
 	/**
 	 * Gets the value of the rollout rule
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Rule")
 	static FConfigCatValue GetRuleValue(const FConfigCatRolloutRule& Struct);
 	/**
 	 * Gets the comparison attribute of the rollout rule
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Rule")
 	static FString GetRuleComparisonAttribute(const FConfigCatRolloutRule& Struct);
 	/**
 	 * Gets the comparator of the rollout rule
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Rule")
 	static FString GetRuleComparator(const FConfigCatRolloutRule& Struct);
 	/**
 	 * Gets the comparison value of the rollout rule
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Rule")
 	static FString GetRuleComparisonValue(const FConfigCatRolloutRule& Struct);
 	/**
 	 * Gets the variation identifier of the rollout rule
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Rule")
 	static FString GetRuleVariationId(const FConfigCatRolloutRule& Struct);
 };
