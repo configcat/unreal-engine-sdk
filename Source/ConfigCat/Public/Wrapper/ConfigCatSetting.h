@@ -9,10 +9,12 @@
 #include "ConfigCatSetting.generated.h"
 
 struct FConfigCatValue;
+
 namespace configcat
 {
 	struct Setting;
 }
+
 /**
  * Wrapper class for configcat::Setting
  */
@@ -58,4 +60,16 @@ class CONFIGCAT_API UConfigCatSettingAccessorsBPLibrary : public UBlueprintFunct
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
 	static FString GetSettingVariationId(const FConfigCatSetting& Struct);
+};
+
+/**
+ * Wrapper to replicate configcat::Settings (using Settings = std::unordered_map<std::string, Setting>) to blueprints
+ */
+USTRUCT(BlueprintType)
+struct CONFIGCAT_API FConfigCatConfig
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	TMap<FString, FConfigCatSetting> Settings;
 };

@@ -12,6 +12,7 @@ struct FConfigCatRolloutPercentageItem;
 struct FConfigCatRolloutRule;
 struct FConfigCatUser;
 struct FConfigCatValue;
+
 namespace configcat
 {
 	struct EvaluationDetails;

@@ -13,7 +13,6 @@ namespace configcat
 	struct RolloutRule;
 } // namespace configcat
 
-
 /**
  * Wrapper class for configcat::RolloutRule
  */

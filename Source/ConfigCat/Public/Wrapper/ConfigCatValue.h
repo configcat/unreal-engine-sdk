@@ -76,10 +76,10 @@ class CONFIGCAT_API UConfigCatValueAccessorsBPLibrary : public UBlueprintFunctio
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static FString GetStringValue(const FConfigCatValue& Struct);
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	/**
 	 * Returns the integer value stored in the struct, if it holds one
 	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static int GetIntegerValue(const FConfigCatValue& Struct);
 	/**
 	 * Returns the decimal (double) value stored in the struct, if it holds one

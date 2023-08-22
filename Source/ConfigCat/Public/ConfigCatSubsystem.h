@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Subsystems/GameInstanceSubsystem.h"
+#include <CoreMinimal.h>
+#include <Subsystems/GameInstanceSubsystem.h>
+
+#include "Wrapper/ConfigCatSetting.h"
 
 #include "ConfigCatSubsystem.generated.h"
 
 
-struct FConfigCatSetting;
 struct FConfigCatEvaluationDetails;
 namespace configcat
 {
@@ -19,9 +20,14 @@ namespace configcat
 
 // TODO: Create blueprint version of all events.
 using FOnClientReady = FSimpleMulticastDelegate;
-using FOnConfigChanged = TMulticastDelegate<void(TMap<FString, FConfigCatSetting>)>;
+using FOnConfigChanged = TMulticastDelegate<void(const FConfigCatConfig& Config)>;
 using FOnFlagEvaluated = TMulticastDelegate<void(const FConfigCatEvaluationDetails& Details)>;
 using FOnError = TMulticastDelegate<void(const FString& Error)>;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClientReadyBP);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, const FConfigCatConfig&, Config);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagEvaluatedBp, const FConfigCatEvaluationDetails&, Details);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnErrorBp, const FString&, Error);
 
 /**
  *
@@ -94,11 +100,19 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat")
 	bool IsOffline() const;
 
-	// TODO: Expose these to blueprints
 	FOnClientReady OnClientReady;
 	FOnConfigChanged OnConfigChanged;
-	FOnFlagEvaluated OnFeatureLevelChanged;
+	FOnFlagEvaluated OnFlagEvaluated;
 	FOnError OnError;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnClientReadyBP OnClientReadyBP;
+	UPROPERTY(BlueprintAssignable)
+	FOnConfigChangedBp OnConfigChangedBp;
+	UPROPERTY(BlueprintAssignable)
+	FOnFlagEvaluatedBp OnFlagEvaluatedBp;
+	UPROPERTY(BlueprintAssignable)
+	FOnErrorBp OnErrorBp;
 
 private:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
