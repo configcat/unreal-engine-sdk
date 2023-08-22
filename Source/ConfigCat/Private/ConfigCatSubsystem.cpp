@@ -273,6 +273,7 @@ bool UConfigCatSubsystem::IsOffline() const
 void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	// TODO: we need to eliminate unwanted lib files from GitHub artifacts
+	// TODO: support for offline (read configuration from JSON file)
 
 	UE_LOG(LogConfigCat, Log, TEXT("ConfigCat Subsystem initialized"));
 
