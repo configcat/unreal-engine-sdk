@@ -8,6 +8,9 @@
 
 #include "ConfigCatEvaluationDetails.generated.h"
 
+
+struct FConfigCatRolloutPercentageItem;
+struct FConfigCatRolloutRule;
 struct FConfigCatUser;
 struct FConfigCatValue;
 namespace configcat
@@ -30,7 +33,6 @@ struct CONFIGCAT_API FConfigCatEvaluationDetails
 	 */
 	std::shared_ptr<configcat::EvaluationDetails> EvaluationDetails;
 };
-
 
 /**
  * Getters for all the properties of the configcat::EvaluationDetails stored inside a FConfigCatEvaluationDetails wrapper
@@ -76,53 +78,13 @@ class CONFIGCAT_API UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlue
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FString GetError(const FConfigCatEvaluationDetails& Struct);
 	/**
-	 * Gets the rollout rule that determined the resulting value (if any)
+	 * Gets the matched rollout rule (if any)
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
-	static bool HasRolloutRule(const FConfigCatEvaluationDetails& Struct);
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	static FConfigCatRolloutRule GetRolloutRule(const FConfigCatEvaluationDetails& Struct);
 	/**
-	 * Gets the value of the rollout rule that attributed the resulting value (if any)
+	 * Gets the matched rollout percentage item (if any)
 	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
-	static FConfigCatValue GetRuleValue(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the comparison attribute of the rollout rule that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
-	static FString GetRuleComparisonAttribute(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the comparator of the rollout rule that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
-	static FString GetRuleComparator(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the comparison value of the rollout rule that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
-	static FString GetRuleComparisonValue(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the variation identifier of the rollout rule that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Rule")
-	static FString GetRuleVariationId(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the percentage item that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
-	static bool HasPercentageItem(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the value of the percentage item that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
-	static FConfigCatValue GetPercentageValue(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the percentage of the percentage item that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
-	static double GetPercentagePercentage(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the variation identifier of the percentage item that determined the resulting value (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails|Percentage")
-	static FString GetPercentageVariationId(const FConfigCatEvaluationDetails& Struct);
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	static FConfigCatRolloutPercentageItem GetRolloutPercentageItem(const FConfigCatEvaluationDetails& Struct);
 };

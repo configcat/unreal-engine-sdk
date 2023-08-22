@@ -8,6 +8,7 @@
 // clang-format on
 
 #include "ConfigCatCppSDK/Include/evaluationdetails.h"
+#include "ConfigCatTypes.h"
 #include "ConfigCatUser.h"
 #include "ConfigCatValue.h"
 
@@ -91,101 +92,21 @@ FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetError(const FConfigCat
 	return TEXT("");
 }
 
-bool UConfigCatEvaluationDetailsAccessorsBPLibrary::HasRolloutRule(const FConfigCatEvaluationDetails& Struct)
+FConfigCatRolloutRule UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRolloutRule(const FConfigCatEvaluationDetails& Struct)
 {
-	if (Struct.EvaluationDetails)
+	if (Struct.EvaluationDetails && Struct.EvaluationDetails->matchedEvaluationRule.has_value())
 	{
-		return Struct.EvaluationDetails->matchedEvaluationRule.has_value();
-	}
-
-	return false;
-}
-
-FConfigCatValue UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRuleValue(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasRolloutRule(Struct))
-	{
-		return Struct.EvaluationDetails->matchedEvaluationRule->value;
+		return Struct.EvaluationDetails->matchedEvaluationRule.value();
 	}
 
 	return {};
 }
 
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRuleComparisonAttribute(const FConfigCatEvaluationDetails& Struct)
+FConfigCatRolloutPercentageItem UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRolloutPercentageItem(const FConfigCatEvaluationDetails& Struct)
 {
-	if (HasRolloutRule(Struct))
+	if (Struct.EvaluationDetails && Struct.EvaluationDetails->matchedEvaluationPercentageRule.has_value())
 	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->matchedEvaluationRule->comparisonAttribute.c_str());
-	}
-
-	return {};
-}
-
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRuleComparator(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasRolloutRule(Struct))
-	{
-		return UTF8_TO_TCHAR(configcat::comparatorToString(Struct.EvaluationDetails->matchedEvaluationRule->comparator));
-	}
-
-	return {};
-}
-
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRuleComparisonValue(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasRolloutRule(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->matchedEvaluationRule->comparisonValue.c_str());
-	}
-
-	return {};
-}
-
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRuleVariationId(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasRolloutRule(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->matchedEvaluationRule->variationId.c_str());
-	}
-
-	return {};
-}
-
-bool UConfigCatEvaluationDetailsAccessorsBPLibrary::HasPercentageItem(const FConfigCatEvaluationDetails& Struct)
-{
-	if (Struct.EvaluationDetails)
-	{
-		return Struct.EvaluationDetails->matchedEvaluationPercentageRule.has_value();
-	}
-
-	return false;
-}
-
-FConfigCatValue UConfigCatEvaluationDetailsAccessorsBPLibrary::GetPercentageValue(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasPercentageItem(Struct))
-	{
-		return Struct.EvaluationDetails->matchedEvaluationPercentageRule->value;
-	}
-
-	return {};
-}
-
-double UConfigCatEvaluationDetailsAccessorsBPLibrary::GetPercentagePercentage(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasPercentageItem(Struct))
-	{
-		return Struct.EvaluationDetails->matchedEvaluationPercentageRule->percentage;
-	}
-
-	return {};
-}
-
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetPercentageVariationId(const FConfigCatEvaluationDetails& Struct)
-{
-	if (HasPercentageItem(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->matchedEvaluationPercentageRule->variationId.c_str());
+		return Struct.EvaluationDetails->matchedEvaluationPercentageRule.value();
 	}
 
 	return {};
