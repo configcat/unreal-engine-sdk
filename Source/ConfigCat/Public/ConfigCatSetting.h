@@ -8,6 +8,8 @@
 
 #include "ConfigCatSetting.generated.h"
 
+
+struct FConfigCatValue;
 namespace configcat
 {
 	struct Setting;
@@ -38,9 +40,18 @@ class CONFIGCAT_API UConfigCatSettingAccessorsBPLibrary : public UBlueprintFunct
 {
 	GENERATED_BODY()
 
-	///**
-	// * Checks if the struct holds any type value
-	// */
-	// UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
-	// static bool HasAnyValue(const FConfigCatValue& Struct);
+	/**
+	 * Gets the value of the feature flag / setting
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	static FConfigCatValue GetSettingValue(const FConfigCatSetting& Struct);
+
+	// TArray<FConfigCatRolloutPercentageItem
+	// TArray<FConfigCatRolloutRule
+
+	/**
+	 * Gets the variation identifier of the feature flag / setting
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	static FString GetSettingVariationId(const FConfigCatSetting& Struct);
 };
