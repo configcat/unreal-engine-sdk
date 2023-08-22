@@ -4,28 +4,32 @@
 
 #include <ConfigCatCppSDK/Include/config.h>
 
+#include "Wrapper/ConfigCatRolloutPercentageItem.h"
+#include "Wrapper/ConfigCatRolloutRule.h"
+#include "Wrapper/ConfigCatValue.h"
+
 FConfigCatSetting::FConfigCatSetting(const configcat::Setting& InSetting)
 {
 	Setting = std::make_shared<configcat::Setting>(InSetting);
 }
 
-FConfigCatValue UConfigCatSettingAccessorsBPLibrary::GetSettingValue(const FConfigCatSetting& Struct)
+FConfigCatValue FConfigCatSetting::GetSettingValue() const
 {
-	if (Struct.Setting)
+	if (Setting)
 	{
-		return Struct.Setting->value;
+		return Setting->value;
 	}
 
 	return {};
 }
 
-TArray<FConfigCatRolloutRule> UConfigCatSettingAccessorsBPLibrary::GetSettingRolloutRules(const FConfigCatSetting& Struct)
+TArray<FConfigCatRolloutRule> FConfigCatSetting::GetSettingRolloutRules() const
 {
 	TArray<FConfigCatRolloutRule> Result;
 
-	if (Struct.Setting)
+	if (Setting)
 	{
-		for (const auto& Rule : Struct.Setting->rolloutRules)
+		for (const auto& Rule : Setting->rolloutRules)
 		{
 			Result.Emplace(Rule);
 		}
@@ -34,13 +38,13 @@ TArray<FConfigCatRolloutRule> UConfigCatSettingAccessorsBPLibrary::GetSettingRol
 	return Result;
 }
 
-TArray<FConfigCatRolloutPercentageItem> UConfigCatSettingAccessorsBPLibrary::GetSettingRolloutPercentageItem(const FConfigCatSetting& Struct)
+TArray<FConfigCatRolloutPercentageItem> FConfigCatSetting::GetSettingRolloutPercentageItem() const
 {
 	TArray<FConfigCatRolloutPercentageItem> Result;
 
-	if (Struct.Setting)
+	if (Setting)
 	{
-		for (const auto& PercentageItem : Struct.Setting->percentageItems)
+		for (const auto& PercentageItem : Setting->percentageItems)
 		{
 			Result.Emplace(PercentageItem);
 		}
@@ -49,12 +53,32 @@ TArray<FConfigCatRolloutPercentageItem> UConfigCatSettingAccessorsBPLibrary::Get
 	return Result;
 }
 
-FString UConfigCatSettingAccessorsBPLibrary::GetSettingVariationId(const FConfigCatSetting& Struct)
+FString FConfigCatSetting::GetSettingVariationId() const
 {
-	if (Struct.Setting)
+	if (Setting)
 	{
-		return UTF8_TO_TCHAR(Struct.Setting->variationId.c_str());
+		return UTF8_TO_TCHAR(Setting->variationId.c_str());
 	}
 
 	return {};
+}
+
+FConfigCatValue UConfigCatSettingAccessorsBPLibrary::GetSettingValue(const FConfigCatSetting& Struct)
+{
+	return Struct.GetSettingValue();
+}
+
+TArray<FConfigCatRolloutRule> UConfigCatSettingAccessorsBPLibrary::GetSettingRolloutRules(const FConfigCatSetting& Struct)
+{
+	return Struct.GetSettingRolloutRules();
+}
+
+TArray<FConfigCatRolloutPercentageItem> UConfigCatSettingAccessorsBPLibrary::GetSettingRolloutPercentageItem(const FConfigCatSetting& Struct)
+{
+	return Struct.GetSettingRolloutPercentageItem();
+}
+
+FString UConfigCatSettingAccessorsBPLibrary::GetSettingVariationId(const FConfigCatSetting& Struct)
+{
+	return Struct.GetSettingVariationId();
 }

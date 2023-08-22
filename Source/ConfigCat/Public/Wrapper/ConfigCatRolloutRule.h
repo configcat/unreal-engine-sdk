@@ -24,6 +24,13 @@ struct FConfigCatRolloutRule
 	FConfigCatRolloutRule() = default;
 	FConfigCatRolloutRule(const configcat::RolloutRule& InRule);
 
+	bool IsValid() const;
+	FConfigCatValue GetRuleValue() const;
+	FString GetRuleComparisonAttribute() const;
+	FString GetRuleComparator() const;
+	FString GetRuleComparisonValue() const;
+	FString GetRuleVariationId() const;
+
 	/**
 	 * Internal rule we want to expose in blueprints
 	 */

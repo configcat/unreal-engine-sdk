@@ -25,6 +25,9 @@ struct CONFIGCAT_API FConfigCatUser
 	FConfigCatUser(configcat::ConfigCatUser* InUser);
 	FConfigCatUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
 
+	FString GetIdentifier() const;
+	FString GetAttribute(const FString& Key) const;
+
 	/**
 	 * Internal user we want to expose in blueprints
 	 */

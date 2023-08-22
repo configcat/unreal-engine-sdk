@@ -32,6 +32,28 @@ FConfigCatUser::FConfigCatUser(const FString& Id, const FString& Email, const FS
 	User = std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes);
 }
 
+FString FConfigCatUser::GetIdentifier() const
+{
+	if (User)
+	{
+		return UTF8_TO_TCHAR(User->identifier.c_str());
+	}
+
+	return {};
+}
+
+FString FConfigCatUser::GetAttribute(const FString& Key) const
+{
+	const std::string* Result = nullptr;
+	if (User)
+	{
+		const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
+		Result = User->getAttribute(AttributeKey);
+	}
+
+	return Result ? UTF8_TO_TCHAR(Result->c_str()) : {};
+}
+
 FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
 {
 	return FConfigCatUser(Id, Email, Country, Attributes);
@@ -39,22 +61,10 @@ FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, c
 
 FString UConfigCatUserAccessorsBPLibrary::GetIdentifier(const FConfigCatUser& Struct)
 {
-	if (Struct.User)
-	{
-		return UTF8_TO_TCHAR(Struct.User->identifier.c_str());
-	}
-
-	return TEXT("");
+	return Struct.GetIdentifier();
 }
 
 FString UConfigCatUserAccessorsBPLibrary::GetAttribute(const FConfigCatUser& Struct, const FString& Key)
 {
-	const std::string* Result = nullptr;
-	if (Struct.User)
-	{
-		const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
-		Result = Struct.User->getAttribute(AttributeKey);
-	}
-
-	return Result ? UTF8_TO_TCHAR(Result->c_str()) : TEXT("");
+	return Struct.GetAttribute(Key);
 }

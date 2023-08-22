@@ -5,68 +5,94 @@
 #include <ConfigCatCppSDK/Include/config.h>
 
 #include "Wrapper/ConfigCatRolloutPercentageItem.h"
+#include "Wrapper/ConfigCatValue.h"
 
 FConfigCatRolloutRule::FConfigCatRolloutRule(const configcat::RolloutRule& InRule)
 {
 	Rule = std::make_shared<configcat::RolloutRule>(InRule);
 }
 
-FConfigCatRolloutPercentageItem::FConfigCatRolloutPercentageItem(const configcat::RolloutPercentageItem& InPercentageItem)
+bool FConfigCatRolloutRule::IsValid() const
 {
-	PercentageItem = std::make_shared<configcat::RolloutPercentageItem>(InPercentageItem);
+	return Rule.get() != nullptr;
+}
+
+FConfigCatValue FConfigCatRolloutRule::GetRuleValue() const
+{
+	if (IsValid())
+	{
+		return Rule->value;
+	}
+
+	return {};
+}
+
+FString FConfigCatRolloutRule::GetRuleComparisonAttribute() const
+{
+	if (IsValid())
+	{
+		return UTF8_TO_TCHAR(Rule->comparisonAttribute.c_str());
+	}
+
+	return {};
+}
+
+FString FConfigCatRolloutRule::GetRuleComparator() const
+{
+	if (IsValid())
+	{
+		return UTF8_TO_TCHAR(configcat::comparatorToString(Rule->comparator));
+	}
+
+	return {};
+}
+
+FString FConfigCatRolloutRule::GetRuleComparisonValue() const
+{
+	if (IsValid())
+	{
+		return UTF8_TO_TCHAR(Rule->comparisonValue.c_str());
+	}
+
+	return {};
+}
+
+FString FConfigCatRolloutRule::GetRuleVariationId() const
+{
+	if (IsValid())
+	{
+		return UTF8_TO_TCHAR(Rule->variationId.c_str());
+	}
+
+	return {};
 }
 
 bool UConfigCatRuleAccessorsBPLibrary::IsValid(const FConfigCatRolloutRule& Struct)
 {
-	return Struct.Rule.get() != nullptr;
+	return Struct.IsValid();
 }
 
 FConfigCatValue UConfigCatRuleAccessorsBPLibrary::GetRuleValue(const FConfigCatRolloutRule& Struct)
 {
-	if (IsValid(Struct))
-	{
-		return Struct.Rule->value;
-	}
-
-	return {};
+	return Struct.GetRuleValue();
 }
 
 FString UConfigCatRuleAccessorsBPLibrary::GetRuleComparisonAttribute(const FConfigCatRolloutRule& Struct)
 {
-	if (IsValid(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.Rule->comparisonAttribute.c_str());
-	}
-
-	return {};
+	return Struct.GetRuleComparisonAttribute();
 }
 
 FString UConfigCatRuleAccessorsBPLibrary::GetRuleComparator(const FConfigCatRolloutRule& Struct)
 {
-	if (IsValid(Struct))
-	{
-		return UTF8_TO_TCHAR(configcat::comparatorToString(Struct.Rule->comparator));
-	}
-
-	return {};
+	return Struct.GetRuleComparator();
 }
 
 FString UConfigCatRuleAccessorsBPLibrary::GetRuleComparisonValue(const FConfigCatRolloutRule& Struct)
 {
-	if (IsValid(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.Rule->comparisonValue.c_str());
-	}
-
-	return {};
+	return Struct.GetRuleComparisonValue();
 }
 
 FString UConfigCatRuleAccessorsBPLibrary::GetRuleVariationId(const FConfigCatRolloutRule& Struct)
 {
-	if (IsValid(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.Rule->variationId.c_str());
-	}
-
-	return {};
+	return Struct.GetRuleVariationId();
 }

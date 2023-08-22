@@ -9,6 +9,8 @@
 
 #include <ConfigCatCppSDK/Include/evaluationdetails.h>
 
+#include "Wrapper/ConfigCatRolloutPercentageItem.h"
+#include "Wrapper/ConfigCatRolloutRule.h"
 #include "Wrapper/ConfigCatUser.h"
 #include "Wrapper/ConfigCatValue.h"
 
@@ -19,41 +21,42 @@ FConfigCatEvaluationDetails::FConfigCatEvaluationDetails(configcat::EvaluationDe
 	EvaluationDetails = std::make_shared<configcat::EvaluationDetails>(InDetails);
 }
 
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetKey(const FConfigCatEvaluationDetails& Struct)
+FString FConfigCatEvaluationDetails::GetKey() const
 {
-	if (Struct.EvaluationDetails)
+	if (EvaluationDetails)
 	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->key.c_str());
-	}
-
-	return TEXT("");
-}
-
-FConfigCatValue UConfigCatEvaluationDetailsAccessorsBPLibrary::GetValue(const FConfigCatEvaluationDetails& Struct)
-{
-	if (Struct.EvaluationDetails)
-	{
-		return FConfigCatValue(Struct.EvaluationDetails->value);
+		return UTF8_TO_TCHAR(EvaluationDetails->key.c_str());
 	}
 
 	return {};
 }
 
-FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetVariationId(const FConfigCatEvaluationDetails& Struct)
+FConfigCatValue FConfigCatEvaluationDetails::GetValue() const
 {
-	if (Struct.EvaluationDetails)
+	if (EvaluationDetails)
 	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->variationId.c_str());
+		return FConfigCatValue(EvaluationDetails->value);
 	}
 
-	return TEXT("");
+	return {};
 }
 
-FDateTime UConfigCatEvaluationDetailsAccessorsBPLibrary::GetFetchTime(const FConfigCatEvaluationDetails& Struct)
+FString FConfigCatEvaluationDetails::GetVariationId() const
 {
-	if (Struct.EvaluationDetails)
+	if (EvaluationDetails)
 	{
-		const auto TimeSinceEpoch = Struct.EvaluationDetails->fetchTime.time_since_epoch();
+		return UTF8_TO_TCHAR(EvaluationDetails->variationId.c_str());
+	}
+
+	return {};
+}
+
+FDateTime FConfigCatEvaluationDetails::GetFetchTime() const
+{
+	if (EvaluationDetails)
+	{
+		// TODO: Find out what the fetch time is measured in so we ensure it properly transforms into FDateTime
+		const auto TimeSinceEpoch = EvaluationDetails->fetchTime.time_since_epoch();
 		const auto MillisecondsSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(TimeSinceEpoch).count();
 		return FDateTime(MillisecondsSinceEpoch);
 	}
@@ -61,53 +64,98 @@ FDateTime UConfigCatEvaluationDetailsAccessorsBPLibrary::GetFetchTime(const FCon
 	return {};
 }
 
-FConfigCatUser UConfigCatEvaluationDetailsAccessorsBPLibrary::GetUser(const FConfigCatEvaluationDetails& Struct)
+FConfigCatUser FConfigCatEvaluationDetails::GetUser() const
 {
-	if (Struct.EvaluationDetails)
+	if (EvaluationDetails)
 	{
 		// TODO: Discuss if we can make everything const? ideally the configcat client should not need the non-const version for SetUser
-		return FConfigCatUser(const_cast<ConfigCatUser*>(Struct.EvaluationDetails->user));
+		return FConfigCatUser(const_cast<ConfigCatUser*>(EvaluationDetails->user));
 	}
 
 	return {};
+}
+
+bool FConfigCatEvaluationDetails::IsDefaultValue() const
+{
+	if (EvaluationDetails)
+	{
+		return EvaluationDetails->isDefaultValue;
+	}
+
+	return {};
+}
+
+FString FConfigCatEvaluationDetails::GetError() const
+{
+	if (EvaluationDetails)
+	{
+		return UTF8_TO_TCHAR(EvaluationDetails->error.c_str());
+	}
+
+	return {};
+}
+
+FConfigCatRolloutRule FConfigCatEvaluationDetails::GetRolloutRule() const
+{
+	if (EvaluationDetails && EvaluationDetails->matchedEvaluationRule.has_value())
+	{
+		return EvaluationDetails->matchedEvaluationRule.value();
+	}
+
+	return {};
+}
+
+FConfigCatRolloutPercentageItem FConfigCatEvaluationDetails::GetRolloutPercentageItem() const
+{
+	if (EvaluationDetails && EvaluationDetails->matchedEvaluationPercentageRule.has_value())
+	{
+		return EvaluationDetails->matchedEvaluationPercentageRule.value();
+	}
+
+	return {};
+}
+
+FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetKey(const FConfigCatEvaluationDetails& Struct)
+{
+	return Struct.GetKey();
+}
+
+FConfigCatValue UConfigCatEvaluationDetailsAccessorsBPLibrary::GetValue(const FConfigCatEvaluationDetails& Struct)
+{
+	return Struct.GetValue();
+}
+
+FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetVariationId(const FConfigCatEvaluationDetails& Struct)
+{
+	return Struct.GetVariationId();
+}
+
+FDateTime UConfigCatEvaluationDetailsAccessorsBPLibrary::GetFetchTime(const FConfigCatEvaluationDetails& Struct)
+{
+	return Struct.GetFetchTime();
+}
+
+FConfigCatUser UConfigCatEvaluationDetailsAccessorsBPLibrary::GetUser(const FConfigCatEvaluationDetails& Struct)
+{
+	return Struct.GetUser();
 }
 
 bool UConfigCatEvaluationDetailsAccessorsBPLibrary::IsDefaultValue(const FConfigCatEvaluationDetails& Struct)
 {
-	if (Struct.EvaluationDetails)
-	{
-		return Struct.EvaluationDetails->isDefaultValue;
-	}
-
-	return false;
+	return Struct.IsDefaultValue();
 }
 
 FString UConfigCatEvaluationDetailsAccessorsBPLibrary::GetError(const FConfigCatEvaluationDetails& Struct)
 {
-	if (Struct.EvaluationDetails)
-	{
-		return UTF8_TO_TCHAR(Struct.EvaluationDetails->error.c_str());
-	}
-
-	return TEXT("");
+	return Struct.GetError();
 }
 
 FConfigCatRolloutRule UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRolloutRule(const FConfigCatEvaluationDetails& Struct)
 {
-	if (Struct.EvaluationDetails && Struct.EvaluationDetails->matchedEvaluationRule.has_value())
-	{
-		return Struct.EvaluationDetails->matchedEvaluationRule.value();
-	}
-
-	return {};
+	return Struct.GetRolloutRule();
 }
 
 FConfigCatRolloutPercentageItem UConfigCatEvaluationDetailsAccessorsBPLibrary::GetRolloutPercentageItem(const FConfigCatEvaluationDetails& Struct)
 {
-	if (Struct.EvaluationDetails && Struct.EvaluationDetails->matchedEvaluationPercentageRule.has_value())
-	{
-		return Struct.EvaluationDetails->matchedEvaluationPercentageRule.value();
-	}
-
-	return {};
+	return Struct.GetRolloutPercentageItem();
 }

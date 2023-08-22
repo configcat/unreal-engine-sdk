@@ -25,6 +25,17 @@ struct CONFIGCAT_API FConfigCatValue
 	FConfigCatValue(const configcat::Value& InValue);
 	FConfigCatValue(std::shared_ptr<configcat::Value> InValue);
 
+	bool HasAnyValue() const;
+	bool HasBooleanValue() const;
+	bool HasStringValue() const;
+	bool HasIntegerValue() const;
+	bool HasDecimalValue() const;
+
+	bool GetBooleanValue() const;
+	FString GetStringValue() const;
+	int GetIntegerValue() const;
+	double GetDecimalValue() const;
+
 	/**
 	 * Internal feature flag value we want to expose in blueprints
 	 */
@@ -44,7 +55,6 @@ class CONFIGCAT_API UConfigCatValueAccessorsBPLibrary : public UBlueprintFunctio
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasAnyValue(const FConfigCatValue& Struct);
-
 	/**
 	 * Checks if the struct holds a boolean value
 	 */

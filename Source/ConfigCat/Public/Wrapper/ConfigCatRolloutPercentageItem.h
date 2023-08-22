@@ -24,6 +24,11 @@ struct FConfigCatRolloutPercentageItem
 	FConfigCatRolloutPercentageItem() = default;
 	FConfigCatRolloutPercentageItem(const configcat::RolloutPercentageItem& InPercentageItem);
 
+	bool IsValid() const;
+	FConfigCatValue GetPercentageValue() const;
+	double GetPercentagePercentage() const;
+	FString GetPercentageVariationId() const;
+
 	/**
 	 * Internal percentage item we want to expose in blueprints
 	 */

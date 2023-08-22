@@ -26,6 +26,11 @@ struct CONFIGCAT_API FConfigCatSetting
 	FConfigCatSetting() = default;
 	FConfigCatSetting(const configcat::Setting& InSetting);
 
+	FConfigCatValue GetSettingValue() const;
+	TArray<FConfigCatRolloutRule> GetSettingRolloutRules() const;
+	TArray<FConfigCatRolloutPercentageItem> GetSettingRolloutPercentageItem() const;
+	FString GetSettingVariationId() const;
+
 	/**
 	 * Internal Setting we want to expose in blueprints
 	 */
