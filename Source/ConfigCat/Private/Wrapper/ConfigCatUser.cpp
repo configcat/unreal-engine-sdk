@@ -51,7 +51,7 @@ FString FConfigCatUser::GetAttribute(const FString& Key) const
 		Result = User->getAttribute(AttributeKey);
 	}
 
-	return Result ? UTF8_TO_TCHAR(Result->c_str()) : {};
+	return Result ? UTF8_TO_TCHAR(Result->c_str()) : TEXT("");
 }
 
 FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
