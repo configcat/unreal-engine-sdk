@@ -75,6 +75,6 @@ struct CONFIGCAT_API FConfigCatConfig
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|Config")
 	TMap<FString, FConfigCatSetting> Settings;
 };
