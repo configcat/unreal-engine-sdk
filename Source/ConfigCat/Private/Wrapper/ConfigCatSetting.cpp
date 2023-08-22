@@ -1,11 +1,8 @@
 ﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
 
-#include "ConfigCatSetting.h"
+#include "Wrapper/ConfigCatSetting.h"
 
 #include <ConfigCatCppSDK/Include/config.h>
-
-#include "ConfigCatTypes.h"
-#include "ConfigCatValue.h"
 
 FConfigCatSetting::FConfigCatSetting(const configcat::Setting& InSetting)
 {

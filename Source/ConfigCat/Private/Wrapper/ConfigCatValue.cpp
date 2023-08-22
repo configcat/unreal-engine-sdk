@@ -1,6 +1,6 @@
 ﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
 
-#include "ConfigCatValue.h"
+#include "Wrapper/ConfigCatValue.h"
 
 #include <ConfigCatCppSDK/Include/config.h>
 

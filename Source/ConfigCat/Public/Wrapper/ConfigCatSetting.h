@@ -8,7 +8,6 @@
 
 #include "ConfigCatSetting.generated.h"
 
-
 struct FConfigCatValue;
 namespace configcat
 {

@@ -1,10 +1,10 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
 
+#include "Wrapper/ConfigCatRolloutRule.h"
 
-#include "ConfigCatTypes.h"
+#include <ConfigCatCppSDK/Include/config.h>
 
-#include "ConfigCatCppSDK/Include/config.h"
-#include "ConfigCatValue.h"
+#include "Wrapper/ConfigCatRolloutPercentageItem.h"
 
 FConfigCatRolloutRule::FConfigCatRolloutRule(const configcat::RolloutRule& InRule)
 {
@@ -66,41 +66,6 @@ FString UConfigCatRuleAccessorsBPLibrary::GetRuleVariationId(const FConfigCatRol
 	if (IsValid(Struct))
 	{
 		return UTF8_TO_TCHAR(Struct.Rule->variationId.c_str());
-	}
-
-	return {};
-}
-
-bool UConfigCatPercentageItemAccessorsBPLibrary::IsValid(const FConfigCatRolloutPercentageItem& Struct)
-{
-	return Struct.PercentageItem.get() != nullptr;
-}
-
-FConfigCatValue UConfigCatPercentageItemAccessorsBPLibrary::GetPercentageValue(const FConfigCatRolloutPercentageItem& Struct)
-{
-	if (IsValid(Struct))
-	{
-		return Struct.PercentageItem->value;
-	}
-
-	return {};
-}
-
-double UConfigCatPercentageItemAccessorsBPLibrary::GetPercentagePercentage(const FConfigCatRolloutPercentageItem& Struct)
-{
-	if (IsValid(Struct))
-	{
-		return Struct.PercentageItem->percentage;
-	}
-
-	return {};
-}
-
-FString UConfigCatPercentageItemAccessorsBPLibrary::GetPercentageVariationId(const FConfigCatRolloutPercentageItem& Struct)
-{
-	if (IsValid(Struct))
-	{
-		return UTF8_TO_TCHAR(Struct.PercentageItem->variationId.c_str());
 	}
 
 	return {};

@@ -1,16 +1,16 @@
 ﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
 
-#include "ConfigCatEvaluationDetails.h"
+#include "Wrapper/ConfigCatEvaluationDetails.h"
 
 // clang-format off
 //TODO: This should go directly in evaluationdetails.h
 #include <chrono>
 // clang-format on
 
-#include "ConfigCatCppSDK/Include/evaluationdetails.h"
-#include "ConfigCatTypes.h"
-#include "ConfigCatUser.h"
-#include "ConfigCatValue.h"
+#include <ConfigCatCppSDK/Include/evaluationdetails.h>
+
+#include "Wrapper/ConfigCatUser.h"
+#include "Wrapper/ConfigCatValue.h"
 
 using namespace configcat;
 

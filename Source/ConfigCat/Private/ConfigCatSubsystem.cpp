@@ -8,12 +8,12 @@
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 
-#include "ConfigCatEvaluationDetails.h"
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
 #include "ConfigCatSettings.h"
-#include "ConfigCatUser.h"
-#include "ConfigCatValue.h"
+#include "Wrapper/ConfigCatEvaluationDetails.h"
+#include "Wrapper/ConfigCatUser.h"
+#include "Wrapper/ConfigCatValue.h"
 
 using namespace configcat;
 

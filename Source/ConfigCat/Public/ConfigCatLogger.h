@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ConfigCatCppSDK/Include/log.h"
+#include <ConfigCatCppSDK/Include/log.h>
 
 class FConfigCatLogger : public configcat::ILogger
 {

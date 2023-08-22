@@ -8,7 +8,6 @@
 
 #include "ConfigCatEvaluationDetails.generated.h"
 
-
 struct FConfigCatRolloutPercentageItem;
 struct FConfigCatRolloutRule;
 struct FConfigCatUser;
