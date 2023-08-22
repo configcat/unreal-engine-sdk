@@ -4,6 +4,7 @@
 
 #include <ConfigCatCppSDK/Include/config.h>
 
+#include "ConfigCatTypes.h"
 #include "ConfigCatValue.h"
 
 FConfigCatSetting::FConfigCatSetting(const configcat::Setting& InSetting)
@@ -19,6 +20,36 @@ FConfigCatValue UConfigCatSettingAccessorsBPLibrary::GetSettingValue(const FConf
 	}
 
 	return {};
+}
+
+TArray<FConfigCatRolloutRule> UConfigCatSettingAccessorsBPLibrary::GetSettingRolloutRules(const FConfigCatSetting& Struct)
+{
+	TArray<FConfigCatRolloutRule> Result;
+
+	if (Struct.Setting)
+	{
+		for (const auto& Rule : Struct.Setting->rolloutRules)
+		{
+			Result.Emplace(Rule);
+		}
+	}
+
+	return Result;
+}
+
+TArray<FConfigCatRolloutPercentageItem> UConfigCatSettingAccessorsBPLibrary::GetSettingRolloutPercentageItem(const FConfigCatSetting& Struct)
+{
+	TArray<FConfigCatRolloutPercentageItem> Result;
+
+	if (Struct.Setting)
+	{
+		for (const auto& PercentageItem : Struct.Setting->percentageItems)
+		{
+			Result.Emplace(PercentageItem);
+		}
+	}
+
+	return Result;
 }
 
 FString UConfigCatSettingAccessorsBPLibrary::GetSettingVariationId(const FConfigCatSetting& Struct)

@@ -31,7 +31,6 @@ struct CONFIGCAT_API FConfigCatSetting
 	std::shared_ptr<configcat::Setting> Setting;
 };
 
-
 /**
  * Getters for all the properties of the configcat::Setting stored inside a FConfigCatSetting wrapper
  */
@@ -45,10 +44,16 @@ class CONFIGCAT_API UConfigCatSettingAccessorsBPLibrary : public UBlueprintFunct
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
 	static FConfigCatValue GetSettingValue(const FConfigCatSetting& Struct);
-
-	// TArray<FConfigCatRolloutPercentageItem
-	// TArray<FConfigCatRolloutRule
-
+	/**
+	 * Gets the rollout rules of the feature flag / setting
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	static TArray<FConfigCatRolloutRule> GetSettingRolloutRules(const FConfigCatSetting& Struct);
+	/**
+	 * Gets the rollout percentage items of the feature flag / setting
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	static TArray<FConfigCatRolloutPercentageItem> GetSettingRolloutPercentageItem(const FConfigCatSetting& Struct);
 	/**
 	 * Gets the variation identifier of the feature flag / setting
 	 */
