@@ -23,8 +23,16 @@ public class ConfigCatCppSdk : ModuleRules
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Mac)
 		{
-			string Folder = Path.Combine(ModuleDirectory, "Binaries", "Mac");
-			AddPrecompiledLibraries(Folder, "*.a");
+			if(Target.Architecture == UnrealArch.Arm64)
+			{
+				string Folder = Path.Combine(ModuleDirectory, "Binaries", "Mac", "Arm64");
+				AddPrecompiledLibraries(Folder, "*.a");
+			}
+			else
+			{
+				string Folder = Path.Combine(ModuleDirectory, "Binaries", "Mac", "X64");
+				AddPrecompiledLibraries(Folder, "*.a");
+			}
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
