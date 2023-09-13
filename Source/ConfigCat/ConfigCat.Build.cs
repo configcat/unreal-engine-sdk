@@ -17,5 +17,7 @@ public class ConfigCat : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new [] {
 			"ConfigCatCppSdk",
 		});
+
+		PrivateIncludePaths.Add("ThirdParty");
 	}
 }
