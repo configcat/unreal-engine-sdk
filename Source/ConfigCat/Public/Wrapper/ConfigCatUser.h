@@ -23,7 +23,7 @@ struct CONFIGCAT_API FConfigCatUser
 
 	FConfigCatUser() = default;
 	FConfigCatUser(configcat::ConfigCatUser* InUser);
-	FConfigCatUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
+	FConfigCatUser(const FString& Id, const FString& Email = TEXT(""), const FString& Country = TEXT(""), const TMap<FString, FString>& Attributes = {});
 
 	FString GetIdentifier() const;
 	FString GetAttribute(const FString& Key) const;
