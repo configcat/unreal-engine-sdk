@@ -79,18 +79,18 @@ public:
 	/**
 	 * @brief Sets at least how often this policy should fetch the latest configuration and refresh the cache.
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::Custom", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::Auto", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
 	uint32 AutoPollInterval = 60;
 	/**
 	 * @brief Sets the maximum waiting time between initialization and the first config acquisition in seconds.
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::Custom", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::Auto", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
 	uint32 MaxInitWaitTime = 5;
 	/**
 	 * @brief Sets how long the cache will store its value before fetching the latest from the network again.
 	 */
 	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::LazyLoad", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
-	uint32 CacheRefreshInterval;
+	uint32 CacheRefreshInterval = 60;
 	/**
 	 * @brief Proxy addresses. e.g. { "https": "your_proxy_ip:your_proxy_port" }
 	 */
