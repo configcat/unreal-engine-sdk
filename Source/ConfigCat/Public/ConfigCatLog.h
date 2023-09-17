@@ -4,4 +4,4 @@
 
 #include <Logging/LogMacros.h>
 
-DECLARE_LOG_CATEGORY_EXTERN(LogConfigCat, Log, All)
+CONFIGCAT_API DECLARE_LOG_CATEGORY_EXTERN(LogConfigCat, Log, All)

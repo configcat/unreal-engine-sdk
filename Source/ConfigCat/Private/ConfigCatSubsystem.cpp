@@ -10,6 +10,7 @@
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 
+#include "ConfigCat.h"
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
 #include "ConfigCatSettings.h"
@@ -416,7 +417,7 @@ void UConfigCatSubsystem::SetupClientSslOptions(ConfigCatOptions& Options)
 
 #if PLATFORM_LINUX || PLATFORM_ANDROID
 	//TODO: Make sure that (1) certificate file is copied to Content/ConfigCat and (2) files from Content/ConfigCat are packaged the final package
-	const FString CertificateFile = FPaths::ProjectContentDir() + TEXT("ConfigCat/globalsign-root-ca.pem");
+	const FString CertificateFile = FPaths::ProjectContentDir() + TEXT("/globalsign-root-ca.pem");
 	FString CertificateContent = TEXT(""); 
 	if (FFileHelper::LoadFileToString(CertificateContent, *CertificateFile))
 	{
@@ -448,7 +449,7 @@ void UConfigCatSubsystem::SetupClientOverrides(ConfigCatOptions& Options)
 	if(ConfigCatSettings->OverrideMode == EOverrideMode::File)
 	{
 		//TODO: error: destructor called on non-final 'configcat::FileFlagOverrides' that has virtual functions but non-virtual destructor [-Werror,-Wdelete-non-abstract-non-virtual-dtor]
-		const FString FlagsFile = FPaths::ProjectContentDir() + TEXT("ConfigCat/flags.json");
+		const FString FlagsFile = FConfigCatModule::GetContentFolder() + TEXT("/flags.json");
 		std::string FlagsFilePath = TCHAR_TO_UTF8(*FlagsFile); 
 		Options.flagOverrides = std::make_shared<FileFlagOverrides>(FlagsFilePath, Behaviour);
 	}
