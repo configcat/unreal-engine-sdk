@@ -416,7 +416,6 @@ void UConfigCatSubsystem::SetupClientSslOptions(ConfigCatOptions& Options)
 	}
 
 #if PLATFORM_LINUX || PLATFORM_ANDROID
-	//TODO: Make sure that (1) certificate file is copied to Content/ConfigCat and (2) files from Content/ConfigCat are packaged the final package
 	const FString CertificateFile = FPaths::ProjectContentDir() + TEXT("/globalsign-root-ca.pem");
 	FString CertificateContent = TEXT(""); 
 	if (FFileHelper::LoadFileToString(CertificateContent, *CertificateFile))
@@ -438,9 +437,9 @@ void UConfigCatSubsystem::SetupClientOverrides(ConfigCatOptions& Options)
 	{
 		switch (ConfigCatSettings->OverrideBehaviour)
 		{
-		case EOverrideBehaviour::LocalOnly: return OverrideBehaviour::LocalOnly;
-		case EOverrideBehaviour::LocalOverRemote:  return OverrideBehaviour::LocalOverRemote;
-		case EOverrideBehaviour::RemoteOverLocal: return OverrideBehaviour::RemoteOverLocal;
+		case EOverrideBehaviour::LocalOnly: return LocalOnly;
+		case EOverrideBehaviour::LocalOverRemote:  return LocalOverRemote;
+		case EOverrideBehaviour::RemoteOverLocal: return RemoteOverLocal;
 		}
 
 		checkNoEntry();
