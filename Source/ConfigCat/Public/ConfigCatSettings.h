@@ -34,6 +34,22 @@ enum class EPollingMode : uint8
 	ManualPoll,
 };
 
+UENUM()
+enum class EOverrideMode : uint8
+{
+	None,
+	File,
+	Map
+};
+
+UENUM()
+enum class EOverrideBehaviour : uint8
+{
+	LocalOnly,
+	LocalOverRemote,
+	RemoteOverLocal
+};
+
 /**
  * Holds configuration for integrating the ConfigCat feature flags SDK
  */
@@ -106,6 +122,16 @@ public:
 	 */
 	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client")
 	bool bStartOffline;
+	/**
+	 * @brief Specifies the data source for overrides if any
+	 */
+	UPROPERTY(Config, EditAnywhere, Category= "ConfigCat|Override")
+	EOverrideMode OverrideMode;
+	/**
+	 * @brief Specifies how the overrides should apply over the downloaded values
+	 */
+	UPROPERTY(Config, EditAnywhere, Category= "ConfigCat|Override", meta = (EditCondition = "OverrideMode != EOverrideMode::None", EditConditionHides))
+	EOverrideBehaviour OverrideBehaviour;
 
 private:
 	// Begin UDeveloperSettings interface

@@ -4,6 +4,8 @@
 
 #include <ConfigCatCppSDK/Include/configcatclient.h>
 #include <ConfigCatCppSDK/Include/configcatuser.h>
+#include <ConfigCatCppSDK/Include/fileoverridedatasource.h>
+#include <ConfigCatCppSDK/Include/mapoverridedatasource.h>
 #include <Kismet/GameplayStatics.h>
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
@@ -321,15 +323,15 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 	switch (ConfigCatSettings->PollingMode)
 	{
-	case EPollingMode::Auto:
-		Options.pollingMode = PollingMode::autoPoll(ConfigCatSettings->AutoPollInterval, ConfigCatSettings->MaxInitWaitTime);
-		break;
-	case EPollingMode::LazyLoad:
-		Options.pollingMode = PollingMode::lazyLoad(ConfigCatSettings->CacheRefreshInterval);
-		break;
-	case EPollingMode::ManualPoll:
-		Options.pollingMode = PollingMode::manualPoll();
-		break;
+		case EPollingMode::Auto:
+			Options.pollingMode = PollingMode::autoPoll(ConfigCatSettings->AutoPollInterval, ConfigCatSettings->MaxInitWaitTime);
+			break;
+		case EPollingMode::LazyLoad:
+			Options.pollingMode = PollingMode::lazyLoad(ConfigCatSettings->CacheRefreshInterval);
+			break;
+		case EPollingMode::ManualPoll:
+			Options.pollingMode = PollingMode::manualPoll();
+			break;
 	}
 
 	for (const TTuple<FString, FString>& Proxy : ConfigCatSettings->Proxies)
@@ -350,7 +352,6 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 		Options.proxyAuthentications.emplace(ProxyKey, ProxyValue);
 	}
-
 
 	Options.hooks = std::make_shared<Hooks>();
 
@@ -413,6 +414,32 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 	Options.logger = std::make_shared<FConfigCatLogger>();
 	Options.offline = ConfigCatSettings->bStartOffline;
+
+	const OverrideBehaviour Behaviour = [=]()
+	{
+		switch (ConfigCatSettings->OverrideBehaviour)
+		{
+			case EOverrideBehaviour::LocalOnly: return OverrideBehaviour::LocalOnly;
+			case EOverrideBehaviour::LocalOverRemote:  return OverrideBehaviour::LocalOverRemote;
+			case EOverrideBehaviour::RemoteOverLocal: return OverrideBehaviour::RemoteOverLocal;
+		}
+
+		checkNoEntry();
+	}();
+
+	if(ConfigCatSettings->OverrideMode == EOverrideMode::File)
+	{
+		const FString FlagsFile = FPaths::ProjectContentDir() + TEXT("ConfigCat/flags.json");
+		std::string FlagsFilePath = TCHAR_TO_UTF8(*FlagsFile); 
+		Options.flagOverrides = std::make_shared<FileFlagOverrides>(FlagsFilePath, Behaviour);
+	}
+	else if(ConfigCatSettings->OverrideMode == EOverrideMode::Map)
+	{
+		TMap<FString, FConfigCatValue> Flags;
+		//TODO: We should run a delegate to gather those from Unreal.
+		std::unordered_map<std::string, Value> MapFlags;
+		Options.flagOverrides = std::make_shared<MapFlagOverrides>(MapFlags, Behaviour);
+	}
 
 	ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
 }
