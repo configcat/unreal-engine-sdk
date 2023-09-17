@@ -10,10 +10,10 @@
 
 #include "ConfigCatSubsystem.generated.h"
 
-
 struct FConfigCatEvaluationDetails;
 namespace configcat
 {
+	struct ConfigCatOptions;
 	class ConfigCatClient;
 	class ConfigCatUser;
 } // namespace configcat
@@ -116,6 +116,10 @@ public:
 private:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
+
+	void SetupClientHooks(configcat::ConfigCatOptions& Options);
+	void SetupClientSslOptions(configcat::ConfigCatOptions& Options);
+	void SetupClientOverrides(configcat::ConfigCatOptions& Options);
 
 	configcat::ConfigCatClient* ConfigCatClient;
 };
