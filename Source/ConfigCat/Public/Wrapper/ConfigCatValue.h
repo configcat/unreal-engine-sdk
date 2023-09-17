@@ -66,7 +66,7 @@ class CONFIGCAT_API UConfigCatValueAccessorsBPLibrary : public UBlueprintFunctio
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasStringValue(const FConfigCatValue& Struct);
 	/**
-	 * Checks if the struct holds an interger value
+	 * Checks if the struct holds an integer value
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static bool HasIntegerValue(const FConfigCatValue& Struct);
@@ -96,4 +96,25 @@ class CONFIGCAT_API UConfigCatValueAccessorsBPLibrary : public UBlueprintFunctio
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	static double GetDecimalValue(const FConfigCatValue& Struct);
+
+	/**
+	 * Create a ConfigValue holding a boolean value
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
+	static FConfigCatValue CreteBooleanValue(bool Value);
+	/**
+	 * Create a ConfigValue holding a string value
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
+	static FConfigCatValue CreateStringValue(const FString& Value);
+	/**
+	 * Create a ConfigValue holding a integer value
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
+	static FConfigCatValue CreateIntegerValue(int Value);
+	/**
+	 * Create a ConfigValue holding a decimal (double) value
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
+	static FConfigCatValue CreateDecimalValue(double Value);
 };

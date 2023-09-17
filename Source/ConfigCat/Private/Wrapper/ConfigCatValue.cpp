@@ -123,3 +123,24 @@ double UConfigCatValueAccessorsBPLibrary::GetDecimalValue(const FConfigCatValue&
 {
 	return Struct.GetDecimalValue();
 }
+
+FConfigCatValue UConfigCatValueAccessorsBPLibrary::CreteBooleanValue(bool Value)
+{
+	return FConfigCatValue(configcat::Value(Value));
+}
+
+FConfigCatValue UConfigCatValueAccessorsBPLibrary::CreateStringValue(const FString& Value)
+{
+	const std::string StringValue = TCHAR_TO_UTF8(*Value);
+	return FConfigCatValue(configcat::Value(StringValue));
+}
+
+FConfigCatValue UConfigCatValueAccessorsBPLibrary::CreateIntegerValue(int Value)
+{
+	return FConfigCatValue(configcat::Value(Value));
+}
+
+FConfigCatValue UConfigCatValueAccessorsBPLibrary::CreateDecimalValue(double Value)
+{
+	return FConfigCatValue(configcat::Value(Value));
+}
