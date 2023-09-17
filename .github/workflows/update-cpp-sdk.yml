@@ -19,7 +19,10 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Win64
-          path: ./build/vcpkg/packages/*/lib/*
+          path: |
+            ./build/vcpkg/installed/*/lib/configcat.lib
+            ./build/vcpkg/installed/*/lib/cpr.lib
+            ./build/vcpkg/installed/*/lib/hash-library.lib
 
   build-android:
     if: true
@@ -37,7 +40,10 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Android
-          path: ./build/vcpkg/packages/*/lib/*
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libcpr.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-macos:
     if: true
@@ -55,7 +61,10 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: MacOs
-          path: ./build/vcpkg/packages/*/lib/*
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libcpr.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-ios:
     if: true
@@ -73,7 +82,10 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: iOS
-          path: ./build/vcpkg/packages/*/lib/*
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libcpr.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-linux:
     if: true
@@ -106,4 +118,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Linux
-          path: ./build/vcpkg/packages/*/lib/*
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libcpr.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
