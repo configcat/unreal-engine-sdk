@@ -274,8 +274,6 @@ bool UConfigCatSubsystem::IsOffline() const
 
 void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	// TODO: we need to eliminate unwanted lib files from GitHub artifacts
-	// TODO: support for offline (read configuration from JSON file)
 	UE_LOG(LogConfigCat, Log, TEXT("ConfigCat Subsystem initialized"));
 
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
@@ -449,6 +447,7 @@ void UConfigCatSubsystem::SetupClientOverrides(ConfigCatOptions& Options)
 
 	if(ConfigCatSettings->OverrideMode == EOverrideMode::File)
 	{
+		//TODO: error: destructor called on non-final 'configcat::FileFlagOverrides' that has virtual functions but non-virtual destructor [-Werror,-Wdelete-non-abstract-non-virtual-dtor]
 		const FString FlagsFile = FPaths::ProjectContentDir() + TEXT("ConfigCat/flags.json");
 		std::string FlagsFilePath = TCHAR_TO_UTF8(*FlagsFile); 
 		Options.flagOverrides = std::make_shared<FileFlagOverrides>(FlagsFilePath, Behaviour);
