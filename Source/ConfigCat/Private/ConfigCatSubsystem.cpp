@@ -269,7 +269,6 @@ bool UConfigCatSubsystem::IsOffline() const
 		return true;
 	}
 
-	// TODO: Investigate why this is not const in the CPP SDK.
 	return ConfigCatClient->isOffline();
 }
 
@@ -447,7 +446,6 @@ void UConfigCatSubsystem::SetupClientOverrides(ConfigCatOptions& Options)
 
 	if(ConfigCatSettings->OverrideMode == EOverrideMode::File)
 	{
-		//TODO: error: destructor called on non-final 'configcat::FileFlagOverrides' that has virtual functions but non-virtual destructor [-Werror,-Wdelete-non-abstract-non-virtual-dtor]
 		const FString FlagsFile = FConfigCatModule::GetContentFolder() + TEXT("/flags.json");
 		std::string FlagsFilePath = TCHAR_TO_UTF8(*FlagsFile); 
 		Options.flagOverrides = std::make_shared<FileFlagOverrides>(FlagsFilePath, Behaviour);

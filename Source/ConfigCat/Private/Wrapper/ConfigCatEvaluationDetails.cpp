@@ -2,11 +2,6 @@
 
 #include "Wrapper/ConfigCatEvaluationDetails.h"
 
-// clang-format off
-//TODO: This should go directly in evaluationdetails.h
-#include <chrono>
-// clang-format on
-
 #include <ConfigCatCppSDK/Include/evaluationdetails.h>
 
 #include "Wrapper/ConfigCatRolloutPercentageItem.h"
