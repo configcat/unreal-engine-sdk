@@ -8,12 +8,12 @@
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 
-#include "ConfigCatEvaluationDetails.h"
 #include "ConfigCatLog.h"
 #include "ConfigCatLogger.h"
 #include "ConfigCatSettings.h"
-#include "ConfigCatUser.h"
-#include "ConfigCatValue.h"
+#include "Wrapper/ConfigCatEvaluationDetails.h"
+#include "Wrapper/ConfigCatUser.h"
+#include "Wrapper/ConfigCatValue.h"
 
 using namespace configcat;
 
@@ -273,6 +273,7 @@ bool UConfigCatSubsystem::IsOffline() const
 void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	// TODO: we need to eliminate unwanted lib files from GitHub artifacts
+	// TODO: support for offline (read configuration from JSON file)
 
 	UE_LOG(LogConfigCat, Log, TEXT("ConfigCat Subsystem initialized"));
 
@@ -364,6 +365,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 				UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s"), *StringError);
 
 				WeakThis->OnError.Broadcast(StringError);
+				WeakThis->OnErrorBp.Broadcast(StringError);
 			}
 		}
 	);
@@ -373,6 +375,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 			if (WeakThis.IsValid())
 			{
 				WeakThis->OnClientReady.Broadcast();
+				WeakThis->OnClientReadyBP.Broadcast();
 			}
 		}
 	);
@@ -381,18 +384,19 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		{
 			if (WeakThis.IsValid())
 			{
-				TMap<FString, FConfigCatSetting> NewConfig;
+				FConfigCatConfig NewConfig;
 
 				// TODO: Check if Config will be ever nullptr
 				if (Config)
 				{
 					for (const std::pair<const std::string, Setting>& Setting : *Config)
 					{
-						NewConfig.Emplace(UTF8_TO_TCHAR(Setting.first.c_str()), Setting.second);
+						NewConfig.Settings.Emplace(UTF8_TO_TCHAR(Setting.first.c_str()), Setting.second);
 					}
 				}
 
 				WeakThis->OnConfigChanged.Broadcast(NewConfig);
+				WeakThis->OnConfigChangedBp.Broadcast(NewConfig);
 			}
 		}
 	);
@@ -401,7 +405,8 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		{
 			if (WeakThis.IsValid())
 			{
-				WeakThis->OnFeatureLevelChanged.Broadcast(EvaluationDetails);
+				WeakThis->OnFlagEvaluated.Broadcast(EvaluationDetails);
+				WeakThis->OnFlagEvaluatedBp.Broadcast(EvaluationDetails);
 			}
 		}
 	);

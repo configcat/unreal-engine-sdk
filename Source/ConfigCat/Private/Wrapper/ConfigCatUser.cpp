@@ -1,6 +1,6 @@
 ﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
 
-#include "ConfigCatUser.h"
+#include "Wrapper/ConfigCatUser.h"
 
 #include <ConfigCatCppSDK/Include/configcatuser.h>
 
@@ -32,29 +32,39 @@ FConfigCatUser::FConfigCatUser(const FString& Id, const FString& Email, const FS
 	User = std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes);
 }
 
-FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, TMap<FString, FString> Attributes)
+FString FConfigCatUser::GetIdentifier() const
+{
+	if (User)
+	{
+		return UTF8_TO_TCHAR(User->identifier.c_str());
+	}
+
+	return {};
+}
+
+FString FConfigCatUser::GetAttribute(const FString& Key) const
+{
+	const std::string* Result = nullptr;
+	if (User)
+	{
+		const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
+		Result = User->getAttribute(AttributeKey);
+	}
+
+	return Result ? UTF8_TO_TCHAR(Result->c_str()) : TEXT("");
+}
+
+FConfigCatUser UConfigCatUserAccessorsBPLibrary::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
 {
 	return FConfigCatUser(Id, Email, Country, Attributes);
 }
 
 FString UConfigCatUserAccessorsBPLibrary::GetIdentifier(const FConfigCatUser& Struct)
 {
-	if (Struct.User)
-	{
-		return UTF8_TO_TCHAR(Struct.User->identifier.c_str());
-	}
-
-	return TEXT("");
+	return Struct.GetIdentifier();
 }
 
 FString UConfigCatUserAccessorsBPLibrary::GetAttribute(const FConfigCatUser& Struct, const FString& Key)
 {
-	const std::string* Result = nullptr;
-	if (Struct.User)
-	{
-		const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
-		Result = Struct.User->getAttribute(AttributeKey);
-	}
-
-	return Result ? UTF8_TO_TCHAR(Result->c_str()) : TEXT("");
+	return Struct.GetAttribute(Key);
 }

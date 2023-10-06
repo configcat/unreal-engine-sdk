@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Engine/DeveloperSettings.h"
+#include <CoreMinimal.h>
+#include <Engine/DeveloperSettings.h>
 
 #include "ConfigCatSettings.generated.h"
 
@@ -43,6 +43,9 @@ class CONFIGCAT_API UConfigCatSettings : public UDeveloperSettings
 	GENERATED_BODY()
 
 public:
+	/**
+	 * @brief SDK Key to access your feature flags and configurations. Get it from ConfigCat Dashboard.
+	 */
 	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Integration")
 	FString SdkKey = TEXT("kW7bCP7Yj0iJ9f1EAmRBhw/g9rekvUdhEOQ2Ryo0fFqtQ");
 	/**

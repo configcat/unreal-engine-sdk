@@ -8,11 +8,11 @@
 
 #include "ConfigCatEvaluationDetails.generated.h"
 
-
 struct FConfigCatRolloutPercentageItem;
 struct FConfigCatRolloutRule;
 struct FConfigCatUser;
 struct FConfigCatValue;
+
 namespace configcat
 {
 	struct EvaluationDetails;
@@ -28,6 +28,17 @@ struct CONFIGCAT_API FConfigCatEvaluationDetails
 
 	FConfigCatEvaluationDetails() = default;
 	FConfigCatEvaluationDetails(configcat::EvaluationDetails InDetails);
+
+	FString GetKey() const;
+	FConfigCatValue GetValue() const;
+	FString GetVariationId() const;
+	FDateTime GetFetchTime() const;
+	FConfigCatUser GetUser() const;
+	bool IsDefaultValue() const;
+	FString GetError() const;
+	FConfigCatRolloutRule GetRolloutRule() const;
+	FConfigCatRolloutPercentageItem GetRolloutPercentageItem() const;
+
 	/**
 	 * Internal evaluation details we want to expose in blueprints
 	 */

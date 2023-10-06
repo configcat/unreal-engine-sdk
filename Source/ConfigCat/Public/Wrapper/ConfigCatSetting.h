@@ -8,12 +8,13 @@
 
 #include "ConfigCatSetting.generated.h"
 
-
 struct FConfigCatValue;
+
 namespace configcat
 {
 	struct Setting;
 }
+
 /**
  * Wrapper class for configcat::Setting
  */
@@ -24,6 +25,11 @@ struct CONFIGCAT_API FConfigCatSetting
 
 	FConfigCatSetting() = default;
 	FConfigCatSetting(const configcat::Setting& InSetting);
+
+	FConfigCatValue GetSettingValue() const;
+	TArray<FConfigCatRolloutRule> GetSettingRolloutRules() const;
+	TArray<FConfigCatRolloutPercentageItem> GetSettingRolloutPercentageItem() const;
+	FString GetSettingVariationId() const;
 
 	/**
 	 * Internal Setting we want to expose in blueprints
@@ -59,4 +65,16 @@ class CONFIGCAT_API UConfigCatSettingAccessorsBPLibrary : public UBlueprintFunct
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
 	static FString GetSettingVariationId(const FConfigCatSetting& Struct);
+};
+
+/**
+ * Wrapper to replicate configcat::Settings (using Settings = std::unordered_map<std::string, Setting>) to blueprints
+ */
+USTRUCT(BlueprintType)
+struct CONFIGCAT_API FConfigCatConfig
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|Config")
+	TMap<FString, FConfigCatSetting> Settings;
 };
