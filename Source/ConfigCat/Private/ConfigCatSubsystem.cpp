@@ -442,6 +442,7 @@ void UConfigCatSubsystem::SetupClientOverrides(ConfigCatOptions& Options)
 		}
 
 		checkNoEntry();
+		return RemoteOverLocal;
 	}();
 
 	if(ConfigCatSettings->OverrideMode == EOverrideMode::File)
