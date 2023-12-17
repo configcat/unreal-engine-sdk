@@ -1,0 +1,47 @@
+name: Plugin CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+
+          # Extra steps for Unreal Engine integration
+          export CC=clang
+          export CXX=clang++
+
+          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+
+      - name: Copy binaries
+        run: |
+          mkdir -p ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/
+          cp ${{ github.workspace }}/build/vcpkg/installed/x64-linux-unreal/lib/libconfigcat.a ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/libconfigcat.a
+          cp ${{ github.workspace }}/build/vcpkg/installed/x64-linux-unreal/lib/libhash-library.a ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/libhash-library.a
+
+          rm -r ./build/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: configcat-sdk
+          path: ${{ github.workspace }}
+
+  plugin-ci:
+    uses:  outoftheboxplugins/BuildMachines/.github/workflows/compile-plugin.yml@master
+    needs: build-linux
+    with:
+      plugin_code: configcat-sdk
+    secrets: inherit
