@@ -1,0 +1,27 @@
+{
+	"FileVersion": 3,
+	"VersionName": "0.1",
+	"EngineVersion": "5.3",
+	"FriendlyName": "ConfigCat",
+	"Description": "ConfigCat is a hosted service for feature flag and configuration management. It lets you decouple feature releases from code deployments.",
+	"Category": "FeatureFlags",
+	"CreatedBy": "ConfigCat",
+	"CreatedByURL": "https://configcat.com/",
+	"DocsURL": "https://configcat.com/docs/sdk-reference/unreal/",
+	"MarketplaceURL": "",
+	"SupportURL": "https://configcat.com/slack/",
+	"EnabledByDefault": false,
+	"CanContainContent": false,
+	"Modules": [
+		{
+			"Name": "ConfigCat",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
+			"Name": "ConfigCatEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}

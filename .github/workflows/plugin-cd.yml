@@ -1,0 +1,181 @@
+name: Plugin CD
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-win64:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.bat
+          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-windows
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Win64
+          path: |
+            ./build/vcpkg/installed/*/lib/configcat.lib
+            ./build/vcpkg/installed/*/lib/hash-library.lib
+
+  build-android:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.bat
+          ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-android
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Android
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
+
+  build-macos-x64:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-osx
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MacOS-x64
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
+
+  build-macos-arm64:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-osx
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MacOS-arm64
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
+
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+          ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: iOS
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install via vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg build/vcpkg
+          ./build/vcpkg/bootstrap-vcpkg.sh
+
+          # Extra steps for Unreal Engine integration
+          export CC=clang
+          export CXX=clang++
+
+          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Linux
+          path: |
+            ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
+
+  publish-engine-plugin:
+    runs-on: ubuntu-latest
+    needs: [build-win64, build-android, build-macos-x64, build-macos-arm64, build-ios, build-linux]
+    name: 📦 Package Plugin
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: jossef/action-set-json-field@v2.1
+        with:
+          file: ConfigCat.uplugin
+          field: VersionName
+          value: "${{ github.ref_name }}"
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: Win64
+          path: Source/ThirdParty/ConfigCatCppSDK/Binaries/Win64
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: Android
+          path: Source/ThirdParty/ConfigCatCppSDK/Binaries/Android
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: MacOS-x64
+          path: Source/ThirdParty/ConfigCatCppSDK/Binaries/MacOS/x64-osx
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: MacOS-arm64
+          path: Source/ThirdParty/ConfigCatCppSDK/Binaries/MacOS/arm64-osx
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: iOS
+          path: Source/ThirdParty/ConfigCatCppSDK/Binaries/iOS
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: Linux
+          path: Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux
+
+      - name: Archive files
+        run: |
+          zip -r ConfigCat.zip . -x LICENSE
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: ConfigCat.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: ${{ github.ref }}
+          name: "${{ github.ref_name }}"
