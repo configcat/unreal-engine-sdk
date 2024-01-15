@@ -1,4 +1,4 @@
-// Copyright (c) ConfigCat 2023. All Rights Reserved.
+// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "ConfigCatEditorSubsystem.generated.h"
 
 /**
- * @brief Automates setup steps required by the ConfigCat plugin (copying SSL certificates, adding files to the final package) 
+ * @brief Automates setup steps required by the ConfigCat plugin (adding the JSON configs file to the final package) 
  */
 UCLASS()
 class UConfigCatEditorSubsystem : public UEditorSubsystem

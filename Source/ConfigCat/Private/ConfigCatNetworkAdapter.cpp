@@ -1,4 +1,4 @@
-// Copyright (c) ConfigCat 2023. All Rights Reserved.
+// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
 #include "ConfigCatNetworkAdapter.h"
 

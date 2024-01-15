@@ -1,4 +1,4 @@
-﻿// Copyright (c) ConfigCat 2023. All Rights Reserved.
+﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
 #pragma once
 
@@ -13,6 +13,7 @@ public:
 	explicit FConfigCatLogger();
 	virtual ~FConfigCatLogger() = default;
 
+private:
 	// Begin configcat::ILogger interface
 	virtual void log(configcat::LogLevel level, const std::string& message) override;
 	// End configcat::ILogger interface
