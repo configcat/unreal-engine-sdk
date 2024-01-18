@@ -79,14 +79,14 @@ public:
 	 * @brief The number of milliseconds to wait for the server to make the initial connection
 	 * @note 0 means it never times out during transfer
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (ClampMin = "0", UIMin = "0", ForceUnits = "ms"))
-	uint32 ConnectionTimeout = 8000;
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (DisplayName = "Connection Timeout (in milliseconds)", ClampMin = "0", UIMin = "0", ForceUnits = "ms"))
+	uint32 ConnectionTimeoutMs = 8000;
 	/**
 	 * @brief The number of milliseconds to wait for the server to respond before giving up
 	 * @note 0 means it never times out during transfer
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (ClampMin = "0", UIMin = "0", ForceUnits = "ms"))
-	uint32 ReadTimeout = 5000;
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (DisplayName = "Read Timeout (in milliseconds)", ClampMin = "0", UIMin = "0", ForceUnits = "ms"))
+	uint32 ReadTimeoutMs = 5000;
 	/**
 	 * @brief The polling mode.
 	 */
@@ -95,18 +95,18 @@ public:
 	/**
 	 * @brief Sets at least how often this policy should fetch the latest configuration and refresh the cache.
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::Auto", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
-	uint32 AutoPollInterval = 60;
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (DisplayName = "Auto Poll Interval (in seconds)", EditCondition = "PollingMode == EPollingMode::Auto", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
+	uint32 AutoPollIntervalSeconds = 60;
 	/**
 	 * @brief Sets the maximum waiting time between initialization and the first config acquisition in seconds.
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::Auto", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
-	uint32 MaxInitWaitTime = 5;
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (DisplayName = "Maximum Inititial Wait Time (in seconds)", EditCondition = "PollingMode == EPollingMode::Auto", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
+	uint32 MaxInitWaitTimeSeconds = 5;
 	/**
 	 * @brief Sets how long the cache will store its value before fetching the latest from the network again.
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (EditCondition = "PollingMode == EPollingMode::LazyLoad", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
-	uint32 CacheRefreshInterval = 60;
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Client", meta = (DisplayName = "Cache Refresh Interval (in seconds)", EditCondition = "PollingMode == EPollingMode::LazyLoad", EditConditionHides, ClampMin = "0", UIMin = "0", ForceUnits = "s"))
+	uint32 CacheRefreshIntervalSeconds = 60;
 	/**
 	 * @brief Proxy addresses. e.g. { "https": "your_proxy_ip:your_proxy_port" }
 	 */
