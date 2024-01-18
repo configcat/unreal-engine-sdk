@@ -8,7 +8,7 @@
 	"CreatedBy": "ConfigCat",
 	"CreatedByURL": "https://configcat.com/",
 	"DocsURL": "https://configcat.com/docs/sdk-reference/unreal/",
-	"MarketplaceURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/e142293a397d4ce4bf6a1f3053a2316d",
 	"SupportURL": "https://configcat.com/slack/",
 	"EnabledByDefault": false,
 	"CanContainContent": false,
