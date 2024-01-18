@@ -2,6 +2,7 @@
 
 #include "ConfigCatSubsystem.h"
 
+#include <ConfigCatCppSDK/Include/configcat.h>
 #include <ConfigCatCppSDK/Include/configcatclient.h>
 #include <ConfigCatCppSDK/Include/configcatuser.h>
 #include <ConfigCatCppSDK/Include/fileoverridedatasource.h>
@@ -282,15 +283,13 @@ bool UConfigCatSubsystem::IsOffline() const
 
 void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	UE_LOG(LogConfigCat, Log, TEXT("ConfigCat Subsystem initialized"));
+	const FString CppSdkVersion = UTF8_TO_TCHAR(configcat::version);
+	UE_LOG(LogConfigCat, Display, TEXT("ConfigCat Subsystem initializing cpp-sdk - %s"), *CppSdkVersion);
 
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
 	const std::string& SdkKey = TCHAR_TO_UTF8(*ConfigCatSettings->SdkKey);
 
-	std::shared_ptr<ConfigCatNetworkAdapter> NetworkAdapter = std::make_shared<ConfigCatNetworkAdapter>();
-
 	ConfigCatOptions Options;
-	Options.httpSessionAdapter = NetworkAdapter;
 	Options.baseUrl = TCHAR_TO_UTF8(*ConfigCatSettings->BaseUrl);
 	Options.dataGovernance = ConfigCatSettings->DataGovernance == EDataGovernance::Global ? Global : EuOnly;
 	Options.connectTimeoutMs = ConfigCatSettings->ConnectionTimeout;
@@ -328,6 +327,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		Options.proxyAuthentications.emplace(ProxyKey, ProxyValue);
 	}
 
+	Options.httpSessionAdapter = std::make_shared<ConfigCatNetworkAdapter>(Options.pollingMode);
 	Options.logger = std::make_shared<FConfigCatLogger>();
 	Options.offline = ConfigCatSettings->bStartOffline;
 

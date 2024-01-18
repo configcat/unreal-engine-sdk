@@ -2,14 +2,32 @@
 
 #include "ConfigCatNetworkAdapter.h"
 
+#include <ConfigCatCppSDK/Include/pollingmode.h>
 #include <HttpManager.h>
 #include <HttpModule.h>
 #include <Interfaces/IHttpResponse.h>
+#include <Interfaces/IPluginManager.h>
 #include <Misc/ScopeExit.h>
 
 #include "ConfigCatLog.h"
 
 using namespace configcat;
+
+namespace
+{
+	const FString UserAgentHeaderName = TEXT("X-ConfigCat-UserAgent");
+}
+
+ConfigCatNetworkAdapter::ConfigCatNetworkAdapter(const std::shared_ptr<PollingMode>& InPollingMode)
+{
+	const TSharedPtr<IPlugin> Plugin = IPluginManager::Get().FindPlugin(TEXT("ConfigCat"));
+	const FString PluginVersion = Plugin ? Plugin->GetDescriptor().VersionName : TEXT("0.0.0");
+
+	const char* PollingModeIdentifier = InPollingMode ? InPollingMode->getPollingIdentifier() : "x";
+	const FString PollingMode = UTF8_TO_TCHAR(PollingModeIdentifier);
+
+	UserAgentVersion = FString::Printf(TEXT("ConfigCat-Unreal/%s-%s"), *PollingMode, *PluginVersion);
+}
 
 bool ConfigCatNetworkAdapter::init(uint32_t connectTimeoutMs, uint32_t readTimeoutMs)
 {
@@ -25,6 +43,8 @@ Response ConfigCatNetworkAdapter::get(
 	const std::string& url, const std::map<std::string, std::string>& header, const std::map<std::string, std::string>& proxies, const std::map<std::string, ProxyAuthentication>& proxyAuthentications
 )
 {
+	UE_LOG(LogConfigCat, Verbose, TEXT("Network Adapter performing GET request."));
+
 	GetRequest = FHttpModule::Get().CreateRequest();
 	ON_SCOPE_EXIT
 	{
@@ -43,6 +63,9 @@ Response ConfigCatNetworkAdapter::get(
 		const FString HeaderValue = UTF8_TO_TCHAR(it.second.c_str());
 		GetRequest->SetHeader(HeaderKey, HeaderValue);
 	}
+
+	// By default the cpp-sdk marks the UserAgent as ConfigCat-Cpp, we are going to override it with ConfigCat-Unreal
+	GetRequest->SetHeader(UserAgentHeaderName, UserAgentVersion);
 
 	const FString Url = UTF8_TO_TCHAR(url.c_str());
 	GetRequest->SetURL(Url);
