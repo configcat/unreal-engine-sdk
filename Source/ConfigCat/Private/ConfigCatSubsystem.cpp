@@ -292,16 +292,16 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	ConfigCatOptions Options;
 	Options.baseUrl = TCHAR_TO_UTF8(*ConfigCatSettings->BaseUrl);
 	Options.dataGovernance = ConfigCatSettings->DataGovernance == EDataGovernance::Global ? Global : EuOnly;
-	Options.connectTimeoutMs = ConfigCatSettings->ConnectionTimeout;
-	Options.readTimeoutMs = ConfigCatSettings->ReadTimeout;
+	Options.connectTimeoutMs = ConfigCatSettings->ConnectionTimeoutMs;
+	Options.readTimeoutMs = ConfigCatSettings->ReadTimeoutMs;
 
 	switch (ConfigCatSettings->PollingMode)
 	{
 	case EPollingMode::Auto:
-		Options.pollingMode = PollingMode::autoPoll(ConfigCatSettings->AutoPollInterval, ConfigCatSettings->MaxInitWaitTime);
+		Options.pollingMode = PollingMode::autoPoll(ConfigCatSettings->AutoPollIntervalSeconds, ConfigCatSettings->MaxInitWaitTimeSeconds);
 		break;
 	case EPollingMode::LazyLoad:
-		Options.pollingMode = PollingMode::lazyLoad(ConfigCatSettings->CacheRefreshInterval);
+		Options.pollingMode = PollingMode::lazyLoad(ConfigCatSettings->CacheRefreshIntervalSeconds);
 		break;
 	case EPollingMode::ManualPoll:
 		Options.pollingMode = PollingMode::manualPoll();
