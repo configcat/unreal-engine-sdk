@@ -287,10 +287,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
 	const std::string& SdkKey = TCHAR_TO_UTF8(*ConfigCatSettings->SdkKey);
 
-	std::shared_ptr<ConfigCatNetworkAdapter> NetworkAdapter = std::make_shared<ConfigCatNetworkAdapter>();
-
 	ConfigCatOptions Options;
-	Options.httpSessionAdapter = NetworkAdapter;
 	Options.baseUrl = TCHAR_TO_UTF8(*ConfigCatSettings->BaseUrl);
 	Options.dataGovernance = ConfigCatSettings->DataGovernance == EDataGovernance::Global ? Global : EuOnly;
 	Options.connectTimeoutMs = ConfigCatSettings->ConnectionTimeout;
@@ -328,6 +325,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		Options.proxyAuthentications.emplace(ProxyKey, ProxyValue);
 	}
 
+	Options.httpSessionAdapter = std::make_shared<ConfigCatNetworkAdapter>(Options.pollingMode);
 	Options.logger = std::make_shared<FConfigCatLogger>();
 	Options.offline = ConfigCatSettings->bStartOffline;
 
