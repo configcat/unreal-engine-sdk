@@ -2,6 +2,7 @@
 
 #include "ConfigCatSubsystem.h"
 
+#include <ConfigCatCppSDK/Include/configcat.h>
 #include <ConfigCatCppSDK/Include/configcatclient.h>
 #include <ConfigCatCppSDK/Include/configcatuser.h>
 #include <ConfigCatCppSDK/Include/fileoverridedatasource.h>
@@ -282,7 +283,8 @@ bool UConfigCatSubsystem::IsOffline() const
 
 void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	UE_LOG(LogConfigCat, Log, TEXT("ConfigCat Subsystem initialized"));
+	const FString CppSdkVersion = UTF8_TO_TCHAR(configcat::version);
+	UE_LOG(LogConfigCat, Display, TEXT("ConfigCat Subsystem initializing cpp-sdk - %s"), *CppSdkVersion);
 
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
 	const std::string& SdkKey = TCHAR_TO_UTF8(*ConfigCatSettings->SdkKey);
