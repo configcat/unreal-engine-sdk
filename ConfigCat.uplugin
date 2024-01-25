@@ -16,12 +16,14 @@
 		{
 			"Name": "ConfigCat",
 			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PreDefault",
+			"PlatformAllowList": [ "Win64", "Mac", "Linux", "Android", "iOS" ]
 		},
 		{
 			"Name": "ConfigCatEditor",
 			"Type": "Editor",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [ "Win64", "Mac", "Linux" ]
 		}
 	]
 }
