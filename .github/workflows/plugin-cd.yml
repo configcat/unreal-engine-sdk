@@ -164,7 +164,7 @@ jobs:
 
       - name: Archive files
         run: |
-          zip -r ConfigCat.zip . -x LICENSE
+          zip -r ConfigCat.zip . -x LICENSE ".github/*" ".git/*" @
 
       - uses: ncipollo/release-action@v1
         with:
