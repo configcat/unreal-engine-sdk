@@ -51,7 +51,7 @@ FDateTime FConfigCatEvaluationDetails::GetFetchTime() const
 	if (EvaluationDetails)
 	{
 		const auto TimeSinceEpoch = EvaluationDetails->fetchTime.time_since_epoch().count();
-		return FDateTime::FromUnixTimestampDecimal(TimeSinceEpoch);
+		return FDateTime::FromUnixTimestamp(TimeSinceEpoch);
 	}
 
 	return {};

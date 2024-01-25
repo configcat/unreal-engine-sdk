@@ -335,6 +335,13 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	SetupClientOverrides(Options);
 
 	ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
+
+#ifdef CONFIGCAT_HTTPTHREAD_WORKAROUND
+	if(ConfigCatSettings->PollingMode == EPollingMode::Auto)
+	{
+		ForceRefresh();
+	}
+#endif
 }
 
 void UConfigCatSubsystem::Deinitialize()

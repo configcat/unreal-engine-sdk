@@ -75,7 +75,9 @@ Response ConfigCatNetworkAdapter::get(
 		UE_LOG(LogConfigCat, Warning, TEXT("Unreal Engine doesn't have a built-in proxy for HTTPS requests, ignoring proxies."));
 	}
 
+#ifndef CONFIGCAT_HTTPTHREAD_WORKAROUND
 	GetRequest->SetDelegateThreadPolicy(EHttpRequestDelegateThreadPolicy::CompleteOnHttpThread);
+#endif
 	GetRequest->ProcessRequest();
 
 	while (GetRequest->GetStatus() == EHttpRequestStatus::Processing)
