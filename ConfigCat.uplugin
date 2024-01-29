@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"VersionName": "1.0.0",
+	"VersionName": "1.0.1",
 	"EngineVersion": "5.3",
 	"FriendlyName": "ConfigCat",
 	"Description": "ConfigCat is a hosted service for feature flag and configuration management. It lets you decouple feature releases from code deployments.",
@@ -16,12 +16,14 @@
 		{
 			"Name": "ConfigCat",
 			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PreDefault",
+			"PlatformAllowList": [ "Win64", "Mac", "Linux", "Android", "iOS" ]
 		},
 		{
 			"Name": "ConfigCatEditor",
 			"Type": "Editor",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [ "Win64", "Mac", "Linux" ]
 		}
 	]
 }
