@@ -283,11 +283,17 @@ bool UConfigCatSubsystem::IsOffline() const
 
 void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
+	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
+	if(!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
+	{
+		UE_LOG(LogConfigCat, Warning, TEXT("Empty SdkKey detected. Please set your SdkKey in the Project Settings."));
+		return;
+	}
+
+	const std::string& SdkKey = TCHAR_TO_UTF8(*ConfigCatSettings->SdkKey);
+
 	const FString CppSdkVersion = UTF8_TO_TCHAR(configcat::version);
 	UE_LOG(LogConfigCat, Display, TEXT("ConfigCat Subsystem initializing cpp-sdk - %s"), *CppSdkVersion);
-
-	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
-	const std::string& SdkKey = TCHAR_TO_UTF8(*ConfigCatSettings->SdkKey);
 
 	ConfigCatOptions Options;
 	Options.baseUrl = TCHAR_TO_UTF8(*ConfigCatSettings->BaseUrl);

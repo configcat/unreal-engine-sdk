@@ -18,14 +18,7 @@ public class ConfigCatCppSdk : ModuleRules
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Mac)
 		{ 
-			if (Target.Architecture.ToString().ToLower().Contains("arm64"))
-			{
-				AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "MacOS", "arm64-osx"), "*.a");
-			}
-			else
-			{
-				AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "MacOS", "x64-osx"), "*.a");
-			}
+			AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "MacOS", "universal-osx-unreal"), "*.a");
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
