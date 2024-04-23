@@ -10,7 +10,7 @@ FConfigCatLogger::FConfigCatLogger() : ILogger(LOG_LEVEL_DEBUG)
 {
 }
 
-void FConfigCatLogger::log(configcat::LogLevel level, const std::string& message)
+void FConfigCatLogger::log(configcat::LogLevel level, const std::string& message, const std::exception_ptr& exception)
 {
 	const FString& LogMessage = UTF8_TO_TCHAR(message.c_str());
 
@@ -31,5 +31,11 @@ void FConfigCatLogger::log(configcat::LogLevel level, const std::string& message
 	default:
 		UE_LOG(LogConfigCat, Log, TEXT("[CPP-SDK] %s"), *LogMessage);
 		break;
+	}
+
+	if(exception)
+	{
+		const FString ExceptionMessage = UTF8_TO_TCHAR(unwrap_exception_message(exception).c_str());
+		UE_LOG(LogConfigCat, Error, TEXT("[CPP-SDK] Exception: %s"), *ExceptionMessage);
 	}
 }
