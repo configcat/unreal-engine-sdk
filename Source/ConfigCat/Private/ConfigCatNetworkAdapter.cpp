@@ -101,7 +101,7 @@ Response ConfigCatNetworkAdapter::get(
 	if (!GetResponse)
 	{
 		Response.error = "Unreal Engine Network Adapter failed to launch request. Check logs";
-		Response.operationTimedOut = GetRequest->GetElapsedTime() > Timeout;
+		Response.errorCode = ResponseErrorCode::InternalError;
 		return Response;
 	}
 
