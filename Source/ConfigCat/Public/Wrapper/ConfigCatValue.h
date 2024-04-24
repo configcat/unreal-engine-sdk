@@ -2,16 +2,13 @@
 
 #pragma once
 
+#include <ConfigCatCppSDK/Include/config.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
 
 #include <memory>
+#include <optional>
 
 #include "ConfigCatValue.generated.h"
-
-namespace configcat
-{
-	struct Value;
-}
 
 /**
  * Wrapper class for configcat::Value
@@ -22,8 +19,8 @@ struct CONFIGCAT_API FConfigCatValue
 	GENERATED_BODY()
 
 	FConfigCatValue() = default;
-	FConfigCatValue(const configcat::Value& InValue);
-	FConfigCatValue(std::shared_ptr<configcat::Value> InValue);
+	FConfigCatValue(configcat::Value InValue);
+	FConfigCatValue(std::optional<configcat::Value> InValue);
 
 	bool HasAnyValue() const;
 	bool HasBooleanValue() const;
@@ -39,7 +36,7 @@ struct CONFIGCAT_API FConfigCatValue
 	/**
 	 * Internal feature flag value we want to expose in blueprints
 	 */
-	std::shared_ptr<configcat::Value> Value;
+	std::optional<configcat::Value> Value;
 };
 
 /**

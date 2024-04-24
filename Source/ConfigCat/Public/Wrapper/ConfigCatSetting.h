@@ -26,9 +26,6 @@ struct CONFIGCAT_API FConfigCatSetting
 	FConfigCatSetting() = default;
 	FConfigCatSetting(const configcat::Setting& InSetting);
 
-	FConfigCatValue GetSettingValue() const;
-	TArray<FConfigCatRolloutRule> GetSettingRolloutRules() const;
-	TArray<FConfigCatRolloutPercentageItem> GetSettingRolloutPercentageItem() const;
 	FString GetSettingVariationId() const;
 
 	/**
@@ -45,21 +42,6 @@ class CONFIGCAT_API UConfigCatSettingAccessorsBPLibrary : public UBlueprintFunct
 {
 	GENERATED_BODY()
 
-	/**
-	 * Gets the value of the feature flag / setting
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	static FConfigCatValue GetSettingValue(const FConfigCatSetting& Struct);
-	/**
-	 * Gets the rollout rules of the feature flag / setting
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	static TArray<FConfigCatRolloutRule> GetSettingRolloutRules(const FConfigCatSetting& Struct);
-	/**
-	 * Gets the rollout percentage items of the feature flag / setting
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	static TArray<FConfigCatRolloutPercentageItem> GetSettingRolloutPercentageItem(const FConfigCatSetting& Struct);
 	/**
 	 * Gets the variation identifier of the feature flag / setting
 	 */

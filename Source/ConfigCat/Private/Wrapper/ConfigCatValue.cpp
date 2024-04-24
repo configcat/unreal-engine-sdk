@@ -2,14 +2,12 @@
 
 #include "Wrapper/ConfigCatValue.h"
 
-#include <ConfigCatCppSDK/Include/config.h>
-
-FConfigCatValue::FConfigCatValue(const configcat::Value& InValue)
+FConfigCatValue::FConfigCatValue(configcat::Value InValue)
 {
-	Value = std::make_shared<configcat::Value>(InValue);
+	Value = InValue;
 }
 
-FConfigCatValue::FConfigCatValue(std::shared_ptr<configcat::Value> InValue)
+FConfigCatValue::FConfigCatValue(std::optional<configcat::Value> InValue)
 {
 	Value = InValue;
 }

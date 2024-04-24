@@ -8,14 +8,12 @@
 
 #include "ConfigCatEvaluationDetails.generated.h"
 
-struct FConfigCatRolloutPercentageItem;
-struct FConfigCatRolloutRule;
 struct FConfigCatUser;
 struct FConfigCatValue;
 
-namespace configcat
+namespace configcat 
 {
-	struct EvaluationDetails;
+	struct EvaluationDetailsBase;
 }
 
 /**
@@ -27,22 +25,20 @@ struct CONFIGCAT_API FConfigCatEvaluationDetails
 	GENERATED_BODY()
 
 	FConfigCatEvaluationDetails() = default;
-	FConfigCatEvaluationDetails(configcat::EvaluationDetails InDetails);
+	FConfigCatEvaluationDetails(const configcat::EvaluationDetailsBase& InDetails);
 
 	FString GetKey() const;
 	FConfigCatValue GetValue() const;
 	FString GetVariationId() const;
 	FDateTime GetFetchTime() const;
-	FConfigCatUser GetUser() const;
+	FConfigCatUserWrapper GetUser() const;
 	bool IsDefaultValue() const;
 	FString GetError() const;
-	FConfigCatRolloutRule GetRolloutRule() const;
-	FConfigCatRolloutPercentageItem GetRolloutPercentageItem() const;
 
 	/**
 	 * Internal evaluation details we want to expose in blueprints
 	 */
-	std::shared_ptr<configcat::EvaluationDetails> EvaluationDetails;
+	std::shared_ptr<configcat::EvaluationDetailsBase> EvaluationDetails;
 };
 
 /**
@@ -77,7 +73,7 @@ class CONFIGCAT_API UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlue
 	 * Gets the user the evaluation was performed against
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
-	static FConfigCatUser GetUser(const FConfigCatEvaluationDetails& Struct);
+	static FConfigCatUserWrapper GetUser(const FConfigCatEvaluationDetails& Struct);
 	/**
 	 * Gets if the value returned is the default value of the feature flag
 	 */
@@ -88,14 +84,4 @@ class CONFIGCAT_API UConfigCatEvaluationDetailsAccessorsBPLibrary : public UBlue
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	static FString GetError(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the matched rollout rule (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
-	static FConfigCatRolloutRule GetRolloutRule(const FConfigCatEvaluationDetails& Struct);
-	/**
-	 * Gets the matched rollout percentage item (if any)
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
-	static FConfigCatRolloutPercentageItem GetRolloutPercentageItem(const FConfigCatEvaluationDetails& Struct);
 };
