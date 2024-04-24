@@ -27,7 +27,7 @@ using namespace configcat;
 namespace
 {
 	template <typename T>
-	T GetValue(ConfigCatClient* Client, FString Key, T DefaultValue, const FConfigCatUser& User)
+	T GetValue(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const FConfigCatUser& User)
 	{
 		if (!ensure(Client))
 		{
@@ -371,16 +371,17 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 	TWeakObjectPtr<UConfigCatSubsystem> WeakThis(this);
 
 	Options.hooks->addOnError(
-		[WeakThis](const std::string& Error)
+		[WeakThis](const std::string& Error, const std::exception_ptr& Exception)
 		{
 			if (WeakThis.IsValid())
 			{
 				const FString& StringError = UTF8_TO_TCHAR(Error.c_str());
+				const FString& StringException = UTF8_TO_TCHAR(unwrap_exception_message(Exception).c_str());
 
-				UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s"), *StringError);
+				UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s Exception: %s"), *StringError, *StringException);
 
-				WeakThis->OnError.Broadcast(StringError);
-				WeakThis->OnErrorBp.Broadcast(StringError);
+				WeakThis->OnError.Broadcast(StringError, StringException);
+				WeakThis->OnErrorBp.Broadcast(StringError, StringException);
 			}
 		}
 	);
@@ -395,7 +396,7 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		}
 	);
 	Options.hooks->addOnConfigChanged(
-		[WeakThis](const std::shared_ptr<Settings>& Config)
+		[WeakThis](const std::shared_ptr<const Settings>& Config)
 		{
 			if (WeakThis.IsValid())
 			{
@@ -414,7 +415,7 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		}
 	);
 	Options.hooks->addOnFlagEvaluated(
-		[WeakThis](const EvaluationDetails& EvaluationDetails)
+		[WeakThis](const EvaluationDetailsBase& EvaluationDetails)
 		{
 			if (WeakThis.IsValid())
 			{

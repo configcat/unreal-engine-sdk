@@ -21,12 +21,12 @@ namespace configcat
 using FOnClientReady = FSimpleMulticastDelegate;
 using FOnConfigChanged = TMulticastDelegate<void(const FConfigCatConfig& Config)>;
 using FOnFlagEvaluated = TMulticastDelegate<void(const FConfigCatEvaluationDetails& Details)>;
-using FOnError = TMulticastDelegate<void(const FString& Error)>;
+using FOnError = TMulticastDelegate<void(const FString& Error, const FString& Exception)>;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClientReadyBP);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, const FConfigCatConfig&, Config);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagEvaluatedBp, const FConfigCatEvaluationDetails&, Details);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnErrorBp, const FString&, Error);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnErrorBp, const FString&, Error, const FString&, Exception);
 
 /**
  * Wrapper for accessing the configcat client. This subsystem is responsible for initializing and managing the client's lifecycle.
@@ -190,5 +190,5 @@ private:
 	/**
 	 * Internal pointer to the configcat client singleton.
 	 */
-	configcat::ConfigCatClient* ConfigCatClient;
+	std::shared_ptr<configcat::ConfigCatClient> ConfigCatClient;
 };
