@@ -31,5 +31,7 @@ public class ConfigCat : ModuleRules
 
 			PrivateDefinitions.Add("CONFIGCAT_HTTPTHREAD_WORKAROUND");
 		}
+		
+		bEnableExceptions = true;
 	}
 }
