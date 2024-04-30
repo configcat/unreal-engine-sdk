@@ -5,10 +5,18 @@
 
 #include "Wrapper/ConfigCatValueWrapper.h"
 
-UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(const configcat::EvaluationDetailsBase& EvaluationDetails)
+/*
+UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails)
+{
+	std::shared_ptr<configcat::EvaluationDetailsBase> EvaluationDetails = std::make_shared<configcat::EvaluationDetailsBase>(InEvaluationDetails);
+	return CreateEvaluation(EvaluationDetails);
+}
+*/
+
+UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails)
 {
 	UConfigCatEvaluationWrapper* Result = NewObject<UConfigCatEvaluationWrapper>();
-	// Result->SetValue(InValue);
+	Result->SetEvaluationDetails(InEvaluationDetails);
 	return Result;
 }
 
@@ -81,4 +89,9 @@ FString UConfigCatEvaluationWrapper::GetError() const
 	}
 
 	return {};
+}
+
+void UConfigCatEvaluationWrapper::SetEvaluationDetails(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails)
+{
+	EvaluationDetails = InEvaluationDetails;
 }

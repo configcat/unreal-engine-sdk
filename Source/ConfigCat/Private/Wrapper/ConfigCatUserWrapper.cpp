@@ -23,7 +23,7 @@ UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, cons
 		UserAttributes.emplace(AttributeKey, AttributeValue);
 	}
 
-	Result->SetUser(std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes));
+	Result->SetUser(ConfigCatUser::create(UserId, UserEmail, UserCountry, UserAttributes));
 
 	return Result;
 }

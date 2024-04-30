@@ -7,7 +7,7 @@
 
 #include "ConfigCatSubsystem.generated.h"
 
-class UConfigCatConfigWrapper;
+class UConfigCatSettingsWrapper;
 class UConfigCatEvaluationWrapper;
 class UConfigCatValueWrapper;
 
@@ -18,12 +18,12 @@ namespace configcat
 } // namespace configcat
 
 using FOnClientReady = FSimpleMulticastDelegate;
-using FOnConfigChanged = TMulticastDelegate<void(UConfigCatConfigWrapper* Config)>;
+using FOnConfigChanged = TMulticastDelegate<void(UConfigCatSettingsWrapper* Config)>;
 using FOnFlagEvaluated = TMulticastDelegate<void(UConfigCatEvaluationWrapper* Details)>;
 using FOnError = TMulticastDelegate<void(const FString& Error, const FString& Exception)>;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClientReadyBP);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, UConfigCatConfigWrapper*, Config);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, UConfigCatSettingsWrapper*, Config);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagEvaluatedBp, UConfigCatEvaluationWrapper*, Details);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnErrorBp, const FString&, Error, const FString&, Exception);
 

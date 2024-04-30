@@ -5,12 +5,10 @@
 
 UConfigCatValueWrapper* UConfigCatValueWrapper::CreateValue(configcat::Value InValue)
 {
-	UConfigCatValueWrapper* Result = NewObject<UConfigCatValueWrapper>();
-	Result->SetValue(InValue);
-	return Result;
+	return CreateValue(std::make_optional(InValue));
 }
 
-UConfigCatValueWrapper* UConfigCatValueWrapper::CreateValue(std::optional<configcat::Value> InValue)
+UConfigCatValueWrapper* UConfigCatValueWrapper::CreateValue(const std::optional<configcat::Value>& InValue)
 {
 	UConfigCatValueWrapper* Result = NewObject<UConfigCatValueWrapper>();
 	Result->SetValue(InValue);
@@ -82,7 +80,7 @@ double UConfigCatValueWrapper::GetDecimalValue() const
 	return {};
 }
 
-void UConfigCatValueWrapper::SetValue(std::optional<configcat::Value> InValue)
+void UConfigCatValueWrapper::SetValue(const std::optional<configcat::Value>& InValue)
 {
 	Value = InValue;
 }

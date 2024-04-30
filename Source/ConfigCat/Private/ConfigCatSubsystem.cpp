@@ -18,7 +18,7 @@
 #include "ConfigCatLogger.h"
 #include "ConfigCatNetworkAdapter.h"
 #include "ConfigCatSettings.h"
-#include "Wrapper/ConfigCatConfigWrapper.h"
+#include "Wrapper/ConfigCatSettingsWrapper.h"
 #include "Wrapper/ConfigCatEvaluationWrapper.h"
 #include "Wrapper/ConfigCatUserWrapper.h"
 #include "Wrapper/ConfigCatValueWrapper.h"
@@ -394,7 +394,7 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		{
 			if (WeakThis.IsValid())
 			{
-				UConfigCatConfigWrapper* Config = UConfigCatConfigWrapper::CreateConfig(InConfig);
+				UConfigCatSettingsWrapper* Config = UConfigCatSettingsWrapper::CreateSettings(InConfig);
 
 				WeakThis->OnConfigChanged.Broadcast(Config);
 				WeakThis->OnConfigChangedBp.Broadcast(Config);

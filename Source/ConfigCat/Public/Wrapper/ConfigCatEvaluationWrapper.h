@@ -14,26 +14,22 @@ class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
 	GENERATED_BODY()
 
 public:
-	static UConfigCatEvaluationWrapper* CreateEvaluation(const configcat::EvaluationDetailsBase& EvaluationDetails);
-	
+	// static UConfigCatEvaluationWrapper* CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails);
+	static UConfigCatEvaluationWrapper* CreateEvaluation(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails);
+
 	/**
      * Gets the identifier Key of the evaluated feature flag
      */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetKey() const;
 	/**
-	 * Gets the value of the evaluated feature flag
-	 */
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
-	UConfigCatValueWrapper* GetValue() const;
-	/**
 	 * Gets the variation identifier of the evaluated feature flag
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetVariationId() const;
 	/**
-	 * Gets the timestamp of the last fetch at the time of evaluation
-	 */
+     * Gets the timestamp of the last fetch at the time of evaluation
+     */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FDateTime GetFetchTime() const;
 	/**
@@ -51,7 +47,22 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetError() const;
+	/**
+	 *
+     */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	FString GetException() const;
+	// TODO: Create getters for:
+	//std::optional<TargetingRule> matchedTargetingRule;
+	//std::optional<PercentageOption> matchedPercentageOption;
+	/**
+	 * Gets the value of the evaluated feature flag
+	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UConfigCatValueWrapper* GetValue() const;
+
+	void SetEvaluationDetails(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails);
 
 private:
-	std::shared_ptr<configcat::EvaluationDetailsBase> EvaluationDetails;
+	std::shared_ptr<const configcat::EvaluationDetailsBase> EvaluationDetails;
 };

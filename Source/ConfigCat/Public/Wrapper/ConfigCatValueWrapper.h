@@ -15,7 +15,7 @@ class CONFIGCAT_API UConfigCatValueWrapper : public UObject
 
 public:
 	static UConfigCatValueWrapper* CreateValue(configcat::Value InValue);
-	static UConfigCatValueWrapper* CreateValue(std::optional<configcat::Value> InValue);
+	static UConfigCatValueWrapper* CreateValue(const std::optional<configcat::Value>& InValue);
 
 	/**
 	 * Checks if the struct holds any type value
@@ -64,7 +64,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	double GetDecimalValue() const;
 
-	void SetValue(std::optional<configcat::Value> InValue);
+	void SetValue(const std::optional<configcat::Value>& InValue);
 
 private:
 	std::optional<configcat::Value> Value;
