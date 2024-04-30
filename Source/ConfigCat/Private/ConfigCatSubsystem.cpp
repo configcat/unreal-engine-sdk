@@ -18,9 +18,10 @@
 #include "ConfigCatLogger.h"
 #include "ConfigCatNetworkAdapter.h"
 #include "ConfigCatSettings.h"
-#include "Wrapper/ConfigCatEvaluationDetails.h"
+#include "Wrapper/ConfigCatConfigWrapper.h"
+#include "Wrapper/ConfigCatEvaluationWrapper.h"
 #include "Wrapper/ConfigCatUserWrapper.h"
-#include "Wrapper/ConfigCatValue.h"
+#include "Wrapper/ConfigCatValueWrapper.h"
 
 using namespace configcat;
 
@@ -41,7 +42,7 @@ namespace
 	}
 
 	template <typename T>
-	EvaluationDetails<T> GetEvaluationDetails(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
+	UConfigCatEvaluationWrapper* GetEvaluationDetails(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
 		if (!ensure(Client))
 		{
@@ -51,7 +52,7 @@ namespace
 
 		const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
-		return Client->getValueDetails(FlagKey, DefaultValue, User->GetUser());
+		return UConfigCatEvaluationWrapper::CreateEvaluation(Client->getValueDetails(FlagKey, DefaultValue, User->GetUser()));
 	}
 } // namespace
 
@@ -85,7 +86,7 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& D
 	return UTF8_TO_TCHAR(StringResult.c_str());
 }
 
-FConfigCatValue UConfigCatSubsystem::GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User) const
+UConfigCatValueWrapper* UConfigCatSubsystem::GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User) const
 {
 	if (!ensure(ConfigCatClient))
 	{
@@ -94,27 +95,27 @@ FConfigCatValue UConfigCatSubsystem::GetConfigValue(const FString& Key, const UC
 	}
 
 	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
-
 	const std::optional<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, User->GetUser());
-	return FConfigCatValue(FeatureFlagValue);
+
+	return UConfigCatValueWrapper::CreateValue(FeatureFlagValue);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetBoolValueDetails(const FString& Key, bool DefaultValue, const UConfigCatUserWrapper* User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetBoolValueDetails(const FString& Key, bool DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetEvaluationDetails(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetIntValueDetails(const FString& Key, int DefaultValue, const UConfigCatUserWrapper* User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetIntValueDetails(const FString& Key, int DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetEvaluationDetails(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetDoubleValueDetails(const FString& Key, double DefaultValue, const UConfigCatUserWrapper* User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetDoubleValueDetails(const FString& Key, double DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetEvaluationDetails(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetStringValueDetails(const FString& Key, const FString& DefaultValue, const UConfigCatUserWrapper* User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetStringValueDetails(const FString& Key, const FString& DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	const std::string& StringDefaultValue = TCHAR_TO_UTF8(*DefaultValue);
 	return GetEvaluationDetails(ConfigCatClient, Key, StringDefaultValue, User);
@@ -139,7 +140,7 @@ TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 	return Result;
 }
 
-bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, FConfigCatValue& OutValue) const
+bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, UConfigCatValueWrapper*& OutValue) const
 {
 	if (!ensure(ConfigCatClient))
 	{
@@ -157,11 +158,11 @@ bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& Ou
 	}
 
 	OutKey = UTF8_TO_TCHAR(KeyValue->key.c_str());
-	OutValue = KeyValue->value;
+	OutValue = UConfigCatValueWrapper::CreateValue(KeyValue->value);
 	return true;
 }
 
-TMap<FString, FConfigCatValue> UConfigCatSubsystem::GetAllValues(const UConfigCatUserWrapper* User) const
+TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const UConfigCatUserWrapper* User) const
 {
 	if (!ensure(ConfigCatClient))
 	{
@@ -171,16 +172,16 @@ TMap<FString, FConfigCatValue> UConfigCatSubsystem::GetAllValues(const UConfigCa
 
 	const std::unordered_map<std::string, Value> Values = ConfigCatClient->getAllValues(User->GetUser());
 
-	TMap<FString, FConfigCatValue> Result;
+	TMap<FString, UConfigCatValueWrapper*> Result;
 	for (const std::pair<const std::string, Value>& Value : Values)
 	{
-		Result.Emplace(UTF8_TO_TCHAR(Value.first.c_str()), Value.second);
+		Result.Emplace(UTF8_TO_TCHAR(Value.first.c_str()), UConfigCatValueWrapper::CreateValue(Value.second));
 	}
 
 	return Result;
 }
 
-TArray<FConfigCatEvaluationDetails> UConfigCatSubsystem::GetAllValueDetails(const UConfigCatUserWrapper* User) const
+TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(const UConfigCatUserWrapper* User) const
 {
 	if (!ensure(ConfigCatClient))
 	{
@@ -190,10 +191,10 @@ TArray<FConfigCatEvaluationDetails> UConfigCatSubsystem::GetAllValueDetails(cons
 
 	const std::vector<EvaluationDetails<Value>> ValueDetails = ConfigCatClient->getAllValueDetails(User->GetUser());
 
-	TArray<FConfigCatEvaluationDetails> Result;
+	TArray<UConfigCatEvaluationWrapper*> Result;
 	for (const EvaluationDetails<Value>& ValueDetail : ValueDetails)
 	{
-		Result.Emplace(ValueDetail);
+		Result.Emplace(UConfigCatEvaluationWrapper::CreateEvaluation(ValueDetail));
 	}
 
 	return Result;
@@ -277,7 +278,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 #endif
 
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
-	if(!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
+	if (!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
 	{
 		UE_LOG(LogConfigCat, Warning, TEXT("Empty SdkKey detected. Please set your SdkKey in the Project Settings."));
 		return;
@@ -389,29 +390,24 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		}
 	);
 	Options.hooks->addOnConfigChanged(
-		[WeakThis](const std::shared_ptr<const Settings>& Config)
+		[WeakThis](const std::shared_ptr<const Settings>& InConfig)
 		{
 			if (WeakThis.IsValid())
 			{
-				FConfigCatConfig NewConfig;
-				if (Config)
-				{
-					for (const std::pair<const std::string, Setting>& Setting : *Config)
-					{
-						NewConfig.Settings.Emplace(UTF8_TO_TCHAR(Setting.first.c_str()), Setting.second);
-					}
-				}
+				UConfigCatConfigWrapper* Config = UConfigCatConfigWrapper::CreateConfig(InConfig);
 
-				WeakThis->OnConfigChanged.Broadcast(NewConfig);
-				WeakThis->OnConfigChangedBp.Broadcast(NewConfig);
+				WeakThis->OnConfigChanged.Broadcast(Config);
+				WeakThis->OnConfigChangedBp.Broadcast(Config);
 			}
 		}
 	);
 	Options.hooks->addOnFlagEvaluated(
-		[WeakThis](const EvaluationDetailsBase& EvaluationDetails)
+		[WeakThis](const EvaluationDetailsBase& InEvaluationDetails)
 		{
 			if (WeakThis.IsValid())
 			{
+				UConfigCatEvaluationWrapper* EvaluationDetails = UConfigCatEvaluationWrapper::CreateEvaluation(InEvaluationDetails);
+
 				WeakThis->OnFlagEvaluated.Broadcast(EvaluationDetails);
 				WeakThis->OnFlagEvaluatedBp.Broadcast(EvaluationDetails);
 			}

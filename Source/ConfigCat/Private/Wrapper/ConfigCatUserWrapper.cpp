@@ -6,18 +6,10 @@
 
 using namespace configcat;
 
-UConfigCatUserWrapper::UConfigCatUserWrapper()
+UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
 {
-}
+	UConfigCatUserWrapper* Result = NewObject<UConfigCatUserWrapper>();
 
-UConfigCatUserWrapper::UConfigCatUserWrapper(std::shared_ptr<configcat::ConfigCatUser> InUser)
-{
-	User = InUser;
-}
-
-/*
-UWrapperConfigCatUser::UWrapperConfigCatUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
-{
 	const std::string& UserId = TCHAR_TO_UTF8(*Id);
 	const std::string& UserEmail = TCHAR_TO_UTF8(*Email);
 	const std::string& UserCountry = TCHAR_TO_UTF8(*Country);
@@ -31,9 +23,10 @@ UWrapperConfigCatUser::UWrapperConfigCatUser(const FString& Id, const FString& E
 		UserAttributes.emplace(AttributeKey, AttributeValue);
 	}
 
-	User = std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes);
+	Result->SetUser(std::make_shared<ConfigCatUser>(UserId, UserEmail, UserCountry, UserAttributes));
+
+	return Result;
 }
-*/
 
 FString UConfigCatUserWrapper::GetIdentifier() const
 {
@@ -128,6 +121,11 @@ bool UConfigCatUserWrapper::HasStringArrayAttribute(const FString& Key) const
 std::shared_ptr<configcat::ConfigCatUser> UConfigCatUserWrapper::GetUser() const
 {
 	return User;
+}
+
+void UConfigCatUserWrapper::SetUser(std::shared_ptr<configcat::ConfigCatUser> InUser)
+{
+	User = InUser;
 }
 
 const configcat::ConfigCatUser::AttributeValue* UConfigCatUserWrapper::GetUserAttributeForKey(const FString& Key) const

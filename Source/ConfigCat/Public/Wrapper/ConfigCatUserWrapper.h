@@ -3,21 +3,19 @@
 #pragma once
 
 #include <ConfigCatCppSDK/Include/configcatuser.h>
-#include <Kismet/BlueprintFunctionLibrary.h>
 
 #include <memory>
 
 #include "ConfigCatUserWrapper.generated.h"
 
 UCLASS(DisplayName="Config Cat User", Hidden)
-class UConfigCatUserWrapper : public UObject
+class CONFIGCAT_API UConfigCatUserWrapper : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UConfigCatUserWrapper();
-	UConfigCatUserWrapper(std::shared_ptr<configcat::ConfigCatUser> InUser);
-	// UWrapperConfigCatUser(const FString& Id, const FString& Email = TEXT(""), const FString& Country = TEXT(""), const TMap<FString, FString>& Attributes = {});
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
+	static UConfigCatUserWrapper* CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
 
 	/**
      * Gets the Id of a ConfigCatUser
@@ -46,7 +44,7 @@ public:
 	bool HasStringArrayAttribute(const FString& Key) const;
 
 	std::shared_ptr<configcat::ConfigCatUser> GetUser() const;
-	
+	void SetUser(std::shared_ptr<configcat::ConfigCatUser> InUser);
 
 private:
 	const configcat::ConfigCatUser::AttributeValue* GetUserAttributeForKey(const FString& Key) const;

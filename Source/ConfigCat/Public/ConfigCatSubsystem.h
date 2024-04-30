@@ -5,27 +5,26 @@
 #include <CoreMinimal.h>
 #include <Subsystems/GameInstanceSubsystem.h>
 
-#include "Wrapper/ConfigCatSetting.h"
-#include "Wrapper/ConfigCatUserWrapper.h"
-
 #include "ConfigCatSubsystem.generated.h"
 
-struct FConfigCatEvaluationDetails;
+class UConfigCatConfigWrapper;
+class UConfigCatEvaluationWrapper;
+class UConfigCatValueWrapper;
+
 namespace configcat
 {
 	struct ConfigCatOptions;
 	class ConfigCatClient;
-	class ConfigCatUser;
 } // namespace configcat
 
 using FOnClientReady = FSimpleMulticastDelegate;
-using FOnConfigChanged = TMulticastDelegate<void(const FConfigCatConfig& Config)>;
-using FOnFlagEvaluated = TMulticastDelegate<void(const FConfigCatEvaluationDetails& Details)>;
+using FOnConfigChanged = TMulticastDelegate<void(UConfigCatConfigWrapper* Config)>;
+using FOnFlagEvaluated = TMulticastDelegate<void(UConfigCatEvaluationWrapper* Details)>;
 using FOnError = TMulticastDelegate<void(const FString& Error, const FString& Exception)>;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClientReadyBP);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, const FConfigCatConfig&, Config);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagEvaluatedBp, const FConfigCatEvaluationDetails&, Details);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, UConfigCatConfigWrapper*, Config);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagEvaluatedBp, UConfigCatEvaluationWrapper*, Details);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnErrorBp, const FString&, Error, const FString&, Exception);
 
 /**
@@ -66,27 +65,27 @@ public:
 	 * Gets a feature flag of variant value for a specific key. Optionally takes in a target user.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "Get Config Value", Category = "ConfigCat", meta = (AdvancedDisplay = "User", AutoCreateRefTerm = "User"))
-	FConfigCatValue GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User = nullptr) const;
+	UConfigCatValueWrapper* GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Gets the evaluation details of a feature flag of bool value for a specific key. Optionally takes in a target user.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "Get Value Details(Boolean)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
-	FConfigCatEvaluationDetails GetBoolValueDetails(const FString& Key, bool DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
+	UConfigCatEvaluationWrapper* GetBoolValueDetails(const FString& Key, bool DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Gets the evaluation details of a feature flag of integer value for a specific key. Optionally takes in a target user.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "Get Value Details(Integer)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
-	FConfigCatEvaluationDetails GetIntValueDetails(const FString& Key, int DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
+	UConfigCatEvaluationWrapper* GetIntValueDetails(const FString& Key, int DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Gets the evaluation details of a feature flag of decimal (double) value for a specific key. Optionally takes in a target user.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "Get Value Details(Double)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
-	FConfigCatEvaluationDetails GetDoubleValueDetails(const FString& Key, double DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
+	UConfigCatEvaluationWrapper* GetDoubleValueDetails(const FString& Key, double DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Gets the evaluation details of a feature flag of string value for a specific key. Optionally takes in a target user.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "Get Value Details(String)", Category = "ConfigCat", meta = (AdvancedDisplay = "DefaultValue, User", AutoCreateRefTerm = "User"))
-	FConfigCatEvaluationDetails GetStringValueDetails(const FString& Key, const FString& DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
+	UConfigCatEvaluationWrapper* GetStringValueDetails(const FString& Key, const FString& DefaultValue, const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Gets all the setting keys.
 	 */
@@ -96,17 +95,17 @@ public:
 	 * Gets the key of a setting and it's value identified by the given Variation ID (analytics)
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat")
-	bool GetKeyAndValue(const FString& VariationId, FString& OutKey, FConfigCatValue& OutValue) const;
+	bool GetKeyAndValue(const FString& VariationId, FString& OutKey, UConfigCatValueWrapper*& OutValue) const;
 	/**
 	 * Gets the values of all feature flags or settings.
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat", meta = (AdvancedDisplay = "User", AutoCreateRefTerm = "User"))
-	TMap<FString, FConfigCatValue> GetAllValues(const UConfigCatUserWrapper* User = nullptr) const;
+	TMap<FString, UConfigCatValueWrapper*> GetAllValues(const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Gets the values along with evaluation details of all feature flags and settings.
 	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat", meta = (AdvancedDisplay = "User", AutoCreateRefTerm = "User"))
-	TArray<FConfigCatEvaluationDetails> GetAllValueDetails(const UConfigCatUserWrapper* User = nullptr) const;
+	TArray<UConfigCatEvaluationWrapper*> GetAllValueDetails(const UConfigCatUserWrapper* User = nullptr) const;
 	/**
 	 * Initiates a force refresh synchronously on the cached configuration.
 	 */
