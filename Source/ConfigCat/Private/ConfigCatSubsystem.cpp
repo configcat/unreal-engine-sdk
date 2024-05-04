@@ -38,7 +38,7 @@ namespace
 
 		const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
-		return Client->getValue(FlagKey, DefaultValue, User->GetUser());
+		return Client->getValue(FlagKey, DefaultValue, User ? User->GetUser() : nullptr);
 	}
 
 	template <typename T>
