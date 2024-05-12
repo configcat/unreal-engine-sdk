@@ -43,11 +43,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
 	bool HasStringArrayAttribute(const FString& Key) const;
 
-	std::shared_ptr<configcat::ConfigCatUser> GetUser() const;
-	void SetUser(std::shared_ptr<configcat::ConfigCatUser> InUser);
-
+	std::shared_ptr<configcat::ConfigCatUser> User;
+	
 private:
 	const configcat::ConfigCatUser::AttributeValue* GetUserAttributeForKey(const FString& Key) const;
-	
-	std::shared_ptr<configcat::ConfigCatUser> User;
 };

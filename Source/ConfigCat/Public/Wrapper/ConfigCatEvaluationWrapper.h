@@ -14,8 +14,7 @@ class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
 	GENERATED_BODY()
 
 public:
-	// static UConfigCatEvaluationWrapper* CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails);
-	static UConfigCatEvaluationWrapper* CreateEvaluation(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails);
+	static UConfigCatEvaluationWrapper* CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails);
 
 	/**
      * Gets the identifier Key of the evaluated feature flag
@@ -61,8 +60,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	UConfigCatValueWrapper* GetValue() const;
 
-	void SetEvaluationDetails(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails);
+	void SetEvaluationDetails(const configcat::EvaluationDetailsBase& InEvaluationDetails);
 
 private:
-	std::shared_ptr<const configcat::EvaluationDetailsBase> EvaluationDetails;
+	std::shared_ptr<configcat::EvaluationDetails<>> Details;
 };

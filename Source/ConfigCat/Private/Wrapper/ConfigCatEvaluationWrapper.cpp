@@ -1,19 +1,12 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Wrapper/ConfigCatEvaluationWrapper.h"
 
 #include "Wrapper/ConfigCatValueWrapper.h"
 
-/*
-UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails)
-{
-	std::shared_ptr<configcat::EvaluationDetailsBase> EvaluationDetails = std::make_shared<configcat::EvaluationDetailsBase>(InEvaluationDetails);
-	return CreateEvaluation(EvaluationDetails);
-}
-*/
+using namespace configcat;
 
-UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails)
+UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(const EvaluationDetailsBase& InEvaluationDetails)
 {
 	UConfigCatEvaluationWrapper* Result = NewObject<UConfigCatEvaluationWrapper>();
 	Result->SetEvaluationDetails(InEvaluationDetails);
@@ -22,9 +15,9 @@ UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(std::
 
 FString UConfigCatEvaluationWrapper::GetKey() const
 {
-	if (EvaluationDetails)
+	if (Details)
 	{
-		return UTF8_TO_TCHAR(EvaluationDetails->key.c_str());
+		return UTF8_TO_TCHAR(Details->key.c_str());
 	}
 
 	return {};
@@ -32,9 +25,9 @@ FString UConfigCatEvaluationWrapper::GetKey() const
 
 UConfigCatValueWrapper* UConfigCatEvaluationWrapper::GetValue() const
 {
-	if (EvaluationDetails)
+	if (Details)
 	{
-		return UConfigCatValueWrapper::CreateValue(EvaluationDetails->value());
+		return UConfigCatValueWrapper::CreateValue(Details->value);
 	}
 
 	return {};
@@ -42,9 +35,9 @@ UConfigCatValueWrapper* UConfigCatEvaluationWrapper::GetValue() const
 
 FString UConfigCatEvaluationWrapper::GetVariationId() const
 {
-	if (EvaluationDetails && EvaluationDetails->variationId.has_value())
+	if (Details && Details->variationId.has_value())
 	{
-		return UTF8_TO_TCHAR(EvaluationDetails->variationId.value().c_str());
+		return UTF8_TO_TCHAR(Details->variationId.value().c_str());
 	}
 
 	return {};
@@ -52,9 +45,9 @@ FString UConfigCatEvaluationWrapper::GetVariationId() const
 
 FDateTime UConfigCatEvaluationWrapper::GetFetchTime() const
 {
-	if (EvaluationDetails)
+	if (Details)
 	{
-		const auto TimeSinceEpoch = EvaluationDetails->fetchTime.time_since_epoch().count();
+		const auto TimeSinceEpoch = Details->fetchTime.time_since_epoch().count();
 		return FDateTime::FromUnixTimestamp(TimeSinceEpoch);
 	}
 
@@ -63,9 +56,9 @@ FDateTime UConfigCatEvaluationWrapper::GetFetchTime() const
 
 UConfigCatUserWrapper* UConfigCatEvaluationWrapper::GetUser() const
 {
-	if (EvaluationDetails)
+	if (Details)
 	{
-		// return FConfigCatUserWrapper(EvaluationDetails->user);
+		// return FConfigCatUserWrapper(Details->user);
 	}
 
 	return {};
@@ -73,9 +66,9 @@ UConfigCatUserWrapper* UConfigCatEvaluationWrapper::GetUser() const
 
 bool UConfigCatEvaluationWrapper::IsDefaultValue() const
 {
-	if (EvaluationDetails)
+	if (Details)
 	{
-		return EvaluationDetails->isDefaultValue;
+		return Details->isDefaultValue;
 	}
 
 	return {};
@@ -83,15 +76,20 @@ bool UConfigCatEvaluationWrapper::IsDefaultValue() const
 
 FString UConfigCatEvaluationWrapper::GetError() const
 {
-	if (EvaluationDetails && EvaluationDetails->errorMessage.has_value())
+	if (Details && Details->errorMessage.has_value())
 	{
-		return UTF8_TO_TCHAR(EvaluationDetails->errorMessage.value().c_str());
+		return UTF8_TO_TCHAR(Details->errorMessage.value().c_str());
 	}
 
 	return {};
 }
 
-void UConfigCatEvaluationWrapper::SetEvaluationDetails(std::shared_ptr<const configcat::EvaluationDetailsBase> InEvaluationDetails)
+FString UConfigCatEvaluationWrapper::GetException() const
 {
-	EvaluationDetails = InEvaluationDetails;
+	return {};
+}
+
+void UConfigCatEvaluationWrapper::SetEvaluationDetails(const EvaluationDetailsBase& InEvaluationDetails)
+{
+	Details = std::make_shared<EvaluationDetails<>>(to_concrete(InEvaluationDetails));
 }

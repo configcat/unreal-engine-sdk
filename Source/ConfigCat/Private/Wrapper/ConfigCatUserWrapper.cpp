@@ -23,7 +23,7 @@ UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, cons
 		UserAttributes.emplace(AttributeKey, AttributeValue);
 	}
 
-	Result->SetUser(ConfigCatUser::create(UserId, UserEmail, UserCountry, UserAttributes));
+	Result->User = ConfigCatUser::create(UserId, UserEmail, UserCountry, UserAttributes);
 
 	return Result;
 }
@@ -118,17 +118,7 @@ bool UConfigCatUserWrapper::HasStringArrayAttribute(const FString& Key) const
 	return Attribute && std::holds_alternative<std::vector<std::string>>(*Attribute);
 }
 
-std::shared_ptr<configcat::ConfigCatUser> UConfigCatUserWrapper::GetUser() const
-{
-	return User;
-}
-
-void UConfigCatUserWrapper::SetUser(std::shared_ptr<configcat::ConfigCatUser> InUser)
-{
-	User = InUser;
-}
-
-const configcat::ConfigCatUser::AttributeValue* UConfigCatUserWrapper::GetUserAttributeForKey(const FString& Key) const
+const ConfigCatUser::AttributeValue* UConfigCatUserWrapper::GetUserAttributeForKey(const FString& Key) const
 {
 	if (!User)
 	{

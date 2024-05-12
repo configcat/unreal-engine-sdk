@@ -8,6 +8,15 @@
 
 #include "ConfigCatSettingsWrapper.generated.h"
 
+UENUM()
+enum EConfigCatSettingTypeWrapper
+{
+	Boolean = 0,
+	String = 1,
+	Int = 2,
+	Double = 3,
+};
+
 UCLASS(DisplayName="Config Cat Settings", Hidden)
 class UConfigCatSettingWrapper : public UObject 
 {
@@ -16,19 +25,23 @@ class UConfigCatSettingWrapper : public UObject
 public:
 	static UConfigCatSettingWrapper* CreateSetting(const configcat::Setting& InSetting);
 
-	// TODO: Create getters using 'UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")' for:
-	// SettingType type = static_cast<SettingType>(-1);
-	// std::optional<std::string> percentageOptionsAttribute;
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	bool HasInvalidType() const;
+	
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	EConfigCatSettingTypeWrapper GetType() const;
+	
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	FString GetPercentageOptionsAttribute() const;
+	
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	FString GetVariationId() const;
+
+	//TODO: add these:
 	// TargetingRules targetingRules;
 	// PercentageOptions percentageOptions;
 	// SettingValue value;
-	// std::optional<std::string> variationId;
-	// inline bool hasInvalidType() const { return type < SettingType::Boolean || SettingType::Double < type; }
-	// SettingType getTypeChecked() const;
 
-	void SetSetting(const configcat::Setting& InSetting);
-
-private:
 	configcat::Setting Setting;
 };
 

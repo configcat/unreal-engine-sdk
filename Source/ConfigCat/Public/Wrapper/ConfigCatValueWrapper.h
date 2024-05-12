@@ -64,8 +64,5 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Value")
 	double GetDecimalValue() const;
 
-	void SetValue(const std::optional<configcat::Value>& InValue);
-
-private:
 	std::optional<configcat::Value> Value;
 };
