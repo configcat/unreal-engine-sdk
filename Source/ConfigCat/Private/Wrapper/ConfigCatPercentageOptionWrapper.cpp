@@ -1,9 +1,10 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
+﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
 #include "Wrapper/ConfigCatPercentageOptionWrapper.h"
 
-UConfigCatPercentageOptionWrapper* UConfigCatPercentageOptionWrapper::CreatePercentageOptions(const configcat::PercentageOption& InPercentageOptions)
+UConfigCatPercentageOptionWrapper* UConfigCatPercentageOptionWrapper::CreatePercentageOption(const configcat::PercentageOption& InPercentageOption)
 {
-	return {};
+	UConfigCatPercentageOptionWrapper* Result = NewObject<UConfigCatPercentageOptionWrapper>();
+	Result->PercentageOption = InPercentageOption;
+	return Result;
 }

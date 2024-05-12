@@ -1,21 +1,19 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "ConfigCatCppSDK/Include/config.h"
-#include "UObject/Object.h"
+
 #include "ConfigCatTargetingRuleWrapper.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class CONFIGCAT_API UConfigCatTargetingRuleWrapper : public UObject
+UCLASS(DisplayName="Config Cat Targeting Rule", Hidden)
+class UConfigCatTargetingRuleWrapper : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	static UConfigCatTargetingRuleWrapper* CreateTargetingRules(const configcat::TargetingRule& InPercentageOptions);
+	static UConfigCatTargetingRuleWrapper* CreateTargetingRule(const configcat::TargetingRule& InTargetingRule);
+
+	configcat::TargetingRule TargetingRule;
 };
 

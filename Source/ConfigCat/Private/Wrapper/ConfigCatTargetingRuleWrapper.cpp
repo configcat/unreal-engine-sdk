@@ -1,9 +1,10 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
+﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
 #include "Wrapper/ConfigCatTargetingRuleWrapper.h"
 
-UConfigCatTargetingRuleWrapper* UConfigCatTargetingRuleWrapper::CreateTargetingRules(const configcat::TargetingRule& InPercentageOptions)
+UConfigCatTargetingRuleWrapper* UConfigCatTargetingRuleWrapper::CreateTargetingRule(const configcat::TargetingRule& InTargetingRule)
 {
-	return {};
+	UConfigCatTargetingRuleWrapper* Result = NewObject<UConfigCatTargetingRuleWrapper>();
+	Result->TargetingRule = InTargetingRule;
+	return Result;
 }
