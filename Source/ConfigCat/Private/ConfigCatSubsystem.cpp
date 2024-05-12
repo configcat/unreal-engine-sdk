@@ -18,7 +18,7 @@
 #include "ConfigCatLogger.h"
 #include "ConfigCatNetworkAdapter.h"
 #include "ConfigCatSettings.h"
-#include "Wrapper/ConfigCatSettingsWrapper.h"
+#include "Wrappers/ConfigCatSettingsWrapper.h"
 #include "Wrapper/ConfigCatEvaluationWrapper.h"
 #include "Wrappers/ConfigCatUserWrapper.h"
 #include "Wrappers/ConfigCatValueWrapper.h"

@@ -8,8 +8,6 @@ using namespace configcat;
 
 UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
 {
-	UConfigCatUserWrapper* Result = NewObject<UConfigCatUserWrapper>();
-
 	const std::string& UserId = TCHAR_TO_UTF8(*Id);
 	const std::string& UserEmail = TCHAR_TO_UTF8(*Email);
 	const std::string& UserCountry = TCHAR_TO_UTF8(*Country);
@@ -23,8 +21,13 @@ UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, cons
 		UserAttributes.emplace(AttributeKey, AttributeValue);
 	}
 
-	Result->User = ConfigCatUser::create(UserId, UserEmail, UserCountry, UserAttributes);
+	return CreateUser(ConfigCatUser::create(UserId, UserEmail, UserCountry, UserAttributes));
+}
 
+UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const std::shared_ptr<configcat::ConfigCatUser>& InUser)
+{
+	UConfigCatUserWrapper* Result = NewObject<UConfigCatUserWrapper>();
+	Result->User = InUser;
 	return Result;
 }
 

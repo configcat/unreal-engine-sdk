@@ -5,17 +5,17 @@
 #include "CoreMinimal.h"
 #include "ConfigCatCppSDK/Include/config.h"
 #include "UObject/Object.h"
-#include "ConfigCatTargetingRulesWrapper.generated.h"
+#include "ConfigCatTargetingRuleWrapper.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CONFIGCAT_API UConfigCatTargetingRulesWrapper : public UObject
+class CONFIGCAT_API UConfigCatTargetingRuleWrapper : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	static UConfigCatTargetingRulesWrapper* CreateTargetingRules(const configcat::TargetingRules& InPercentageOptions);
+	static UConfigCatTargetingRuleWrapper* CreateTargetingRules(const configcat::TargetingRule& InPercentageOptions);
 };
 

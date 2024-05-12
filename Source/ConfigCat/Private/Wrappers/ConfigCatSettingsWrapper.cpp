@@ -2,8 +2,8 @@
 
 #include "Wrappers/ConfigCatSettingsWrapper.h"
 
-#include "Wrapper/ConfigCatPercentageOptionsWrapper.h"
-#include "Wrapper/ConfigCatTargetingRulesWrapper.h"
+#include "Wrapper/ConfigCatPercentageOptionWrapper.h"
+#include "Wrapper/ConfigCatTargetingRuleWrapper.h"
 #include "Wrappers/ConfigCatValueWrapper.h"
 
 using namespace configcat;
@@ -50,14 +50,26 @@ UConfigCatValueWrapper* UConfigCatSettingWrapper::GetValue() const
 	return UConfigCatValueWrapper::CreateValue(Setting.value);
 }
 
-UConfigCatTargetingRulesWrapper* UConfigCatSettingWrapper::GetTargetingRules() const
+TArray<UConfigCatTargetingRuleWrapper*> UConfigCatSettingWrapper::GetTargetingRules() const
 {
-	return UConfigCatTargetingRulesWrapper::CreateTargetingRules(Setting.targetingRules);
+	TArray<UConfigCatTargetingRuleWrapper*> Result;
+	for(const auto& Rule : Setting.targetingRules)
+	{
+		Result.Add(UConfigCatTargetingRuleWrapper::CreateTargetingRules(Rule));
+	}
+	
+	return Result;
 }
 
-UConfigCatPercentageOptionsWrapper* UConfigCatSettingWrapper::GetPercentageOptions() const
+TArray<UConfigCatPercentageOptionWrapper*> UConfigCatSettingWrapper::GetPercentageOptions() const
 {
-	return UConfigCatPercentageOptionsWrapper::CreatePercentageOptions(Setting.percentageOptions);
+	TArray<UConfigCatPercentageOptionWrapper*> Result;
+	for(const auto& Option : Setting.percentageOptions)
+	{
+		Result.Add(UConfigCatPercentageOptionWrapper::CreatePercentageOptions(Option));
+	}
+	
+	return Result;
 }
 
 UConfigCatSettingsWrapper* UConfigCatSettingsWrapper::CreateSettings(const std::shared_ptr<const configcat::Settings>& InSettings)

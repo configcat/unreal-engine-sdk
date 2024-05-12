@@ -1,9 +1,9 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Wrapper/ConfigCatTargetingRulesWrapper.h"
+#include "Wrapper/ConfigCatTargetingRuleWrapper.h"
 
-UConfigCatTargetingRulesWrapper* UConfigCatTargetingRulesWrapper::CreateTargetingRules(const configcat::TargetingRules& InPercentageOptions)
+UConfigCatTargetingRuleWrapper* UConfigCatTargetingRuleWrapper::CreateTargetingRules(const configcat::TargetingRule& InPercentageOptions)
 {
 	return {};
 }

@@ -4,9 +4,14 @@
 
 #include <ConfigCatCppSDK/Include/evaluationdetails.h>
 
-#include <optional>
+#include <memory>
 
 #include "ConfigCatEvaluationWrapper.generated.h"
+
+class UConfigCatPercentageOptionWrapper;
+class UConfigCatTargetingRuleWrapper;
+class UConfigCatUserWrapper;
+class UConfigCatValueWrapper;
 
 UCLASS(DisplayName="Config Cat Evaluation", Hidden)
 class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
@@ -16,52 +21,26 @@ class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
 public:
 	static UConfigCatEvaluationWrapper* CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails);
 
-	/**
-     * Gets the identifier Key of the evaluated feature flag
-     */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetKey() const;
-	/**
-	 * Gets the variation identifier of the evaluated feature flag
-	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetVariationId() const;
-	/**
-     * Gets the timestamp of the last fetch at the time of evaluation
-     */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FDateTime GetFetchTime() const;
-	/**
-	 * Gets the user the evaluation was performed against
-	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	UConfigCatUserWrapper* GetUser() const;
-	/**
-	 * Gets if the value returned is the default value of the feature flag
-	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	bool IsDefaultValue() const;
-	/**
-	 * Gets the error associated with the evaluation (if any)
-	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetError() const;
-	/**
-	 *
-     */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	FString GetException() const;
-	// TODO: Create getters for:
-	//std::optional<TargetingRule> matchedTargetingRule;
-	//std::optional<PercentageOption> matchedPercentageOption;
-	/**
-	 * Gets the value of the evaluated feature flag
-	 */
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UConfigCatTargetingRuleWrapper* GetMatchedTargetingRule() const;
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UConfigCatPercentageOptionWrapper* GetMatchedPercentageOption() const;
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
 	UConfigCatValueWrapper* GetValue() const;
 
-	void SetEvaluationDetails(const configcat::EvaluationDetailsBase& InEvaluationDetails);
-
-private:
-	std::shared_ptr<configcat::EvaluationDetails<>> Details;
+	std::shared_ptr<configcat::EvaluationDetails<>> EvaluationDetails;
 };

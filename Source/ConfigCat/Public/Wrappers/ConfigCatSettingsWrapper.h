@@ -8,8 +8,8 @@
 
 #include "ConfigCatSettingsWrapper.generated.h"
 
-class UConfigCatPercentageOptionsWrapper;
-class UConfigCatTargetingRulesWrapper;
+class UConfigCatPercentageOptionWrapper;
+class UConfigCatTargetingRuleWrapper;
 class UConfigCatValueWrapper;
 
 UENUM(BlueprintType)
@@ -45,10 +45,10 @@ public:
 	UConfigCatValueWrapper* GetValue() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	UConfigCatTargetingRulesWrapper* GetTargetingRules() const;
+	TArray<UConfigCatTargetingRuleWrapper*> GetTargetingRules() const;
 
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	UConfigCatPercentageOptionsWrapper* GetPercentageOptions() const;
+	TArray<UConfigCatPercentageOptionWrapper*> GetPercentageOptions() const;
 
 	configcat::Setting Setting;
 };

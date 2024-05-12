@@ -16,6 +16,7 @@ class CONFIGCAT_API UConfigCatUserWrapper : public UObject
 public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
 	static UConfigCatUserWrapper* CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
+	static UConfigCatUserWrapper* CreateUser(const std::shared_ptr<configcat::ConfigCatUser>& InUser);
 
 	/**
      * Gets the Id of a ConfigCatUser
