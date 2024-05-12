@@ -1,9 +1,14 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
+#include "Wrappers/ConfigCatValueWrapper.h"
 
-#include "Wrapper/ConfigCatValueWrapper.h"
+UConfigCatValueWrapper* UConfigCatValueWrapper::CreateValue(const configcat::SettingValue& InValue)
+{
+	// This leverages the operator std::optional<Value> from configcat::SettingValue  
+	return CreateValue(std::optional<configcat::Value>(InValue));
+}
 
-UConfigCatValueWrapper* UConfigCatValueWrapper::CreateValue(configcat::Value InValue)
+UConfigCatValueWrapper* UConfigCatValueWrapper::CreateValue(const configcat::Value& InValue)
 {
 	return CreateValue(std::make_optional(InValue));
 }

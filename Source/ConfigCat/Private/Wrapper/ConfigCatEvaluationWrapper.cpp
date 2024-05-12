@@ -2,7 +2,7 @@
 
 #include "Wrapper/ConfigCatEvaluationWrapper.h"
 
-#include "Wrapper/ConfigCatValueWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 using namespace configcat;
 

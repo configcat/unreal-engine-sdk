@@ -20,8 +20,8 @@
 #include "ConfigCatSettings.h"
 #include "Wrapper/ConfigCatSettingsWrapper.h"
 #include "Wrapper/ConfigCatEvaluationWrapper.h"
-#include "Wrapper/ConfigCatUserWrapper.h"
-#include "Wrapper/ConfigCatValueWrapper.h"
+#include "Wrappers/ConfigCatUserWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 using namespace configcat;
 
