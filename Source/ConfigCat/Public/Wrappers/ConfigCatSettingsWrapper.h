@@ -8,8 +8,12 @@
 
 #include "ConfigCatSettingsWrapper.generated.h"
 
-UENUM()
-enum EConfigCatSettingTypeWrapper
+class UConfigCatPercentageOptionsWrapper;
+class UConfigCatTargetingRulesWrapper;
+class UConfigCatValueWrapper;
+
+UENUM(BlueprintType)
+enum EConfigCatSettingTypeWrapper : uint8
 {
 	Boolean = 0,
 	String = 1,
@@ -17,7 +21,7 @@ enum EConfigCatSettingTypeWrapper
 	Double = 3,
 };
 
-UCLASS(DisplayName="Config Cat Settings", Hidden)
+UCLASS(DisplayName="Config Cat Setting", Hidden)
 class UConfigCatSettingWrapper : public UObject 
 {
 	GENERATED_BODY()
@@ -26,27 +30,31 @@ public:
 	static UConfigCatSettingWrapper* CreateSetting(const configcat::Setting& InSetting);
 
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	FString GetVariationId() const;
+
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	FString GetPercentageOptionsAttribute() const;
+	
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
 	bool HasInvalidType() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
 	EConfigCatSettingTypeWrapper GetType() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	FString GetPercentageOptionsAttribute() const;
+	UConfigCatValueWrapper* GetValue() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	FString GetVariationId() const;
+	UConfigCatTargetingRulesWrapper* GetTargetingRules() const;
 
-	//TODO: add these:
-	// TargetingRules targetingRules;
-	// PercentageOptions percentageOptions;
-	// SettingValue value;
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UConfigCatPercentageOptionsWrapper* GetPercentageOptions() const;
 
 	configcat::Setting Setting;
 };
 
 UCLASS(DisplayName="Config Cat Settings", Hidden)
-class CONFIGCAT_API UConfigCatSettingsWrapper : public UObject
+class UConfigCatSettingsWrapper : public UObject
 {
 	GENERATED_BODY()
 
@@ -56,8 +64,5 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Settings")
 	TMap<FString, UConfigCatSettingWrapper*> GetSettings() const;
 
-	void SetSettings(const std::shared_ptr<const configcat::Settings>& InSettings);
-	
-private:
 	std::shared_ptr<const configcat::Settings> Settings;
 };

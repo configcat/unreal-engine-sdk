@@ -1,6 +1,10 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Wrapper/ConfigCatSettingsWrapper.h"
+#include "Wrappers/ConfigCatSettingsWrapper.h"
+
+#include "Wrapper/ConfigCatPercentageOptionsWrapper.h"
+#include "Wrapper/ConfigCatTargetingRulesWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 using namespace configcat;
 
@@ -41,10 +45,25 @@ FString UConfigCatSettingWrapper::GetVariationId() const
 	return {};
 }
 
+UConfigCatValueWrapper* UConfigCatSettingWrapper::GetValue() const
+{
+	return UConfigCatValueWrapper::CreateValue(Setting.value);
+}
+
+UConfigCatTargetingRulesWrapper* UConfigCatSettingWrapper::GetTargetingRules() const
+{
+	return UConfigCatTargetingRulesWrapper::CreateTargetingRules(Setting.targetingRules);
+}
+
+UConfigCatPercentageOptionsWrapper* UConfigCatSettingWrapper::GetPercentageOptions() const
+{
+	return UConfigCatPercentageOptionsWrapper::CreatePercentageOptions(Setting.percentageOptions);
+}
+
 UConfigCatSettingsWrapper* UConfigCatSettingsWrapper::CreateSettings(const std::shared_ptr<const configcat::Settings>& InSettings)
 {
 	UConfigCatSettingsWrapper* Result = NewObject<UConfigCatSettingsWrapper>();
-	Result->SetSettings(InSettings);
+	Result->Settings = InSettings;
 	return Result;
 }
 
@@ -63,9 +82,4 @@ TMap<FString, UConfigCatSettingWrapper*> UConfigCatSettingsWrapper::GetSettings(
 	}
 
 	return Result;
-}
-
-void UConfigCatSettingsWrapper::SetSettings(const std::shared_ptr<const configcat::Settings>& InSettings)
-{
-	Settings = InSettings;
 }
