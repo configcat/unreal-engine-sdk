@@ -1,6 +1,6 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Wrapper/ConfigCatEvaluationWrapper.h"
+#include "Wrappers/ConfigCatEvaluationWrapper.h"
 
 #include "ConfigCatCppSDK/Include/log.h"
 #include "Wrapper/ConfigCatPercentageOptionWrapper.h"

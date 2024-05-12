@@ -6,6 +6,8 @@
 
 #include "ConfigCatPercentageOptionWrapper.generated.h"
 
+class UConfigCatValueWrapper;
+
 UCLASS(DisplayName="Config Cat Percentage Option", Hidden)
 class UConfigCatPercentageOptionWrapper : public UObject
 {
@@ -13,6 +15,15 @@ class UConfigCatPercentageOptionWrapper : public UObject
 
 public:
 	static UConfigCatPercentageOptionWrapper* CreatePercentageOption(const configcat::PercentageOption& InPercentageOption);
+
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|PercentageOption")
+	uint8 GetPercentage() const;
+
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|PercentageOption")
+	FString GetVariationId() const;
+	
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|PercentageOption")
+	UConfigCatValueWrapper* GetValue() const;
 	
 	configcat::PercentageOption PercentageOption;
 };
