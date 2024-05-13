@@ -1,6 +1,6 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "Wrapper/ConfigCatPercentageOptionWrapper.h"
+#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
 
 #include "Wrappers/ConfigCatValueWrapper.h"
 

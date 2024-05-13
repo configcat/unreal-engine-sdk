@@ -19,7 +19,7 @@
 #include "ConfigCatNetworkAdapter.h"
 #include "ConfigCatSettings.h"
 #include "Wrappers/ConfigCatSettingsWrapper.h"
-#include "Wrapper/ConfigCatEvaluationWrapper.h"
+#include "Wrappers/ConfigCatEvaluationWrapper.h"
 #include "Wrappers/ConfigCatUserWrapper.h"
 #include "Wrappers/ConfigCatValueWrapper.h"
 

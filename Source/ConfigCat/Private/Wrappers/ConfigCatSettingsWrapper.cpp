@@ -2,7 +2,7 @@
 
 #include "Wrappers/ConfigCatSettingsWrapper.h"
 
-#include "Wrapper/ConfigCatPercentageOptionWrapper.h"
+#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
 #include "Wrapper/ConfigCatTargetingRuleWrapper.h"
 #include "Wrappers/ConfigCatValueWrapper.h"
 
@@ -55,7 +55,7 @@ TArray<UConfigCatTargetingRuleWrapper*> UConfigCatSettingWrapper::GetTargetingRu
 	TArray<UConfigCatTargetingRuleWrapper*> Result;
 	for(const auto& Rule : Setting.targetingRules)
 	{
-		Result.Add(UConfigCatTargetingRuleWrapper::CreateTargetingRules(Rule));
+		Result.Add(UConfigCatTargetingRuleWrapper::CreateTargetingRule(Rule));
 	}
 	
 	return Result;
@@ -66,7 +66,7 @@ TArray<UConfigCatPercentageOptionWrapper*> UConfigCatSettingWrapper::GetPercenta
 	TArray<UConfigCatPercentageOptionWrapper*> Result;
 	for(const auto& Option : Setting.percentageOptions)
 	{
-		Result.Add(UConfigCatPercentageOptionWrapper::CreatePercentageOptions(Option));
+		Result.Add(UConfigCatPercentageOptionWrapper::CreatePercentageOption(Option));
 	}
 	
 	return Result;

@@ -3,7 +3,7 @@
 #include "Wrappers/ConfigCatEvaluationWrapper.h"
 
 #include "ConfigCatCppSDK/Include/log.h"
-#include "Wrapper/ConfigCatPercentageOptionWrapper.h"
+#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
 #include "Wrapper/ConfigCatTargetingRuleWrapper.h"
 #include "Wrappers/ConfigCatUserWrapper.h"
 #include "Wrappers/ConfigCatValueWrapper.h"
@@ -99,7 +99,7 @@ UConfigCatTargetingRuleWrapper* UConfigCatEvaluationWrapper::GetMatchedTargeting
 {
 	if(EvaluationDetails && EvaluationDetails->matchedTargetingRule)
 	{
-		return UConfigCatTargetingRuleWrapper::CreateTargetingRules(EvaluationDetails->matchedTargetingRule.value());
+		return UConfigCatTargetingRuleWrapper::CreateTargetingRule(EvaluationDetails->matchedTargetingRule.value());
 	}
 
 	return {};
@@ -109,7 +109,7 @@ UConfigCatPercentageOptionWrapper* UConfigCatEvaluationWrapper::GetMatchedPercen
 {
 	if(EvaluationDetails && EvaluationDetails->matchedPercentageOption)
 	{
-		return UConfigCatPercentageOptionWrapper::CreatePercentageOptions(EvaluationDetails->matchedPercentageOption.value());
+		return UConfigCatPercentageOptionWrapper::CreatePercentageOption(EvaluationDetails->matchedPercentageOption.value());
 	}
 
 	return {};
