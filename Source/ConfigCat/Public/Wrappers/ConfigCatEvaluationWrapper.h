@@ -4,6 +4,7 @@
 
 #include <ConfigCatCppSDK/Include/evaluationdetails.h>
 
+#include "Misc/DateTime.h"
 #include <memory>
 
 #include "ConfigCatEvaluationWrapper.generated.h"
