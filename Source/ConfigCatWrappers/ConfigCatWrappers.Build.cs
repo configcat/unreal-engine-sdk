@@ -20,5 +20,7 @@ public class ConfigCatWrappers : ModuleRules
 		});
 		
 		PrivateIncludePaths.Add("ThirdParty");
+        
+		bEnableExceptions = true;
 	}
 }

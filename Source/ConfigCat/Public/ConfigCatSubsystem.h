@@ -4,6 +4,7 @@
 
 #include <CoreMinimal.h>
 #include <Subsystems/GameInstanceSubsystem.h>
+#include <memory>
 
 #include "ConfigCatSubsystem.generated.h"
 
