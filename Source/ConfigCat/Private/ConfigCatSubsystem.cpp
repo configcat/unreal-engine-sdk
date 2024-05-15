@@ -52,7 +52,7 @@ namespace
 
 		const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
-		return UConfigCatEvaluationWrapper::CreateEvaluation(Client->getValueDetails(FlagKey, DefaultValue, User->User));
+		return UConfigCatEvaluationWrapper::CreateEvaluation(Client->getValueDetails(FlagKey, DefaultValue, User ? User->User : nullptr));
 	}
 } // namespace
 
@@ -95,7 +95,7 @@ UConfigCatValueWrapper* UConfigCatSubsystem::GetConfigValue(const FString& Key, 
 	}
 
 	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
-	const std::optional<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, User->User);
+	const std::optional<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, User ? User->User : nullptr);
 
 	return UConfigCatValueWrapper::CreateValue(FeatureFlagValue);
 }
@@ -170,7 +170,7 @@ TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const U
 		return {};
 	}
 
-	const std::unordered_map<std::string, Value> Values = ConfigCatClient->getAllValues(User->User);
+	const std::unordered_map<std::string, Value> Values = ConfigCatClient->getAllValues(User ? User->User : nullptr);
 
 	TMap<FString, UConfigCatValueWrapper*> Result;
 	for (const std::pair<const std::string, Value>& Value : Values)
@@ -189,7 +189,7 @@ TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(con
 		return {};
 	}
 
-	const std::vector<EvaluationDetails<Value>> ValueDetails = ConfigCatClient->getAllValueDetails(User->User);
+	const std::vector<EvaluationDetails<Value>> ValueDetails = ConfigCatClient->getAllValueDetails(User ? User->User : nullptr);
 
 	TArray<UConfigCatEvaluationWrapper*> Result;
 	for (const EvaluationDetails<Value>& ValueDetail : ValueDetails)
@@ -218,7 +218,7 @@ void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
-	if (!User->User)
+	if (!User || !User->User)
 	{
 		UE_LOG(LogConfigCat, Warning, TEXT("Trying to set Default User with invalid pointer."));
 		return;
