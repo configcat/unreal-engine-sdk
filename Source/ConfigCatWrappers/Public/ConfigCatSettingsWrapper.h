@@ -15,7 +15,7 @@ class UConfigCatValueWrapper;
 UENUM(BlueprintType)
 enum EConfigCatSettingTypeWrapper : uint8
 {
-	Boolean = 0,
+	Bool = 0,
 	String = 1,
 	Int = 2,
 	Double = 3,
