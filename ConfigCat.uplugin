@@ -20,6 +20,12 @@
 			"PlatformAllowList": [ "Win64", "Mac", "Linux", "Android", "iOS" ]
 		},
 		{
+			"Name": "ConfigCatWrappers",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"PlatformAllowList": [ "Win64", "Mac", "Linux", "Android", "iOS" ]
+		},
+		{
 			"Name": "ConfigCatEditor",
 			"Type": "Editor",
 			"LoadingPhase": "Default",
