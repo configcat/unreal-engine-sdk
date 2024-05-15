@@ -53,7 +53,7 @@ enum class EConfigCatUserComparator : uint8
 	Invalid
 };
 
-UCLASS(DisplayName="Config Cat User Condition", Hidden)
+UCLASS(DisplayName="Config Cat User Condition")
 class CONFIGCATWRAPPERS_API UConfigCatUserConditionWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -84,7 +84,7 @@ enum class EConfigCatPrerequisiteFlagComparator : uint8
 	Invalid
 };
 
-UCLASS(DisplayName="Config Cat Prerequisite Flag Condition", Hidden)
+UCLASS(DisplayName="Config Cat Prerequisite Flag Condition")
 class CONFIGCATWRAPPERS_API UConfigCatPrerequisiteFlagConditionWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -110,7 +110,7 @@ enum class EConfigCatSegmentComparator : uint8
 	Invalid
 };
 
-UCLASS(DisplayName="Config Cat Segment Condition", Hidden)
+UCLASS(DisplayName="Config Cat Segment Condition")
 class CONFIGCATWRAPPERS_API UConfigCatSegmentConditionWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -151,7 +151,7 @@ struct FConfigCatThenContainer
 	TArray<UConfigCatPercentageOptionWrapper*> PercentageOptions;
 };
 
-UCLASS(DisplayName="Config Cat Targeting Rule", Hidden)
+UCLASS(DisplayName="Config Cat Targeting Rule")
 class CONFIGCATWRAPPERS_API UConfigCatTargetingRuleWrapper : public UObject
 {
 	GENERATED_BODY()
