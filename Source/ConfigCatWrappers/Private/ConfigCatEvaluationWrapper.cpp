@@ -1,12 +1,13 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Wrappers/ConfigCatEvaluationWrapper.h"
+#include "ConfigCatEvaluationWrapper.h"
 
 #include "ConfigCatCppSDK/Include/log.h"
-#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
-#include "Wrapper/ConfigCatTargetingRuleWrapper.h"
-#include "Wrappers/ConfigCatUserWrapper.h"
-#include "Wrappers/ConfigCatValueWrapper.h"
+
+#include "ConfigCatPercentageOptionWrapper.h"
+#include "ConfigCatTargetingRuleWrapper.h"
+#include "ConfigCatUserWrapper.h"
+#include "ConfigCatValueWrapper.h"
 
 UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails)
 {

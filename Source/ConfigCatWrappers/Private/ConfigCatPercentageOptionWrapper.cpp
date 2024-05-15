@@ -1,8 +1,8 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
+#include "ConfigCatPercentageOptionWrapper.h"
 
-#include "Wrappers/ConfigCatValueWrapper.h"
+#include "ConfigCatValueWrapper.h"
 
 UConfigCatPercentageOptionWrapper* UConfigCatPercentageOptionWrapper::CreatePercentageOption(const configcat::PercentageOption& InPercentageOption)
 {

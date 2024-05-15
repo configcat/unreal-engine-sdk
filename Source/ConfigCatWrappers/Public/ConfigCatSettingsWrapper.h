@@ -22,7 +22,7 @@ enum EConfigCatSettingTypeWrapper : uint8
 };
 
 UCLASS(DisplayName="Config Cat Setting", Hidden)
-class UConfigCatSettingWrapper : public UObject 
+class CONFIGCATWRAPPERS_API UConfigCatSettingWrapper : public UObject 
 {
 	GENERATED_BODY()
 
@@ -54,7 +54,7 @@ public:
 };
 
 UCLASS(DisplayName="Config Cat Settings", Hidden)
-class UConfigCatSettingsWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatSettingsWrapper : public UObject
 {
 	GENERATED_BODY()
 

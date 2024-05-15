@@ -54,7 +54,7 @@ enum class EConfigCatUserComparator : uint8
 };
 
 UCLASS(DisplayName="Config Cat User Condition", Hidden)
-class UConfigCatUserConditionWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatUserConditionWrapper : public UObject
 {
 	GENERATED_BODY()
 
@@ -85,7 +85,7 @@ enum class EConfigCatPrerequisiteFlagComparator : uint8
 };
 
 UCLASS(DisplayName="Config Cat Prerequisite Flag Condition", Hidden)
-class UConfigCatPrerequisiteFlagConditionWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatPrerequisiteFlagConditionWrapper : public UObject
 {
 	GENERATED_BODY()
 
@@ -111,7 +111,7 @@ enum class EConfigCatSegmentComparator : uint8
 };
 
 UCLASS(DisplayName="Config Cat Segment Condition", Hidden)
-class UConfigCatSegmentConditionWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatSegmentConditionWrapper : public UObject
 {
 	GENERATED_BODY()
 
@@ -127,7 +127,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FConfigCatConditionContainer
+struct CONFIGCATWRAPPERS_API FConfigCatConditionContainer
 {
 	GENERATED_BODY()
 	
@@ -152,7 +152,7 @@ struct FConfigCatThenContainer
 };
 
 UCLASS(DisplayName="Config Cat Targeting Rule", Hidden)
-class UConfigCatTargetingRuleWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatTargetingRuleWrapper : public UObject
 {
 	GENERATED_BODY()
 

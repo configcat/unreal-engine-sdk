@@ -1,17 +1,5 @@
-﻿#include "ConfigCatWrappers.h"
+﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#define LOCTEXT_NAMESPACE "FConfigCatWrappersModule"
+#include "ConfigCatWrappers.h"
 
-void FConfigCatWrappersModule::StartupModule()
-{
-    
-}
-
-void FConfigCatWrappersModule::ShutdownModule()
-{
-    
-}
-
-#undef LOCTEXT_NAMESPACE
-    
 IMPLEMENT_MODULE(FConfigCatWrappersModule, ConfigCatWrappers)

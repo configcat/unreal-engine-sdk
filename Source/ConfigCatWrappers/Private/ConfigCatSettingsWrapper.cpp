@@ -1,10 +1,10 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Wrappers/ConfigCatSettingsWrapper.h"
+#include "ConfigCatSettingsWrapper.h"
 
-#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
-#include "Wrapper/ConfigCatTargetingRuleWrapper.h"
-#include "Wrappers/ConfigCatValueWrapper.h"
+#include "ConfigCatPercentageOptionWrapper.h"
+#include "ConfigCatTargetingRuleWrapper.h"
+#include "ConfigCatValueWrapper.h"
 
 using namespace configcat;
 

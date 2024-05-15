@@ -9,7 +9,7 @@
 #include "ConfigCatUserWrapper.generated.h"
 
 UCLASS(DisplayName="Config Cat User", Hidden)
-class CONFIGCAT_API UConfigCatUserWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatUserWrapper : public UObject
 {
 	GENERATED_BODY()
 

@@ -2,25 +2,23 @@
 
 public class ConfigCatWrappers : ModuleRules
 {
-    public ConfigCatWrappers(ReadOnlyTargetRules Target) : base(Target)
-    {
-        PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+	public ConfigCatWrappers(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PublicDependencyModuleNames.AddRange(new[]
+		{
+			"Core",
+			"CoreUObject",
+			"DeveloperSettings",
+			"Projects",
+			"Engine",
+			"HTTP"
+		});
 
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core",
-            }
-        );
-
-        PrivateDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "CoreUObject",
-                "Engine",
-                "Slate",
-                "SlateCore"
-            }
-        );
-    }
+		PrivateDependencyModuleNames.AddRange(new[]
+		{
+			"ConfigCatCppSdk"
+		});
+		
+		PrivateIncludePaths.Add("ThirdParty");
+	}
 }

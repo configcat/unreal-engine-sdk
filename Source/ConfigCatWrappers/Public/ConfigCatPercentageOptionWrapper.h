@@ -9,7 +9,7 @@
 class UConfigCatValueWrapper;
 
 UCLASS(DisplayName="Config Cat Percentage Option", Hidden)
-class UConfigCatPercentageOptionWrapper : public UObject
+class CONFIGCATWRAPPERS_API UConfigCatPercentageOptionWrapper : public UObject
 {
 	GENERATED_BODY()
 
