@@ -1,4 +1,6 @@
-﻿using UnrealBuildTool;
+﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
+
+using UnrealBuildTool;
 
 public class ConfigCatWrappers : ModuleRules
 {
