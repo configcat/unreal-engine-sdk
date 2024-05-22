@@ -54,7 +54,7 @@ FString UConfigCatUserWrapper::GetStringAttribute(const FString& Key) const
 
 double UConfigCatUserWrapper::GetNumberAttribute(const FString& Key) const
 {
-	if (HasStringAttribute(Key))
+	if (HasNumberAttribute(Key))
 	{
 		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
 		return std::get<double>(*Attribute);
@@ -65,7 +65,7 @@ double UConfigCatUserWrapper::GetNumberAttribute(const FString& Key) const
 
 FDateTime UConfigCatUserWrapper::GetTimeAttribute(const FString& Key) const
 {
-	if (HasStringAttribute(Key))
+	if (HasTimeAttribute(Key))
 	{
 		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
 		const auto TimeSinceEpoch = std::get<date_time_t>(*Attribute).time_since_epoch().count();
@@ -77,7 +77,7 @@ FDateTime UConfigCatUserWrapper::GetTimeAttribute(const FString& Key) const
 
 TArray<FString> UConfigCatUserWrapper::GetStringArrayAttribute(const FString& Key) const
 {
-	if (HasStringAttribute(Key))
+	if (HasStringArrayAttribute(Key))
 	{
 		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
 		TArray<FString> Result;

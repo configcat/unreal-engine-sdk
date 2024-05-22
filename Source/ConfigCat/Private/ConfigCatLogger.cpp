@@ -33,7 +33,7 @@ void FConfigCatLogger::log(configcat::LogLevel level, const std::string& message
 		break;
 	}
 
-	if(exception)
+	if (exception)
 	{
 		const FString ExceptionMessage = UTF8_TO_TCHAR(unwrap_exception_message(exception).c_str());
 		UE_LOG(LogConfigCat, Error, TEXT("[CPP-SDK] Exception: %s"), *ExceptionMessage);

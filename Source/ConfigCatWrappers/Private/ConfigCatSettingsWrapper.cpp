@@ -27,7 +27,7 @@ EConfigCatSettingTypeWrapper UConfigCatSettingWrapper::GetType() const
 
 FString UConfigCatSettingWrapper::GetPercentageOptionsAttribute() const
 {
-	if(Setting.percentageOptionsAttribute)
+	if (Setting.percentageOptionsAttribute)
 	{
 		return UTF8_TO_TCHAR(Setting.percentageOptionsAttribute.value().c_str());
 	}
@@ -37,7 +37,7 @@ FString UConfigCatSettingWrapper::GetPercentageOptionsAttribute() const
 
 FString UConfigCatSettingWrapper::GetVariationId() const
 {
-	if(Setting.variationId)
+	if (Setting.variationId)
 	{
 		return UTF8_TO_TCHAR(Setting.variationId.value().c_str());
 	}
@@ -53,7 +53,7 @@ UConfigCatValueWrapper* UConfigCatSettingWrapper::GetValue() const
 TArray<UConfigCatTargetingRuleWrapper*> UConfigCatSettingWrapper::GetTargetingRules() const
 {
 	TArray<UConfigCatTargetingRuleWrapper*> Result;
-	for(const auto& Rule : Setting.targetingRules)
+	for (const auto& Rule : Setting.targetingRules)
 	{
 		Result.Add(UConfigCatTargetingRuleWrapper::CreateTargetingRule(Rule));
 	}
@@ -64,7 +64,7 @@ TArray<UConfigCatTargetingRuleWrapper*> UConfigCatSettingWrapper::GetTargetingRu
 TArray<UConfigCatPercentageOptionWrapper*> UConfigCatSettingWrapper::GetPercentageOptions() const
 {
 	TArray<UConfigCatPercentageOptionWrapper*> Result;
-	for(const auto& Option : Setting.percentageOptions)
+	for (const auto& Option : Setting.percentageOptions)
 	{
 		Result.Add(UConfigCatPercentageOptionWrapper::CreatePercentageOption(Option));
 	}

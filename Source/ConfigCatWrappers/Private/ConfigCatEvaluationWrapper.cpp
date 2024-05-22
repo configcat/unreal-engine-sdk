@@ -89,7 +89,7 @@ FString UConfigCatEvaluationWrapper::GetError() const
 
 FString UConfigCatEvaluationWrapper::GetException() const
 {
-	if(EvaluationDetails && EvaluationDetails->errorException)
+	if (EvaluationDetails && EvaluationDetails->errorException)
 	{
 		return UTF8_TO_TCHAR(unwrap_exception_message(EvaluationDetails->errorException).c_str());
 	}
@@ -98,7 +98,7 @@ FString UConfigCatEvaluationWrapper::GetException() const
 
 UConfigCatTargetingRuleWrapper* UConfigCatEvaluationWrapper::GetMatchedTargetingRule() const
 {
-	if(EvaluationDetails && EvaluationDetails->matchedTargetingRule)
+	if (EvaluationDetails && EvaluationDetails->matchedTargetingRule)
 	{
 		return UConfigCatTargetingRuleWrapper::CreateTargetingRule(EvaluationDetails->matchedTargetingRule.value());
 	}
@@ -108,7 +108,7 @@ UConfigCatTargetingRuleWrapper* UConfigCatEvaluationWrapper::GetMatchedTargeting
 
 UConfigCatPercentageOptionWrapper* UConfigCatEvaluationWrapper::GetMatchedPercentageOption() const
 {
-	if(EvaluationDetails && EvaluationDetails->matchedPercentageOption)
+	if (EvaluationDetails && EvaluationDetails->matchedPercentageOption)
 	{
 		return UConfigCatPercentageOptionWrapper::CreatePercentageOption(EvaluationDetails->matchedPercentageOption.value());
 	}

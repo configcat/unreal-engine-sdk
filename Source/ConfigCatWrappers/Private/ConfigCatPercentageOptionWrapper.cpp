@@ -18,7 +18,7 @@ uint8 UConfigCatPercentageOptionWrapper::GetPercentage() const
 
 FString UConfigCatPercentageOptionWrapper::GetVariationId() const
 {
-	if(PercentageOption.variationId)
+	if (PercentageOption.variationId)
 	{
 		return UTF8_TO_TCHAR(PercentageOption.variationId.value().c_str());
 	}
