@@ -24,9 +24,9 @@ private:
 	virtual bool init(uint32_t connectTimeoutMs, uint32_t readTimeoutMs) override;
 	virtual configcat::Response
 	get(const std::string& url,
-		const std::map<std::string, std::string>& header,
-		const std::map<std::string, std::string>& proxies,
-		const std::map<std::string, configcat::ProxyAuthentication>& proxyAuthentications) override;
+	    const std::map<std::string, std::string>& header,
+	    const std::map<std::string, std::string>& proxies,
+	    const std::map<std::string, configcat::ProxyAuthentication>& proxyAuthentications) override;
 	virtual void close() override;
 	// End configcat::HttpSessionAdapter interface
 	/*

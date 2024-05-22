@@ -81,8 +81,8 @@ TArray<FString> UConfigCatUserWrapper::GetStringArrayAttribute(const FString& Ke
 	{
 		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
 		TArray<FString> Result;
-		auto ArrayAttribute = std::get<std::vector<std::string>>(*Attribute);
-		for (const auto& ArrayIt : ArrayAttribute)
+		const std::vector<std::string> ArrayAttribute = std::get<std::vector<std::string>>(*Attribute);
+		for (const std::string& ArrayIt : ArrayAttribute)
 		{
 			Result.Emplace(UTF8_TO_TCHAR(ArrayIt.c_str()));
 		}

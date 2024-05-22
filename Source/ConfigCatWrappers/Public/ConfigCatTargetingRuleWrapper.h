@@ -67,6 +67,15 @@ public:
 	EConfigCatUserComparator GetComparator() const;
 
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	bool HasAnyComparisonValue();
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+   	bool HasStringComparisonValue() const;
+   	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+   	bool HasNumberComparisonValue() const;
+   	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+   	bool HasStringArrayComparisonValue() const;
+
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
 	FString GetStringComparisonValue() const;
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
 	double GetNumberComparisonValue() const;

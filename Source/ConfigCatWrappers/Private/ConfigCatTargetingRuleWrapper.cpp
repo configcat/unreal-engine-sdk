@@ -24,25 +24,63 @@ EConfigCatUserComparator UConfigCatUserConditionWrapper::GetComparator() const
 	{
 		return EConfigCatUserComparator::Invalid;
 	}
-	
+
 	return static_cast<EConfigCatUserComparator>(UserCondition.comparator);
+}
+
+bool UConfigCatUserConditionWrapper::HasAnyComparisonValue()
+{
+	return HasStringComparisonValue() || HasNumberComparisonValue() || HasStringArrayComparisonValue();
+}
+
+bool UConfigCatUserConditionWrapper::HasStringComparisonValue() const
+{
+	return std::holds_alternative<std::string>(UserCondition.comparisonValue);
+}
+
+bool UConfigCatUserConditionWrapper::HasNumberComparisonValue() const
+{
+	return std::holds_alternative<double>(UserCondition.comparisonValue);
+}
+
+bool UConfigCatUserConditionWrapper::HasStringArrayComparisonValue() const
+{
+	return std::holds_alternative<std::vector<std::string>>(UserCondition.comparisonValue);
 }
 
 FString UConfigCatUserConditionWrapper::GetStringComparisonValue() const
 {
-	// UserCondition.comparisonValue;
+	if (HasStringComparisonValue())
+	{
+		return UTF8_TO_TCHAR(std::get<std::string>(UserCondition.comparisonValue).c_str());
+	}
+
 	return {};
 }
 
 double UConfigCatUserConditionWrapper::GetNumberComparisonValue() const
 {
-	// UserCondition.comparisonValue;
+	if (HasNumberComparisonValue())
+	{
+		return std::get<double>(UserCondition.comparisonValue);
+	}
+
 	return {};
 }
 
 TArray<FString> UConfigCatUserConditionWrapper::GetStringArrayComparisonValue() const
 {
-	// UserCondition.comparisonValue;
+	if (HasStringArrayComparisonValue())
+	{
+		TArray<FString> Result;
+		const std::vector<std::string> ArrayAttribute = std::get<std::vector<std::string>>(UserCondition.comparisonValue);
+		for (const std::string& ArrayIt : ArrayAttribute)
+		{
+			Result.Emplace(UTF8_TO_TCHAR(ArrayIt.c_str()));
+		}
+		return Result;
+	}
+
 	return {};
 }
 
@@ -64,7 +102,7 @@ EConfigCatPrerequisiteFlagComparator UConfigCatPrerequisiteFlagConditionWrapper:
 	{
 		return EConfigCatPrerequisiteFlagComparator::Invalid;
 	}
-	
+
 	return static_cast<EConfigCatPrerequisiteFlagComparator>(PrerequisiteFlagCondition.comparator);
 }
 
