@@ -27,12 +27,22 @@ using namespace configcat;
 
 namespace
 {
+	bool EnsureConfigCatClient(const std::shared_ptr<configcat::ConfigCatClient>& Client)
+	{
+		if (ensure(Client))
+		{
+			return true;
+		}
+
+		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		return false;
+	}
+
 	template <typename T>
 	T GetValue(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if (!ensure(Client))
+		if(!EnsureConfigCatClient(Client))
 		{
-			UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 			return DefaultValue;
 		}
 
@@ -44,9 +54,8 @@ namespace
 	template <typename T>
 	UConfigCatEvaluationWrapper* GetEvaluationDetails(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if (!ensure(Client))
+		if(!EnsureConfigCatClient(Client))
 		{
-			UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 			return {};
 		}
 
@@ -54,8 +63,9 @@ namespace
 
 		return UConfigCatEvaluationWrapper::CreateEvaluation(Client->getValueDetails(FlagKey, DefaultValue, User ? User->User : nullptr));
 	}
-} // namespace
 
+
+} // namespace
 
 UConfigCatSubsystem* UConfigCatSubsystem::Get(const UObject* WorldContext)
 {
@@ -88,9 +98,8 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& D
 
 UConfigCatValueWrapper* UConfigCatSubsystem::GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
@@ -123,9 +132,8 @@ UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetStringValueDetails(const FS
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
@@ -142,9 +150,8 @@ TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 
 bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, UConfigCatValueWrapper*& OutValue) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return false;
 	}
 
@@ -164,9 +171,8 @@ bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& Ou
 
 TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const UConfigCatUserWrapper* User) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
@@ -183,9 +189,8 @@ TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const U
 
 TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(const UConfigCatUserWrapper* User) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
@@ -202,9 +207,8 @@ TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(con
 
 void UConfigCatSubsystem::ForceRefresh()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -213,9 +217,8 @@ void UConfigCatSubsystem::ForceRefresh()
 
 void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 	if (!User || !User->User)
@@ -229,9 +232,8 @@ void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 
 void UConfigCatSubsystem::ClearDefaultUser()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -240,9 +242,8 @@ void UConfigCatSubsystem::ClearDefaultUser()
 
 void UConfigCatSubsystem::SetOnline()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -251,9 +252,8 @@ void UConfigCatSubsystem::SetOnline()
 
 void UConfigCatSubsystem::SetOffline()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -262,9 +262,8 @@ void UConfigCatSubsystem::SetOffline()
 
 bool UConfigCatSubsystem::IsOffline() const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return true;
 	}
 
