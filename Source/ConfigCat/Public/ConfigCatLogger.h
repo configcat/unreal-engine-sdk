@@ -15,6 +15,6 @@ public:
 
 private:
 	// Begin configcat::ILogger interface
-	virtual void log(configcat::LogLevel level, const std::string& message) override;
+	virtual void log(configcat::LogLevel level, const std::string& message, const std::exception_ptr& exception = nullptr) override;
 	// End configcat::ILogger interface
 };

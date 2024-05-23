@@ -18,45 +18,54 @@
 #include "ConfigCatLogger.h"
 #include "ConfigCatNetworkAdapter.h"
 #include "ConfigCatSettings.h"
-#include "Wrapper/ConfigCatEvaluationDetails.h"
-#include "Wrapper/ConfigCatUser.h"
-#include "Wrapper/ConfigCatValue.h"
+#include "ConfigCatSettingsWrapper.h"
+#include "ConfigCatEvaluationWrapper.h"
+#include "ConfigCatUserWrapper.h"
+#include "ConfigCatValueWrapper.h"
 
 using namespace configcat;
 
 namespace
 {
-	template <typename T>
-	T GetValue(ConfigCatClient* Client, FString Key, T DefaultValue, const FConfigCatUser& User)
+	bool EnsureConfigCatClient(const std::shared_ptr<configcat::ConfigCatClient>& Client)
 	{
-		if (!ensure(Client))
+		if (ensure(Client))
 		{
-			UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+			return true;
+		}
+
+		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		return false;
+	}
+
+	template <typename T>
+	T GetValue(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
+	{
+		if(!EnsureConfigCatClient(Client))
+		{
 			return DefaultValue;
 		}
 
-		const ConfigCatUser* TargetUser = User.User.get();
 		const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
-		return Client->getValue(FlagKey, DefaultValue, TargetUser);
+		return Client->getValue(FlagKey, DefaultValue, User ? User->User : nullptr);
 	}
 
 	template <typename T>
-	EvaluationDetails GetEvaluationDetails(ConfigCatClient* Client, FString Key, T DefaultValue, const FConfigCatUser& User)
+	UConfigCatEvaluationWrapper* GetEvaluationDetails(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if (!ensure(Client))
+		if(!EnsureConfigCatClient(Client))
 		{
-			UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 			return {};
 		}
 
-		const ConfigCatUser* TargetUser = User.User.get();
 		const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
 
-		return Client->getValueDetails(FlagKey, DefaultValue, TargetUser);
+		return UConfigCatEvaluationWrapper::CreateEvaluation(Client->getValueDetails(FlagKey, DefaultValue, User ? User->User : nullptr));
 	}
-} // namespace
 
+
+} // namespace
 
 UConfigCatSubsystem* UConfigCatSubsystem::Get(const UObject* WorldContext)
 {
@@ -64,22 +73,22 @@ UConfigCatSubsystem* UConfigCatSubsystem::Get(const UObject* WorldContext)
 	return GameInstance->GetSubsystem<UConfigCatSubsystem>();
 }
 
-bool UConfigCatSubsystem::GetBoolValue(const FString& Key, bool bDefaultValue, const FConfigCatUser& User) const
+bool UConfigCatSubsystem::GetBoolValue(const FString& Key, bool bDefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetValue(ConfigCatClient, Key, bDefaultValue, User);
 }
 
-int32 UConfigCatSubsystem::GetIntValue(const FString& Key, int32 DefaultValue, const FConfigCatUser& User) const
+int32 UConfigCatSubsystem::GetIntValue(const FString& Key, int32 DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetValue(ConfigCatClient, Key, DefaultValue, User);
 }
 
-double UConfigCatSubsystem::GetDoubleValue(const FString& Key, double DefaultValue, const FConfigCatUser& User) const
+double UConfigCatSubsystem::GetDoubleValue(const FString& Key, double DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetValue(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& DefaultValue, const FConfigCatUser& User) const
+FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	UE_LOG(LogConfigCat, Display, TEXT("Request %s feature flag from configcat cpp-sdk"), *Key);
 	const std::string& StringDefaultValue = TCHAR_TO_UTF8(*DefaultValue);
@@ -87,37 +96,35 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& D
 	return UTF8_TO_TCHAR(StringResult.c_str());
 }
 
-FConfigCatValue UConfigCatSubsystem::GetConfigValue(const FString& Key, const FConfigCatUser& User) const
+UConfigCatValueWrapper* UConfigCatSubsystem::GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
-	const ConfigCatUser* TargetUser = User.User.get();
 	const std::string& FlagKey = TCHAR_TO_UTF8(*Key);
+	const std::optional<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, User ? User->User : nullptr);
 
-	const std::shared_ptr<Value> FeatureFlagValue = ConfigCatClient->getValue(FlagKey, TargetUser);
-	return FConfigCatValue(FeatureFlagValue);
+	return UConfigCatValueWrapper::CreateValue(FeatureFlagValue);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetBoolValueDetails(const FString& Key, bool DefaultValue, const FConfigCatUser& User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetBoolValueDetails(const FString& Key, bool DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetEvaluationDetails(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetIntValueDetails(const FString& Key, int DefaultValue, const FConfigCatUser& User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetIntValueDetails(const FString& Key, int DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetEvaluationDetails(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetDoubleValueDetails(const FString& Key, double DefaultValue, const FConfigCatUser& User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetDoubleValueDetails(const FString& Key, double DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	return GetEvaluationDetails(ConfigCatClient, Key, DefaultValue, User);
 }
 
-FConfigCatEvaluationDetails UConfigCatSubsystem::GetStringValueDetails(const FString& Key, const FString& DefaultValue, const FConfigCatUser& User) const
+UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetStringValueDetails(const FString& Key, const FString& DefaultValue, const UConfigCatUserWrapper* User) const
 {
 	const std::string& StringDefaultValue = TCHAR_TO_UTF8(*DefaultValue);
 	return GetEvaluationDetails(ConfigCatClient, Key, StringDefaultValue, User);
@@ -125,9 +132,8 @@ FConfigCatEvaluationDetails UConfigCatSubsystem::GetStringValueDetails(const FSt
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
@@ -142,17 +148,16 @@ TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 	return Result;
 }
 
-bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, FConfigCatValue& OutValue) const
+bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, UConfigCatValueWrapper*& OutValue) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return false;
 	}
 
 	const std::string& VariationIdString = TCHAR_TO_UTF8(*VariationId);
 
-	std::shared_ptr<KeyValue> KeyValue = ConfigCatClient->getKeyAndValue(VariationIdString);
+	std::optional<KeyValue> KeyValue = ConfigCatClient->getKeyAndValue(VariationIdString);
 
 	if (!KeyValue)
 	{
@@ -160,47 +165,41 @@ bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& Ou
 	}
 
 	OutKey = UTF8_TO_TCHAR(KeyValue->key.c_str());
-	OutValue = KeyValue->value;
+	OutValue = UConfigCatValueWrapper::CreateValue(KeyValue->value);
 	return true;
 }
 
-TMap<FString, FConfigCatValue> UConfigCatSubsystem::GetAllValues(const FConfigCatUser& User) const
+TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const UConfigCatUserWrapper* User) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
-	const ConfigCatUser* TargetUser = User.User.get();
+	const std::unordered_map<std::string, Value> Values = ConfigCatClient->getAllValues(User ? User->User : nullptr);
 
-	const std::unordered_map<std::string, Value> Values = ConfigCatClient->getAllValues(TargetUser);
-
-	TMap<FString, FConfigCatValue> Result;
+	TMap<FString, UConfigCatValueWrapper*> Result;
 	for (const std::pair<const std::string, Value>& Value : Values)
 	{
-		Result.Emplace(UTF8_TO_TCHAR(Value.first.c_str()), Value.second);
+		Result.Emplace(UTF8_TO_TCHAR(Value.first.c_str()), UConfigCatValueWrapper::CreateValue(Value.second));
 	}
 
 	return Result;
 }
 
-TArray<FConfigCatEvaluationDetails> UConfigCatSubsystem::GetAllValueDetails(const FConfigCatUser& User) const
+TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(const UConfigCatUserWrapper* User) const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return {};
 	}
 
-	const ConfigCatUser* TargetUser = User.User.get();
+	const std::vector<EvaluationDetails<Value>> ValueDetails = ConfigCatClient->getAllValueDetails(User ? User->User : nullptr);
 
-	const std::vector<EvaluationDetails> ValueDetails = ConfigCatClient->getAllValueDetails(TargetUser);
-
-	TArray<FConfigCatEvaluationDetails> Result;
-	for (const EvaluationDetails& ValueDetail : ValueDetails)
+	TArray<UConfigCatEvaluationWrapper*> Result;
+	for (const EvaluationDetails<Value>& ValueDetail : ValueDetails)
 	{
-		Result.Emplace(ValueDetail);
+		Result.Emplace(UConfigCatEvaluationWrapper::CreateEvaluation(ValueDetail));
 	}
 
 	return Result;
@@ -208,36 +207,33 @@ TArray<FConfigCatEvaluationDetails> UConfigCatSubsystem::GetAllValueDetails(cons
 
 void UConfigCatSubsystem::ForceRefresh()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
 	ConfigCatClient->forceRefresh();
 }
 
-void UConfigCatSubsystem::SetDefaultUser(const FConfigCatUser& User)
+void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
-	if (!User.User)
+	if (!User || !User->User)
 	{
 		UE_LOG(LogConfigCat, Warning, TEXT("Trying to set Default User with invalid pointer."));
 		return;
 	}
 
-	ConfigCatClient->setDefaultUser(User.User);
+	ConfigCatClient->setDefaultUser(User->User);
 }
 
 void UConfigCatSubsystem::ClearDefaultUser()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -246,9 +242,8 @@ void UConfigCatSubsystem::ClearDefaultUser()
 
 void UConfigCatSubsystem::SetOnline()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -257,9 +252,8 @@ void UConfigCatSubsystem::SetOnline()
 
 void UConfigCatSubsystem::SetOffline()
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return;
 	}
 
@@ -268,9 +262,8 @@ void UConfigCatSubsystem::SetOffline()
 
 bool UConfigCatSubsystem::IsOffline() const
 {
-	if (!ensure(ConfigCatClient))
+	if(!EnsureConfigCatClient(ConfigCatClient))
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return true;
 	}
 
@@ -284,7 +277,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 #endif
 
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
-	if(!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
+	if (!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
 	{
 		UE_LOG(LogConfigCat, Warning, TEXT("Empty SdkKey detected. Please set your SdkKey in the Project Settings."));
 		return;
@@ -371,16 +364,17 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 	TWeakObjectPtr<UConfigCatSubsystem> WeakThis(this);
 
 	Options.hooks->addOnError(
-		[WeakThis](const std::string& Error)
+		[WeakThis](const std::string& Error, const std::exception_ptr& Exception)
 		{
 			if (WeakThis.IsValid())
 			{
 				const FString& StringError = UTF8_TO_TCHAR(Error.c_str());
+				const FString& StringException = UTF8_TO_TCHAR(unwrap_exception_message(Exception).c_str());
 
-				UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s"), *StringError);
+				UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s Exception: %s"), *StringError, *StringException);
 
-				WeakThis->OnError.Broadcast(StringError);
-				WeakThis->OnErrorBp.Broadcast(StringError);
+				WeakThis->OnError.Broadcast(StringError, StringException);
+				WeakThis->OnErrorBp.Broadcast(StringError, StringException);
 			}
 		}
 	);
@@ -395,29 +389,24 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		}
 	);
 	Options.hooks->addOnConfigChanged(
-		[WeakThis](const std::shared_ptr<Settings>& Config)
+		[WeakThis](const std::shared_ptr<const Settings>& InConfig)
 		{
 			if (WeakThis.IsValid())
 			{
-				FConfigCatConfig NewConfig;
-				if (Config)
-				{
-					for (const std::pair<const std::string, Setting>& Setting : *Config)
-					{
-						NewConfig.Settings.Emplace(UTF8_TO_TCHAR(Setting.first.c_str()), Setting.second);
-					}
-				}
+				UConfigCatSettingsWrapper* Config = UConfigCatSettingsWrapper::CreateSettings(InConfig);
 
-				WeakThis->OnConfigChanged.Broadcast(NewConfig);
-				WeakThis->OnConfigChangedBp.Broadcast(NewConfig);
+				WeakThis->OnConfigChanged.Broadcast(Config);
+				WeakThis->OnConfigChangedBp.Broadcast(Config);
 			}
 		}
 	);
 	Options.hooks->addOnFlagEvaluated(
-		[WeakThis](const EvaluationDetails& EvaluationDetails)
+		[WeakThis](const EvaluationDetailsBase& InEvaluationDetails)
 		{
 			if (WeakThis.IsValid())
 			{
+				UConfigCatEvaluationWrapper* EvaluationDetails = UConfigCatEvaluationWrapper::CreateEvaluation(InEvaluationDetails);
+
 				WeakThis->OnFlagEvaluated.Broadcast(EvaluationDetails);
 				WeakThis->OnFlagEvaluatedBp.Broadcast(EvaluationDetails);
 			}

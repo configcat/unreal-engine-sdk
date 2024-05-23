@@ -18,6 +18,7 @@ public class ConfigCat : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
+			"ConfigCatWrappers",
 			"ConfigCatCppSdk"
 		});
 
@@ -31,5 +32,7 @@ public class ConfigCat : ModuleRules
 
 			PrivateDefinitions.Add("CONFIGCAT_HTTPTHREAD_WORKAROUND");
 		}
+		
+		bEnableExceptions = true;
 	}
 }

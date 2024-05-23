@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*'
 
+env:
+  VCPKG_COMMIT_HASH: "59852bb5bd0779788e5fc95e50d2048ae6c9399d"
+
 jobs:
   build-win64:
     runs-on: windows-latest
@@ -16,6 +19,7 @@ jobs:
       - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
+          git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.bat
           ./build/vcpkg/vcpkg install configcat[core] --triplet x64-windows
 
@@ -35,6 +39,7 @@ jobs:
       - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
+          git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.bat
           ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-android
 
@@ -54,6 +59,7 @@ jobs:
       - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
+          git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
           ./build/vcpkg/vcpkg install configcat[core] --triplet universal-osx-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
@@ -73,6 +79,7 @@ jobs:
       - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
+          git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
           ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
@@ -92,6 +99,7 @@ jobs:
       - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
+          git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
 
           # Extra steps for Unreal Engine integration

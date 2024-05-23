@@ -40,7 +40,10 @@ bool ConfigCatNetworkAdapter::init(uint32_t connectTimeoutMs, uint32_t readTimeo
 }
 
 Response ConfigCatNetworkAdapter::get(
-	const std::string& url, const std::map<std::string, std::string>& header, const std::map<std::string, std::string>& proxies, const std::map<std::string, ProxyAuthentication>& proxyAuthentications
+	const std::string& url,
+	const std::map<std::string, std::string>& header,
+	const std::map<std::string, std::string>& proxies,
+	const std::map<std::string, ProxyAuthentication>& proxyAuthentications
 )
 {
 	UE_LOG(LogConfigCat, Verbose, TEXT("Network Adapter performing GET request."));
@@ -57,10 +60,10 @@ Response ConfigCatNetworkAdapter::get(
 	const float Timeout = (ConnectionTimeout + ReadTimeout) / 1000.0f;
 	GetRequest->SetTimeout(Timeout);
 
-	for (const auto& it : header)
+	for (const std::pair<const std::string, std::string>& It : header)
 	{
-		const FString HeaderKey = UTF8_TO_TCHAR(it.first.c_str());
-		const FString HeaderValue = UTF8_TO_TCHAR(it.second.c_str());
+		const FString HeaderKey = UTF8_TO_TCHAR(It.first.c_str());
+		const FString HeaderValue = UTF8_TO_TCHAR(It.second.c_str());
 		GetRequest->SetHeader(HeaderKey, HeaderValue);
 	}
 
@@ -101,7 +104,7 @@ Response ConfigCatNetworkAdapter::get(
 	if (!GetResponse)
 	{
 		Response.error = "Unreal Engine Network Adapter failed to launch request. Check logs";
-		Response.operationTimedOut = GetRequest->GetElapsedTime() > Timeout;
+		Response.errorCode = ResponseErrorCode::InternalError;
 		return Response;
 	}
 
