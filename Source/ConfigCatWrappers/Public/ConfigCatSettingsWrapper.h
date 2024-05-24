@@ -13,7 +13,7 @@ class UConfigCatTargetingRuleWrapper;
 class UConfigCatValueWrapper;
 
 UENUM(BlueprintType)
-enum EConfigCatSettingTypeWrapper : uint8
+enum class EConfigCatSettingTypeWrapper : uint8
 {
 	Bool = 0,
 	String = 1,
