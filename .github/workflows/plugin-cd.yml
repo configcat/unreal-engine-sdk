@@ -28,7 +28,6 @@ jobs:
           name: Win64
           path: |
             ./build/vcpkg/installed/*/lib/configcat.lib
-            ./build/vcpkg/installed/*/lib/hash-library.lib
 
   build-android:
     runs-on: windows-latest
@@ -48,7 +47,6 @@ jobs:
           name: Android
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
-            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-macos:
     runs-on: macos-latest
@@ -68,7 +66,6 @@ jobs:
           name: MacOS
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
-            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-ios:
     runs-on: macos-latest
@@ -88,7 +85,6 @@ jobs:
           name: iOS
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
-            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-linux:
     runs-on: ubuntu-latest
@@ -113,7 +109,6 @@ jobs:
           name: Linux
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
-            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   publish-engine-plugin:
     runs-on: ubuntu-latest

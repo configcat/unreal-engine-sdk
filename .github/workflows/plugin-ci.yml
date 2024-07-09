@@ -34,7 +34,6 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/
           cp ${{ github.workspace }}/build/vcpkg/installed/x64-linux-unreal/lib/libconfigcat.a ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/libconfigcat.a
-          cp ${{ github.workspace }}/build/vcpkg/installed/x64-linux-unreal/lib/libhash-library.a ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/libhash-library.a
 
           rm -r ./build/*
 
