@@ -4,7 +4,6 @@
 
 #include <ConfigCatCppSDK/Include/configcat.h>
 #include <ConfigCatCppSDK/Include/configcatclient.h>
-#include <ConfigCatCppSDK/Include/configcatuser.h>
 #include <ConfigCatCppSDK/Include/fileoverridedatasource.h>
 #include <ConfigCatCppSDK/Include/mapoverridedatasource.h>
 #include <HAL/FileManager.h>

@@ -4,9 +4,9 @@
 
 #include <Misc/Paths.h>
 
-IMPLEMENT_MODULE(FConfigCatModule, ConfigCat)
-
 FString FConfigCatModule::GetContentFolder()
 {
 	return FPaths::ProjectContentDir() + TEXT("ConfigCat");
 }
+
+IMPLEMENT_MODULE(FConfigCatModule, ConfigCat)
