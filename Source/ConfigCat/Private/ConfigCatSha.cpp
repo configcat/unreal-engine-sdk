@@ -4,17 +4,10 @@
 
 #include<openssl/sha.h>
 
-TArray<uint8> StringToBytes(const std::string& input)
-{
-	TArray<uint8> ByteArray;
-	ByteArray.Append((uint8*)input.c_str(), input.length());
-	return ByteArray;
-}
-
 std::string configcat::sha1(const std::string& input)
 {
 	TArray<uint8> BytesArrayToHash;
-	BytesArrayToHash.Append(StringToBytes(input));
+	BytesArrayToHash.Append(reinterpret_cast<const uint8*>(input.data()), input.size());
 
 	FSHAHash const Hash = FSHA1::HashBuffer(BytesArrayToHash.GetData(), BytesArrayToHash.Num());
 	FString FinalString;
