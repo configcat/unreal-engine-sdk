@@ -2,6 +2,8 @@
 
 #include "ConfigCatSha.h"
 
+#include<openssl/sha.h>
+
 TArray<uint8> StringToBytes(const std::string& input)
 {
 	TArray<uint8> ByteArray;
@@ -26,10 +28,18 @@ std::string configcat::sha1(const std::string& input)
 
 std::string configcat::sha256(const std::string& input)
 {
-	const FString InputString = UTF8_TO_TCHAR(input.c_str());
+	TArray<uint8, TFixedAllocator<SHA256_DIGEST_LENGTH>> Digest;
+	Digest.AddUninitialized(SHA256_DIGEST_LENGTH);
+	SHA256_CTX sha256;
+	SHA256_Init(&sha256);
+	SHA256_Update(&sha256, input.c_str(), input.size());
+	SHA256_Final(Digest.GetData(), &sha256);
 
-	FSHA256Signature Hash;
-	FPlatformMisc::GetSHA256Signature(*InputString, InputString.Len(), Hash);
+	FString FinalString;
+	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+	{
+		FinalString += FString::Printf(TEXT("%02x"), Digest[i]);
+	}
 
-	return TCHAR_TO_UTF8(*Hash.ToString());
+	return TCHAR_TO_UTF8(*FinalString);
 }
