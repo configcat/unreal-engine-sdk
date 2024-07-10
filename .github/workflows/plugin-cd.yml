@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 env:
-  VCPKG_COMMIT_HASH: "59852bb5bd0779788e5fc95e50d2048ae6c9399d"
+  VCPKG_COMMIT_HASH: "a82dd0cef6e9d81e764b3bccdf12bbb90c6f34ee"
 
 jobs:
   build-win64:
