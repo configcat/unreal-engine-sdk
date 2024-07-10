@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"VersionName": "2.0.1",
+	"VersionName": "2.1.0",
 	"EngineVersion": "5.3",
 	"FriendlyName": "ConfigCat",
 	"Description": "ConfigCat is a hosted service for feature flag and configuration management. It lets you decouple feature releases from code deployments.",

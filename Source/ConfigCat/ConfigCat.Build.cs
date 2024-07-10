@@ -13,8 +13,11 @@ public class ConfigCat : ModuleRules
 			"DeveloperSettings",
 			"Projects",
 			"Engine",
-			"HTTP"
+			"HTTP",
+			"OpenSSL"
 		});
+
+		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
@@ -32,7 +35,7 @@ public class ConfigCat : ModuleRules
 
 			PrivateDefinitions.Add("CONFIGCAT_HTTPTHREAD_WORKAROUND");
 		}
-		
+
 		bEnableExceptions = true;
 	}
 }
