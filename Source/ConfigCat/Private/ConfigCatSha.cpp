@@ -3,6 +3,7 @@
 #include "ConfigCatSha.h"
 
 #include <openssl/sha.h>
+#include <string>
 
 std::string configcat::sha1(const std::string& input)
 {
