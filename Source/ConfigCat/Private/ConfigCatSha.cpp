@@ -3,6 +3,7 @@
 #include "ConfigCatSha.h"
 
 #include <CoreMinimal.h>
+#include <Misc/SecureHash.h>
 #include <HAL/Platform.h>
 #include <openssl/sha.h>
 
