@@ -2,8 +2,9 @@
 
 #include "ConfigCatSha.h"
 
+#include <CoreMinimal.h>
+#include <HAL/Platform.h>
 #include <openssl/sha.h>
-#include <string>
 
 std::string configcat::sha1(const std::string& input)
 {
