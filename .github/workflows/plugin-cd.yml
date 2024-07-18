@@ -21,13 +21,14 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.bat
-          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-windows
+          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet x64-windows
 
       - uses: actions/upload-artifact@v3
         with:
           name: Win64
           path: |
             ./build/vcpkg/installed/*/lib/configcat.lib
+            ./build/vcpkg/installed/*/lib/hash-library.lib
 
   build-android:
     runs-on: windows-latest
@@ -40,13 +41,14 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.bat
-          ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-android
+          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet arm64-android
 
       - uses: actions/upload-artifact@v3
         with:
           name: Android
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-macos:
     runs-on: macos-latest
@@ -59,13 +61,14 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat[core] --triplet universal-osx-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet universal-osx-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
           name: MacOS
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-ios:
     runs-on: macos-latest
@@ -78,13 +81,14 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat[core] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
           name: iOS
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-linux:
     runs-on: ubuntu-latest
@@ -102,13 +106,14 @@ jobs:
           export CC=clang
           export CXX=clang++
 
-          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
           name: Linux
           path: |
             ./build/vcpkg/installed/*/lib/libconfigcat.a
+            ./build/vcpkg/installed/*/lib/libhash-library.a
 
   publish-engine-plugin:
     runs-on: ubuntu-latest

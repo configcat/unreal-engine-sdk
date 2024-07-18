@@ -7,4 +7,4 @@ ConfigCat is a feature flag and configuration management service that lets you s
 ConfigCat is a <a href="https://configcat.com" target="_blank">hosted feature flag service</a>. Manage feature toggles across frontend, backend, mobile, desktop apps. <a href="https://configcat.com" target="_blank">Alternative to LaunchDarkly</a>. Management app + feature flag SDKs.
 
 ## External Libraries
-The underlying ConfigCat C++ SDK uses these wonderful libraries: [nlohmann-json](https://github.com/nlohmann/json), [z4kn4fein-semver](https://github.com/z4kn4fein/cpp-semver).
+The underlying ConfigCat C++ SDK uses these wonderful libraries: [hash-library](https://create.stephan-brumme.com/hash-library), [nlohmann-json](https://github.com/nlohmann/json), [z4kn4fein-semver](https://github.com/z4kn4fein/cpp-semver).

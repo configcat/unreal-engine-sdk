@@ -13,11 +13,8 @@ public class ConfigCat : ModuleRules
 			"DeveloperSettings",
 			"Projects",
 			"Engine",
-			"HTTP",
-			"OpenSSL"
+			"HTTP"
 		});
-
-		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
