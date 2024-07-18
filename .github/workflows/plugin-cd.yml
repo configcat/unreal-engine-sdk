@@ -21,7 +21,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.bat
-          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet x64-windows
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-windows
 
       - uses: actions/upload-artifact@v3
         with:
@@ -41,7 +41,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.bat
-          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet arm64-android
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet arm64-android
 
       - uses: actions/upload-artifact@v3
         with:
@@ -61,7 +61,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet universal-osx-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet universal-osx-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -81,7 +81,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg build/vcpkg
           git -C build/vcpkg checkout ${{ env.VCPKG_COMMIT_HASH }}
           ./build/vcpkg/bootstrap-vcpkg.sh
-          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -106,7 +106,7 @@ jobs:
           export CC=clang
           export CXX=clang++
 
-          ./build/vcpkg/vcpkg install configcat[core, sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - uses: actions/upload-artifact@v3
         with:
