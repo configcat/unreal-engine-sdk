@@ -8,6 +8,7 @@
 #include <Interfaces/IHttpResponse.h>
 #include <Interfaces/IPluginManager.h>
 #include <Misc/ScopeExit.h>
+#include <HAL/PlatformProcess.h>
 
 #include "ConfigCatLog.h"
 

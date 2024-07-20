@@ -4,6 +4,7 @@
 
 #include <ConfigCatCppSDK/Include/configcatuser.h>
 
+#include <Misc/DateTime.h>
 #include <memory>
 
 #include "ConfigCatUserWrapper.generated.h"

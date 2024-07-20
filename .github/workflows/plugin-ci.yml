@@ -28,12 +28,13 @@ jobs:
           export CC=clang
           export CXX=clang++
 
-          ./build/vcpkg/vcpkg install configcat[core] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
       - name: Copy binaries
         run: |
           mkdir -p ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/
           cp ${{ github.workspace }}/build/vcpkg/installed/x64-linux-unreal/lib/libconfigcat.a ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/libconfigcat.a
+          cp ${{ github.workspace }}/build/vcpkg/installed/x64-linux-unreal/lib/libhash-library.a ${{ github.workspace }}/Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux/x64-linux-unreal/libhash-library.a
 
           rm -r ./build/*
 
