@@ -10,7 +10,7 @@
 
 class UConfigCatValueWrapper;
 UCLASS(DisplayName="Config Cat Setting Value Container")
-class CONFIGCATWRAPPERS_API UConfigCatSettingValueContainerWrapper : public UObject
+class CONFIGCAT_API UConfigCatSettingValueContainerWrapper : public UObject
 {
 	GENERATED_BODY()
 

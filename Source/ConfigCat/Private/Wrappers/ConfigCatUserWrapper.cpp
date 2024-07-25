@@ -1,10 +1,24 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "ConfigCatUserWrapper.h"
+#include "Wrappers/ConfigCatUserWrapper.h"
 
 #include <ConfigCatCppSDK/Include/configcatuser.h>
 
 using namespace configcat;
+
+namespace
+{
+	const ConfigCatUser::AttributeValue* GetUserAttributeForKey(const std::shared_ptr<ConfigCatUser>& User, const FString& Key)
+	{
+		if (!User)
+		{
+			return {};
+		}
+
+		const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
+		return User->getAttribute(AttributeKey);
+	}
+}
 
 UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes)
 {
@@ -50,7 +64,7 @@ FString UConfigCatUserWrapper::GetStringAttribute(const FString& Key) const
 {
 	if (HasStringAttribute(Key))
 	{
-		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 		return UTF8_TO_TCHAR(std::get<std::string>(*Attribute).c_str());
 	}
 
@@ -61,7 +75,7 @@ double UConfigCatUserWrapper::GetNumberAttribute(const FString& Key) const
 {
 	if (HasNumberAttribute(Key))
 	{
-		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 		return std::get<double>(*Attribute);
 	}
 
@@ -72,7 +86,7 @@ FDateTime UConfigCatUserWrapper::GetTimeAttribute(const FString& Key) const
 {
 	if (HasTimeAttribute(Key))
 	{
-		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 		const auto TimeSinceEpoch = std::get<date_time_t>(*Attribute).time_since_epoch().count();
 		return FDateTime::FromUnixTimestamp(TimeSinceEpoch);
 	}
@@ -84,7 +98,7 @@ TArray<FString> UConfigCatUserWrapper::GetStringArrayAttribute(const FString& Ke
 {
 	if (HasStringArrayAttribute(Key))
 	{
-		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+		const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 		TArray<FString> Result;
 		const std::vector<std::string> ArrayAttribute = std::get<std::vector<std::string>>(*Attribute);
 		for (const std::string& ArrayIt : ArrayAttribute)
@@ -104,35 +118,24 @@ bool UConfigCatUserWrapper::HasAnyAttribute(const FString& Key) const
 
 bool UConfigCatUserWrapper::HasStringAttribute(const FString& Key) const
 {
-	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 	return Attribute && std::holds_alternative<std::string>(*Attribute);
 }
 
 bool UConfigCatUserWrapper::HasNumberAttribute(const FString& Key) const
 {
-	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 	return Attribute && std::holds_alternative<double>(*Attribute);
 }
 
 bool UConfigCatUserWrapper::HasTimeAttribute(const FString& Key) const
 {
-	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 	return Attribute && std::holds_alternative<date_time_t>(*Attribute);
 }
 
 bool UConfigCatUserWrapper::HasStringArrayAttribute(const FString& Key) const
 {
-	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(Key);
+	const ConfigCatUser::AttributeValue* Attribute = GetUserAttributeForKey(User, Key);
 	return Attribute && std::holds_alternative<std::vector<std::string>>(*Attribute);
-}
-
-const ConfigCatUser::AttributeValue* UConfigCatUserWrapper::GetUserAttributeForKey(const FString& Key) const
-{
-	if (!User)
-	{
-		return {};
-	}
-
-	const std::string AttributeKey = TCHAR_TO_UTF8(*Key);
-	return User->getAttribute(AttributeKey);
 }

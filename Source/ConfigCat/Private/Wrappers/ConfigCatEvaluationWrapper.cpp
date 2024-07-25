@@ -1,13 +1,13 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "ConfigCatEvaluationWrapper.h"
+#include "Wrappers/ConfigCatEvaluationWrapper.h"
 
 #include "ConfigCatCppSDK/Include/log.h"
 
-#include "ConfigCatPercentageOptionWrapper.h"
-#include "ConfigCatTargetingRuleWrapper.h"
-#include "ConfigCatUserWrapper.h"
-#include "ConfigCatValueWrapper.h"
+#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
+#include "Wrappers/ConfigCatTargetingRuleWrapper.h"
+#include "Wrappers/ConfigCatUserWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 UConfigCatEvaluationWrapper* UConfigCatEvaluationWrapper::CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails)
 {

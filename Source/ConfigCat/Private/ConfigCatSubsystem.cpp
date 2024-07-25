@@ -18,10 +18,10 @@
 #include "ConfigCatLogger.h"
 #include "ConfigCatNetworkAdapter.h"
 #include "ConfigCatSettings.h"
-#include "ConfigCatSettingsWrapper.h"
-#include "ConfigCatEvaluationWrapper.h"
-#include "ConfigCatUserWrapper.h"
-#include "ConfigCatValueWrapper.h"
+
+#include "Wrappers/ConfigCatSettingsWrapper.h"
+#include "Wrappers/ConfigCatEvaluationWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 using namespace configcat;
 

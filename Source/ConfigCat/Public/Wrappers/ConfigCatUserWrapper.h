@@ -2,15 +2,19 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/configcatuser.h>
-
 #include <Misc/DateTime.h>
+
 #include <memory>
 
 #include "ConfigCatUserWrapper.generated.h"
 
+namespace configcat
+{
+	class ConfigCatUser;
+}
+
 UCLASS(DisplayName="Config Cat User")
-class CONFIGCATWRAPPERS_API UConfigCatUserWrapper : public UObject
+class CONFIGCAT_API UConfigCatUserWrapper : public UObject
 {
 	GENERATED_BODY()
 
@@ -47,7 +51,4 @@ public:
 	bool HasStringArrayAttribute(const FString& Key) const;
 
 	std::shared_ptr<configcat::ConfigCatUser> User;
-
-private:
-	const configcat::ConfigCatUser::AttributeValue* GetUserAttributeForKey(const FString& Key) const;
 };

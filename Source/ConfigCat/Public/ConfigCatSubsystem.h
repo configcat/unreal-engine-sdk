@@ -6,6 +6,8 @@
 #include <Subsystems/GameInstanceSubsystem.h>
 #include <memory>
 
+#include "Wrappers/ConfigCatUserWrapper.h"
+
 #include "ConfigCatSubsystem.generated.h"
 
 class UConfigCatSettingsWrapper;
