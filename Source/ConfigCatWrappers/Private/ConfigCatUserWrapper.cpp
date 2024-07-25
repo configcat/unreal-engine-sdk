@@ -24,6 +24,11 @@ UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, cons
 	return CreateUser(ConfigCatUser::create(UserId, UserEmail, UserCountry, UserAttributes));
 }
 
+UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const FString& Id, const FString& Email, const FString& Country)
+{
+	return CreateUser(Id, Email, Country, {});
+}
+
 UConfigCatUserWrapper* UConfigCatUserWrapper::CreateUser(const std::shared_ptr<configcat::ConfigCatUser>& InUser)
 {
 	UConfigCatUserWrapper* Result = NewObject<UConfigCatUserWrapper>();

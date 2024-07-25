@@ -17,6 +17,7 @@ class CONFIGCATWRAPPERS_API UConfigCatUserWrapper : public UObject
 public:
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|User", meta = (AdvancedDisplay = "Email, Country, Attributes"))
 	static UConfigCatUserWrapper* CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
+	static UConfigCatUserWrapper* CreateUser(const FString& Id, const FString& Email = TEXT(""), const FString& Country = TEXT(""));
 	static UConfigCatUserWrapper* CreateUser(const std::shared_ptr<configcat::ConfigCatUser>& InUser);
 
 	/**
