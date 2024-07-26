@@ -18,7 +18,6 @@ public class ConfigCat : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
-			"ConfigCatWrappers",
 			"ConfigCatCppSdk"
 		});
 

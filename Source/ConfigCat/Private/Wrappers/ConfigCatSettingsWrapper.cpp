@@ -1,10 +1,10 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "ConfigCatSettingsWrapper.h"
+#include "Wrappers/ConfigCatSettingsWrapper.h"
 
-#include "ConfigCatPercentageOptionWrapper.h"
-#include "ConfigCatTargetingRuleWrapper.h"
-#include "ConfigCatValueWrapper.h"
+#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
+#include "Wrappers/ConfigCatTargetingRuleWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 using namespace configcat;
 

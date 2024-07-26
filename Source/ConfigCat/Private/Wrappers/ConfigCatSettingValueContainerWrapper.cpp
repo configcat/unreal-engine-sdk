@@ -1,8 +1,8 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "ConfigCatSettingValueContainerWrapper.h"
+#include "Wrappers/ConfigCatSettingValueContainerWrapper.h"
 
-#include "ConfigCatValueWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 UConfigCatSettingValueContainerWrapper* UConfigCatSettingValueContainerWrapper::CreateSettingValue(const configcat::SettingValueContainer& SettingValueContainer)
 {

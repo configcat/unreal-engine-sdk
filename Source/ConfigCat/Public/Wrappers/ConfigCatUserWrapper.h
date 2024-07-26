@@ -2,26 +2,31 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/configcatuser.h>
-
 #include <Misc/DateTime.h>
+
 #include <memory>
 
 #include "ConfigCatUserWrapper.generated.h"
 
+namespace configcat
+{
+	class ConfigCatUser;
+}
+
 UCLASS(DisplayName="Config Cat User")
-class CONFIGCATWRAPPERS_API UConfigCatUserWrapper : public UObject
+class CONFIGCAT_API UConfigCatUserWrapper : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
+	UFUNCTION(BlueprintPure, Category = "ConfigCat|User", meta = (AdvancedDisplay = "Email, Country, Attributes"))
 	static UConfigCatUserWrapper* CreateUser(const FString& Id, const FString& Email, const FString& Country, const TMap<FString, FString>& Attributes);
+	static UConfigCatUserWrapper* CreateUser(const FString& Id, const FString& Email = TEXT(""), const FString& Country = TEXT(""));
 	static UConfigCatUserWrapper* CreateUser(const std::shared_ptr<configcat::ConfigCatUser>& InUser);
 
 	/**
-     * Gets the Id of a ConfigCatUser
-     */
+	 * Gets the Id of a ConfigCatUser
+	 */
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|User")
 	FString GetIdentifier() const;
 
@@ -46,7 +51,4 @@ public:
 	bool HasStringArrayAttribute(const FString& Key) const;
 
 	std::shared_ptr<configcat::ConfigCatUser> User;
-	
-private:
-	const configcat::ConfigCatUser::AttributeValue* GetUserAttributeForKey(const FString& Key) const;
 };

@@ -1,10 +1,10 @@
 ﻿// Copyright (c) ConfigCat 2024. All Rights Reserved.
 
-#include "ConfigCatTargetingRuleWrapper.h"
+#include "Wrappers/ConfigCatTargetingRuleWrapper.h"
 
-#include "ConfigCatSettingValueContainerWrapper.h"
-#include "ConfigCatPercentageOptionWrapper.h"
-#include "ConfigCatValueWrapper.h"
+#include "Wrappers/ConfigCatSettingValueContainerWrapper.h"
+#include "Wrappers/ConfigCatPercentageOptionWrapper.h"
+#include "Wrappers/ConfigCatValueWrapper.h"
 
 UConfigCatUserConditionWrapper* UConfigCatUserConditionWrapper::CreateUserCondition(const configcat::UserCondition& InUserCondition)
 {

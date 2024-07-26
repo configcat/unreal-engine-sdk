@@ -9,7 +9,7 @@
 #include "ConfigCatValueWrapper.generated.h"
 
 UCLASS(DisplayName="Config Cat SettingValue")
-class CONFIGCATWRAPPERS_API UConfigCatValueWrapper : public UObject
+class CONFIGCAT_API UConfigCatValueWrapper : public UObject
 {
 	GENERATED_BODY()
 
