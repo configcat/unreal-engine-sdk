@@ -5,13 +5,13 @@
 #include <Modules/ModuleManager.h>
 
 /**
- * @brief ConfigCat module brings remote feature flag and configuration management in Unreal Engine
+ * ConfigCat module brings remote feature flag and configuration management in Unreal Engine
  */
 class CONFIGCAT_API FConfigCatModule : public IModuleInterface
 {
 public:
 	/**
-	 * @brief Returns the ConfigCat folder from within the project (not the plugin)
+	 * Returns the ConfigCat folder from within the project (not the plugin)
 	 */
 	static FString GetContentFolder();
 };
