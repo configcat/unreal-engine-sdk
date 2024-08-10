@@ -8,7 +8,7 @@
 
 #include "ConfigCatValueWrapper.generated.h"
 
-UCLASS(DisplayName="Config Cat SettingValue")
+UCLASS(meta = (DisplayName = "ConfigCat Value"))
 class CONFIGCAT_API UConfigCatValueWrapper : public UObject
 {
 	GENERATED_BODY()

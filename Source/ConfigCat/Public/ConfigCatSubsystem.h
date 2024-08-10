@@ -33,7 +33,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnErrorBp, const FString&, Error, 
 /**
  * Wrapper for accessing the configcat client. This subsystem is responsible for initializing and managing the client's lifecycle.
  */
-UCLASS()
+UCLASS(meta = (DisplayName = "ConfigCat Subsystem"))
 class CONFIGCAT_API UConfigCatSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()

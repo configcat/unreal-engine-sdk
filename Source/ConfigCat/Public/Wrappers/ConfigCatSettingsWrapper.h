@@ -12,8 +12,8 @@ class UConfigCatPercentageOptionWrapper;
 class UConfigCatTargetingRuleWrapper;
 class UConfigCatValueWrapper;
 
-UENUM(BlueprintType)
-enum class EConfigCatSettingTypeWrapper : uint8
+UENUM(BlueprintType, meta = (DisplayName = "ConfigCat Setting Type"))
+enum class EConfigCatSettingType : uint8
 {
 	Bool = 0,
 	String = 1,
@@ -21,7 +21,7 @@ enum class EConfigCatSettingTypeWrapper : uint8
 	Double = 3,
 };
 
-UCLASS(DisplayName="Config Cat Setting")
+UCLASS(meta = (DisplayName = "ConfigCat Setting"))
 class CONFIGCAT_API UConfigCatSettingWrapper : public UObject 
 {
 	GENERATED_BODY()
@@ -39,7 +39,7 @@ public:
 	bool HasInvalidType() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
-	EConfigCatSettingTypeWrapper GetType() const;
+	EConfigCatSettingType GetType() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
 	UConfigCatValueWrapper* GetValue() const;
@@ -53,7 +53,7 @@ public:
 	configcat::Setting Setting;
 };
 
-UCLASS(DisplayName="Config Cat Settings")
+UCLASS(meta = (DisplayName = "ConfigCat Settings"))
 class CONFIGCAT_API UConfigCatSettingsWrapper : public UObject
 {
 	GENERATED_BODY()

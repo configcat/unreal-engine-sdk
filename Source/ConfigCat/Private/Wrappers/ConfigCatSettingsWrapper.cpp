@@ -20,9 +20,9 @@ bool UConfigCatSettingWrapper::HasInvalidType() const
 	return Setting.hasInvalidType();
 }
 
-EConfigCatSettingTypeWrapper UConfigCatSettingWrapper::GetType() const
+EConfigCatSettingType UConfigCatSettingWrapper::GetType() const
 {
-	return static_cast<EConfigCatSettingTypeWrapper>(Setting.type);
+	return static_cast<EConfigCatSettingType>(Setting.type);
 }
 
 FString UConfigCatSettingWrapper::GetPercentageOptionsAttribute() const

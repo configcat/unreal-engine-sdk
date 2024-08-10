@@ -14,7 +14,7 @@ class UConfigCatTargetingRuleWrapper;
 class UConfigCatUserWrapper;
 class UConfigCatValueWrapper;
 
-UCLASS(DisplayName="Config Cat Evaluation")
+UCLASS(meta = (DisplayName = "ConfigCat Evaluation"))
 class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
 {
 	GENERATED_BODY()

@@ -13,7 +13,7 @@ namespace configcat
 	class ConfigCatUser;
 }
 
-UCLASS(DisplayName="Config Cat User")
+UCLASS(meta = (DisplayName = "ConfigCat User"))
 class CONFIGCAT_API UConfigCatUserWrapper : public UObject
 {
 	GENERATED_BODY()
