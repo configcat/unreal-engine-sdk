@@ -29,25 +29,25 @@ class CONFIGCAT_API UConfigCatSettingWrapper : public UObject
 public:
 	static UConfigCatSettingWrapper* CreateSetting(const configcat::Setting& InSetting);
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	FString GetVariationId() const;
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	FString GetPercentageOptionsAttribute() const;
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	bool HasInvalidType() const;
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	EConfigCatSettingType GetType() const;
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	UConfigCatValueWrapper* GetValue() const;
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	TArray<UConfigCatTargetingRuleWrapper*> GetTargetingRules() const;
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Setting")
+	UFUNCTION(BlueprintPure, Category = "Setting", meta = (Keywords = "ConfigCat"))
 	TArray<UConfigCatPercentageOptionWrapper*> GetPercentageOptions() const;
 
 	configcat::Setting Setting;
@@ -61,7 +61,7 @@ class CONFIGCAT_API UConfigCatSettingsWrapper : public UObject
 public:
 	static UConfigCatSettingsWrapper* CreateSettings(const std::shared_ptr<const configcat::Settings>& InSettings);
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|Settings")
+	UFUNCTION(BlueprintPure, Category = "Settings", meta = (Keywords = "ConfigCat"))
 	TMap<FString, UConfigCatSettingWrapper*> GetSettings() const;
 
 	std::shared_ptr<const configcat::Settings> Settings;
