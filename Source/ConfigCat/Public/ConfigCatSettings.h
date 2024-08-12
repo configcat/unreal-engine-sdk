@@ -53,7 +53,7 @@ enum class EOverrideBehaviour : uint8
 /**
  * Holds configuration for integrating the ConfigCat feature flags SDK
  */
-UCLASS(DefaultConfig, Config = ConfigCat)
+UCLASS(DefaultConfig, Config = ConfigCat, meta = (DisplayName = "ConfigCat Settings"))
 class CONFIGCAT_API UConfigCatSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()

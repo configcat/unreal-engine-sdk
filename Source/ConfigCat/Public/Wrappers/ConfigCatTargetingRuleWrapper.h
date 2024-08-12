@@ -10,7 +10,7 @@ class UConfigCatSettingValueContainerWrapper;
 class UConfigCatPercentageOptionWrapper;
 class UConfigCatValueWrapper;
 
-UENUM(BlueprintType)
+UENUM(BlueprintType, meta = (DisplayName = "ConfigCat User Comparator"))
 enum class EConfigCatUserComparator : uint8
 {
 	TextIsOneOf = 0,
@@ -53,7 +53,7 @@ enum class EConfigCatUserComparator : uint8
 	Invalid
 };
 
-UCLASS(DisplayName="Config Cat User Condition")
+UCLASS(meta = (DisplayName = "ConfigCat User Condition"))
 class CONFIGCAT_API UConfigCatUserConditionWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -61,31 +61,31 @@ class CONFIGCAT_API UConfigCatUserConditionWrapper : public UObject
 public:
 	static UConfigCatUserConditionWrapper* CreateUserCondition(const configcat::UserCondition& InUserCondition);
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
 	FString GetComparisonAttribute() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
 	EConfigCatUserComparator GetComparator() const;
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
 	bool HasAnyComparisonValue();
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
    	bool HasStringComparisonValue() const;
-   	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+   	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
    	bool HasNumberComparisonValue() const;
-   	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+   	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
    	bool HasStringArrayComparisonValue() const;
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
 	FString GetStringComparisonValue() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
 	double GetNumberComparisonValue() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|UserCondition")
+	UFUNCTION(BlueprintPure, Category = "UserCondition", meta = (Keywords = "ConfigCat"))
 	TArray<FString> GetStringArrayComparisonValue() const;
 
 	configcat::UserCondition UserCondition;
 };
 
-UENUM(BlueprintType)
+UENUM(BlueprintType, meta = (DisplayName = "ConfigCat Prerequisite Flag Comparator"))
 enum class EConfigCatPrerequisiteFlagComparator : uint8
 {
 	Equals = 0,
@@ -93,7 +93,7 @@ enum class EConfigCatPrerequisiteFlagComparator : uint8
 	Invalid
 };
 
-UCLASS(DisplayName="Config Cat Prerequisite Flag Condition")
+UCLASS(meta = (DisplayName = "ConfigCat Prerequisite Flag Condition"))
 class CONFIGCAT_API UConfigCatPrerequisiteFlagConditionWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -101,17 +101,17 @@ class CONFIGCAT_API UConfigCatPrerequisiteFlagConditionWrapper : public UObject
 public:
 	static UConfigCatPrerequisiteFlagConditionWrapper* CreatePrerequisiteFlagCondition(const configcat::PrerequisiteFlagCondition& InPrerequisiteFlagCondition);
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|PrerequisiteFlagCondition")
+	UFUNCTION(BlueprintPure, Category = "PrerequisiteFlagCondition", meta = (Keywords = "ConfigCat"))
 	FString GetPrerequisiteFlagKey() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|PrerequisiteFlagCondition")
+	UFUNCTION(BlueprintPure, Category = "PrerequisiteFlagCondition", meta = (Keywords = "ConfigCat"))
 	EConfigCatPrerequisiteFlagComparator GetComparator() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|PrerequisiteFlagCondition")
+	UFUNCTION(BlueprintPure, Category = "PrerequisiteFlagCondition", meta = (Keywords = "ConfigCat"))
 	UConfigCatValueWrapper* GetComparisonValue() const;
 
 	configcat::PrerequisiteFlagCondition PrerequisiteFlagCondition;
 };
 
-UENUM(BlueprintType)
+UENUM(BlueprintType, meta = (DisplayName = "ConfigCat Segment Comparator"))
 enum class EConfigCatSegmentComparator : uint8
 {
 	IsIn = 0,
@@ -119,7 +119,7 @@ enum class EConfigCatSegmentComparator : uint8
 	Invalid
 };
 
-UCLASS(DisplayName="Config Cat Segment Condition")
+UCLASS(meta = (DisplayName = "ConfigCat Segment Condition"))
 class CONFIGCAT_API UConfigCatSegmentConditionWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -127,40 +127,40 @@ class CONFIGCAT_API UConfigCatSegmentConditionWrapper : public UObject
 public:
 	static UConfigCatSegmentConditionWrapper* CreateSegmentCondition(const configcat::SegmentCondition& InSegmentCondition);
 	
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|SegmentCondition")
+	UFUNCTION(BlueprintPure, Category = "SegmentCondition", meta = (Keywords = "ConfigCat"))
 	int32 GetSegmentIndex() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|SegmentCondition")
+	UFUNCTION(BlueprintPure, Category = "SegmentCondition", meta = (Keywords = "ConfigCat"))
 	EConfigCatSegmentComparator GetComparator() const;
 
 	configcat::SegmentCondition SegmentCondition;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, meta = (DisplayName = "ConfigCat Condition Container"))
 struct CONFIGCAT_API FConfigCatConditionContainer
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|ConditionContainer")
+	UPROPERTY(BlueprintReadOnly, Category = "ConditionContainer", meta = (Keywords = "ConfigCat"))
 	UConfigCatUserConditionWrapper* UserCondition;
-	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|ConditionContainer")
+	UPROPERTY(BlueprintReadOnly, Category = "ConditionContainer", meta = (Keywords = "ConfigCat"))
 	UConfigCatPrerequisiteFlagConditionWrapper* PrerequisiteFlagCondition;
-	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|ConditionContainer")
+	UPROPERTY(BlueprintReadOnly, Category = "ConditionContainer", meta = (Keywords = "ConfigCat"))
 	UConfigCatSegmentConditionWrapper* SegmentCondition;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, meta = (DisplayName = "ConfigCat Then Container"))
 struct FConfigCatThenContainer
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|ThenContainer")
+	UPROPERTY(BlueprintReadOnly, Category = "ThenContainer", meta = (Keywords = "ConfigCat"))
 	UConfigCatSettingValueContainerWrapper* SettingValueContainer = nullptr;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "ConfigCat|ThenContainer")
+	UPROPERTY(BlueprintReadOnly, Category = "ThenContainer", meta = (Keywords = "ConfigCat"))
 	TArray<UConfigCatPercentageOptionWrapper*> PercentageOptions;
 };
 
-UCLASS(DisplayName="Config Cat Targeting Rule")
+UCLASS(meta = (DisplayName = "ConfigCat Targeting Rule"))
 class CONFIGCAT_API UConfigCatTargetingRuleWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -168,9 +168,9 @@ class CONFIGCAT_API UConfigCatTargetingRuleWrapper : public UObject
 public:
 	static UConfigCatTargetingRuleWrapper* CreateTargetingRule(const configcat::TargetingRule& InTargetingRule);
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|TargetingRule")
+	UFUNCTION(BlueprintPure, Category = "TargetingRule", meta = (Keywords = "ConfigCat"))
 	TArray<FConfigCatConditionContainer> GetConditions() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|TargetingRule")
+	UFUNCTION(BlueprintPure, Category = "TargetingRule", meta = (Keywords = "ConfigCat"))
 	FConfigCatThenContainer GetThen() const;
 
 	configcat::TargetingRule TargetingRule;

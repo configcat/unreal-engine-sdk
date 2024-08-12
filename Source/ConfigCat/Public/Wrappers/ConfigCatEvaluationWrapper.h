@@ -14,7 +14,7 @@ class UConfigCatTargetingRuleWrapper;
 class UConfigCatUserWrapper;
 class UConfigCatValueWrapper;
 
-UCLASS(DisplayName="Config Cat Evaluation")
+UCLASS(meta = (DisplayName = "ConfigCat Evaluation"))
 class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
 {
 	GENERATED_BODY()
@@ -22,25 +22,25 @@ class CONFIGCAT_API UConfigCatEvaluationWrapper : public UObject
 public:
 	static UConfigCatEvaluationWrapper* CreateEvaluation(const configcat::EvaluationDetailsBase& InEvaluationDetails);
 
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	FString GetKey() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	FString GetVariationId() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	FDateTime GetFetchTime() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	UConfigCatUserWrapper* GetUser() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	bool IsDefaultValue() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	FString GetError() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	FString GetException() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	UConfigCatTargetingRuleWrapper* GetMatchedTargetingRule() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	UConfigCatPercentageOptionWrapper* GetMatchedPercentageOption() const;
-	UFUNCTION(BlueprintPure, Category = "ConfigCat|EvaluationDetails")
+	UFUNCTION(BlueprintPure, Category = "EvaluationDetails", meta = (Keywords = "ConfigCat"))
 	UConfigCatValueWrapper* GetValue() const;
 
 	std::shared_ptr<configcat::EvaluationDetails<>> EvaluationDetails;
