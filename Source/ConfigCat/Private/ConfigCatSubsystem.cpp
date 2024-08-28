@@ -35,6 +35,11 @@ namespace
 		}
 
 		UE_LOG(LogConfigCat, Error, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		if(GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		}
+     
 		return false;
 	}
 
