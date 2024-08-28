@@ -29,12 +29,12 @@ namespace
 {
 	bool EnsureConfigCatClient(const std::shared_ptr<configcat::ConfigCatClient>& Client)
 	{
-		if (ensure(Client))
+		if (Client)
 		{
 			return true;
 		}
 
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		UE_LOG(LogConfigCat, Error, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
 		return false;
 	}
 
