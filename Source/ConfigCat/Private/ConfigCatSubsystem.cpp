@@ -284,7 +284,12 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
 	if (!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Empty SdkKey detected. Please set your SdkKey in the Project Settings."));
+		if(GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("ConfigCat SdkKey missing. Please set your SdkKey in the Project Settings."));
+		}
+
+		UE_LOG(LogConfigCat, Error, TEXT("ConfigCat SdkKey missing. Please set your SdkKey in the Project Settings."));
 		return;
 	}
 
