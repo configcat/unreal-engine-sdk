@@ -27,6 +27,15 @@ using namespace configcat;
 
 namespace
 {
+	void PrintError(const FString& ErrorMessage)
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("[ConfigCat] %s"), *ErrorMessage));
+		}
+		UE_LOG(LogConfigCat, Error, TEXT("%s"), *ErrorMessage);
+	}
+
 	bool EnsureConfigCatClient(const std::shared_ptr<configcat::ConfigCatClient>& Client)
 	{
 		if (Client)
@@ -34,12 +43,7 @@ namespace
 			return true;
 		}
 
-		UE_LOG(LogConfigCat, Error, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
-		if(GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
-		}
-     
+		PrintError(TEXT("Trying to access the client before initialization or after shutdown."));
 		return false;
 	}
 
@@ -284,12 +288,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
 	if (!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
 	{
-		if(GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("ConfigCat SdkKey missing. Please set your SdkKey in the Project Settings."));
-		}
-
-		UE_LOG(LogConfigCat, Error, TEXT("ConfigCat SdkKey missing. Please set your SdkKey in the Project Settings."));
+		PrintError(TEXT("SdkKey missing. Please set your SdkKey in the Project Settings."));
 		return;
 	}
 
