@@ -12,6 +12,7 @@
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 #include <Engine/GameInstance.h>
+#include <Engine/Engine.h>
 
 #include "ConfigCat.h"
 #include "ConfigCatLog.h"
