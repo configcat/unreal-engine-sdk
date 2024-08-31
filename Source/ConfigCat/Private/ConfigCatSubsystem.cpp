@@ -50,7 +50,7 @@ namespace
 	template <typename T>
 	T GetValue(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if(!EnsureConfigCatClient(Client))
+		if (!EnsureConfigCatClient(Client))
 		{
 			return DefaultValue;
 		}
@@ -63,7 +63,7 @@ namespace
 	template <typename T>
 	UConfigCatEvaluationWrapper* GetEvaluationDetails(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if(!EnsureConfigCatClient(Client))
+		if (!EnsureConfigCatClient(Client))
 		{
 			return {};
 		}
@@ -107,7 +107,7 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& D
 
 UConfigCatValueWrapper* UConfigCatSubsystem::GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -141,7 +141,7 @@ UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetStringValueDetails(const FS
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -159,7 +159,7 @@ TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 
 bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, UConfigCatValueWrapper*& OutValue) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return false;
 	}
@@ -180,7 +180,7 @@ bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& Ou
 
 TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const UConfigCatUserWrapper* User) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -198,7 +198,7 @@ TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const U
 
 TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(const UConfigCatUserWrapper* User) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -216,7 +216,7 @@ TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(con
 
 void UConfigCatSubsystem::ForceRefresh()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -226,7 +226,7 @@ void UConfigCatSubsystem::ForceRefresh()
 
 void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -241,7 +241,7 @@ void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 
 void UConfigCatSubsystem::ClearDefaultUser()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -251,7 +251,7 @@ void UConfigCatSubsystem::ClearDefaultUser()
 
 void UConfigCatSubsystem::SetOnline()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -261,7 +261,7 @@ void UConfigCatSubsystem::SetOnline()
 
 void UConfigCatSubsystem::SetOffline()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -271,7 +271,7 @@ void UConfigCatSubsystem::SetOffline()
 
 bool UConfigCatSubsystem::IsOffline() const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return true;
 	}
@@ -345,7 +345,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
 
 #ifdef CONFIGCAT_HTTPTHREAD_WORKAROUND
-	if(ConfigCatSettings->PollingMode == EPollingMode::Auto)
+	if (ConfigCatSettings->PollingMode == EPollingMode::Auto)
 	{
 		ForceRefresh();
 	}
