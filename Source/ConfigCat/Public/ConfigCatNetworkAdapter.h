@@ -5,6 +5,8 @@
 #include <ConfigCatCppSDK/Include/httpsessionadapter.h>
 #include <Interfaces/IHttpRequest.h>
 
+#include <memory>
+
 namespace configcat
 {
 	class PollingMode;

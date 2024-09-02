@@ -12,6 +12,7 @@
 #include <Logging/LogVerbosity.h>
 #include <Misc/ConfigCacheIni.h>
 #include <Engine/GameInstance.h>
+#include <Engine/Engine.h>
 
 #include "ConfigCat.h"
 #include "ConfigCatLog.h"
@@ -27,21 +28,30 @@ using namespace configcat;
 
 namespace
 {
+	void PrintError(const FString& ErrorMessage)
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("[ConfigCat] %s"), *ErrorMessage));
+		}
+		UE_LOG(LogConfigCat, Error, TEXT("%s"), *ErrorMessage);
+	}
+
 	bool EnsureConfigCatClient(const std::shared_ptr<configcat::ConfigCatClient>& Client)
 	{
-		if (ensure(Client))
+		if (Client)
 		{
 			return true;
 		}
 
-		UE_LOG(LogConfigCat, Warning, TEXT("Trying to access the ConfigCatClient before initialization or after shutdown."));
+		PrintError(TEXT("Trying to access the client before initialization or after shutdown."));
 		return false;
 	}
 
 	template <typename T>
 	T GetValue(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if(!EnsureConfigCatClient(Client))
+		if (!EnsureConfigCatClient(Client))
 		{
 			return DefaultValue;
 		}
@@ -54,7 +64,7 @@ namespace
 	template <typename T>
 	UConfigCatEvaluationWrapper* GetEvaluationDetails(const std::shared_ptr<ConfigCatClient>& Client, FString Key, T DefaultValue, const UConfigCatUserWrapper* User)
 	{
-		if(!EnsureConfigCatClient(Client))
+		if (!EnsureConfigCatClient(Client))
 		{
 			return {};
 		}
@@ -98,7 +108,7 @@ FString UConfigCatSubsystem::GetStringValue(const FString& Key, const FString& D
 
 UConfigCatValueWrapper* UConfigCatSubsystem::GetConfigValue(const FString& Key, const UConfigCatUserWrapper* User) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -132,7 +142,7 @@ UConfigCatEvaluationWrapper* UConfigCatSubsystem::GetStringValueDetails(const FS
 
 TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -150,7 +160,7 @@ TArray<FString> UConfigCatSubsystem::GetAllKeys() const
 
 bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& OutKey, UConfigCatValueWrapper*& OutValue) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return false;
 	}
@@ -171,7 +181,7 @@ bool UConfigCatSubsystem::GetKeyAndValue(const FString& VariationId, FString& Ou
 
 TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const UConfigCatUserWrapper* User) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -189,7 +199,7 @@ TMap<FString, UConfigCatValueWrapper*> UConfigCatSubsystem::GetAllValues(const U
 
 TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(const UConfigCatUserWrapper* User) const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return {};
 	}
@@ -207,7 +217,7 @@ TArray<UConfigCatEvaluationWrapper*> UConfigCatSubsystem::GetAllValueDetails(con
 
 void UConfigCatSubsystem::ForceRefresh()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -217,7 +227,7 @@ void UConfigCatSubsystem::ForceRefresh()
 
 void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -232,7 +242,7 @@ void UConfigCatSubsystem::SetDefaultUser(const UConfigCatUserWrapper* User)
 
 void UConfigCatSubsystem::ClearDefaultUser()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -242,7 +252,7 @@ void UConfigCatSubsystem::ClearDefaultUser()
 
 void UConfigCatSubsystem::SetOnline()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -252,7 +262,7 @@ void UConfigCatSubsystem::SetOnline()
 
 void UConfigCatSubsystem::SetOffline()
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return;
 	}
@@ -262,7 +272,7 @@ void UConfigCatSubsystem::SetOffline()
 
 bool UConfigCatSubsystem::IsOffline() const
 {
-	if(!EnsureConfigCatClient(ConfigCatClient))
+	if (!EnsureConfigCatClient(ConfigCatClient))
 	{
 		return true;
 	}
@@ -279,7 +289,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
 	if (!ConfigCatSettings || ConfigCatSettings->SdkKey.IsEmpty())
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Empty SdkKey detected. Please set your SdkKey in the Project Settings."));
+		PrintError(TEXT("SdkKey missing. Please set your SdkKey in the Project Settings."));
 		return;
 	}
 
@@ -336,7 +346,7 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
 
 #ifdef CONFIGCAT_HTTPTHREAD_WORKAROUND
-	if(ConfigCatSettings->PollingMode == EPollingMode::Auto)
+	if (ConfigCatSettings->PollingMode == EPollingMode::Auto)
 	{
 		ForceRefresh();
 	}
