@@ -14,7 +14,7 @@ public class ConfigCatCppSdk : ModuleRules
 
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
-			AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "Win64", "x64-windows"), "*.lib");
+			AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "Win64", "x64-windows-unreal"), "*.lib");
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Mac)
 		{ 
