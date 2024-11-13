@@ -22,7 +22,11 @@ public class ConfigCatCppSdk : ModuleRules
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "Linux", "x64-linux-unreal"), "*.a");
+			AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "Linux-x64", "x64-linux-unreal"), "*.a");
+		}
+		else if (Target.Platform == UnrealTargetPlatform.LinuxArm64)
+		{
+			AddPrecompiledLibraries(Path.Combine(ModuleDirectory, "Binaries", "Linux-arm64", "arm64-linux-unreal"), "*.a");
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Android)
 		{
