@@ -18,7 +18,8 @@ public class ConfigCat : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
-			"ConfigCatCppSdk"
+			"ConfigCatCppSdk", // Loading & managing third party C++ depedencies (e.g.: configcat-sdk, libhash-library)
+			"ConfigCatPlatformNetwork", // Platform specific networking code (e.g.: curl patching)
 		});
 
 		PrivateIncludePaths.Add("ThirdParty");
