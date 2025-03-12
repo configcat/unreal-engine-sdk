@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - ci-tests
+
   pull_request:
     branches: 
       - main
