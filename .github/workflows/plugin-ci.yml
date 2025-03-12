@@ -22,9 +22,9 @@ jobs:
 
       - name: Setup C++ runtime
         run: |
-          apt-get update
-          add-apt-repository ppa:ubuntu-toolchain-r/test
-          apt-get install -y libstdc++6
+          sudo apt-get update
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get install -y libstdc++6
 
       - name: Install via vcpkg
         run: |
