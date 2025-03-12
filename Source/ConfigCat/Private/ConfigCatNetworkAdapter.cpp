@@ -11,6 +11,7 @@
 #include <HAL/PlatformProcess.h>
 
 #include "ConfigCatLog.h"
+#include "ConfigCatPlatformNetwork.h"
 
 using namespace configcat;
 
@@ -52,6 +53,7 @@ Response ConfigCatNetworkAdapter::get(
 	GetRequest = FHttpModule::Get().CreateRequest();
 	ON_SCOPE_EXIT
 	{
+		FConfigCatPlatformNetworkModule::CleanupProxySettings(GetRequest);
 		GetRequest.Reset();
 	};
 
@@ -74,9 +76,25 @@ Response ConfigCatNetworkAdapter::get(
 	const FString Url = UTF8_TO_TCHAR(url.c_str());
 	GetRequest->SetURL(Url);
 
-	if (proxies.empty() != 0)
 	{
-		UE_LOG(LogConfigCat, Warning, TEXT("Unreal Engine doesn't have a built-in proxy for HTTPS requests, ignoring proxies."));
+		// Apply proxy settings if found
+		FString ProxyUrl, ProxyUsername, ProxyPassword;
+
+		FString UrlProtocol = Url.Left(Url.Find(TEXT(":")));
+		auto UrlProxy = proxies.find(TCHAR_TO_UTF8(*UrlProtocol));
+		if (UrlProxy != proxies.end())
+		{
+			ProxyUrl = UTF8_TO_TCHAR(UrlProxy->second.c_str());
+
+			auto UrlAuth = proxyAuthentications.find(TCHAR_TO_UTF8(*ProxyUrl));
+			if (UrlAuth != proxyAuthentications.end())
+			{
+				ProxyUsername = UTF8_TO_TCHAR(UrlAuth->second.user.c_str());
+				ProxyPassword = UTF8_TO_TCHAR(UrlAuth->second.password.c_str());
+			}
+		}
+
+		FConfigCatPlatformNetworkModule::ApplyProxySettings(GetRequest, ProxyUrl, ProxyUsername, ProxyPassword);
 	}
 
 #ifndef CONFIGCAT_HTTPTHREAD_WORKAROUND
