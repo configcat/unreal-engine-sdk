@@ -55,7 +55,7 @@ jobs:
         if: always()
         with:
           name: build-logs
-          path: /home/runner/work/unreal-engine-sdk/unreal-engine-sdk/build/vcpkg/buildtrees/detect_compiler/config-x64-linux-unreal-rel-out.log
+          path: /home/runner/work/unreal-engine-sdk/unreal-engine-sdk/build/vcpkg/buildtrees/detect_compiler/config-x64-linux-unreal-rel-err.log
 
   plugin-ci:
     uses:  outoftheboxplugins/BuildMachines/.github/workflows/compile-plugin.yml@master
