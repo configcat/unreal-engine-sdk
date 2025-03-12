@@ -46,7 +46,6 @@ jobs:
           rm -r ./build/*
 
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: configcat-sdk
           path: ${{ github.workspace }}
