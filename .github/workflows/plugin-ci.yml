@@ -34,8 +34,10 @@ jobs:
           # Extra steps for Unreal Engine integration
           export CC=clang
           export CXX=clang++
+          export CXXFLAGS="-std=c++17"
+          export CFLAGS="-std=c++17"
 
-          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
+          ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets" --debug
 
       - name: Copy binaries
         run: |
