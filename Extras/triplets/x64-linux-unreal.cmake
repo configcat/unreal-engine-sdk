@@ -4,12 +4,5 @@ set(VCPKG_LIBRARY_LINKAGE static)
 
 set(VCPKG_CMAKE_SYSTEM_NAME Linux)
 
-set(VCPKG_CXX_FLAGS "-std=c++20")
-
-set(VCPKG_CXX_FLAGS_RELEASE "-stdlib=libc++ -std=c++20")
-set(VCPKG_C_FLAGS_RELEASE "-stdlib=libc++")
-set(VCPKG_LINKER_FLAGS_RELEASE "-stdlib=libc++7")
-
-set(VCPKG_CXX_FLAGS_DEBUG "-stdlib=libc++ -std=c++20")
-set(VCPKG_C_FLAGS_DEBUG "-stdlib=libc++")
-set(VCPKG_LINKER_FLAGS_DEBUG "-stdlib=libc++")
+set(VCPKG_CXX_FLAGS "-stdlib=libc++ -std=c++20")
+set(VCPKG_C_FLAGS "-stdlib=libc++")
