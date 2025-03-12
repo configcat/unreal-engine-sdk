@@ -49,7 +49,7 @@ jobs:
         if: always()
         with:
           name: configcat-sdk
-          path: /home/runner/work/unreal-engine-sdk/unreal-engine-sdk/build/vcpkg/buildtrees/hash-library/install-x64-linux-unreal-rel-out.log
+          path: ${{ github.workspace }}
 
   plugin-ci:
     uses:  outoftheboxplugins/BuildMachines/.github/workflows/compile-plugin.yml@master
