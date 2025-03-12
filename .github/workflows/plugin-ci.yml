@@ -20,10 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Setup C++ runtime
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libc++-dev libc++abi-dev
+          apt-get update
+          add-apt-repository ppa:ubuntu-toolchain-r/test
+          apt-get install -y libstdc++6
 
       - name: Install via vcpkg
         run: |
