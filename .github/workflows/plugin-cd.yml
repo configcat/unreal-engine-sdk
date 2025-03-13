@@ -104,7 +104,7 @@ jobs:
             ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -129,7 +129,7 @@ jobs:
             ./build/vcpkg/installed/*/lib/libhash-library.a
 
   publish-engine-plugin:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [build-win64, build-android, build-macos, build-ios, build-linux]
     name: 📦 Package Plugin
     strategy:
