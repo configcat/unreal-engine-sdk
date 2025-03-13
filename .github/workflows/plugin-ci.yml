@@ -18,11 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libc++-dev libc++abi-dev
-
       - name: Install via vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg build/vcpkg
