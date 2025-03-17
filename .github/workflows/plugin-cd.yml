@@ -36,7 +36,7 @@ jobs:
           ./build/vcpkg/bootstrap-vcpkg.bat
           ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-windows-unreal --overlay-triplets "$env:GITHUB_WORKSPACE/Extras/triplets"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Win64
           path: |
@@ -56,7 +56,7 @@ jobs:
           ./build/vcpkg/bootstrap-vcpkg.bat
           ./build/vcpkg/vcpkg install configcat[core,sha] --triplet arm64-android
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Android
           path: |
@@ -76,7 +76,7 @@ jobs:
           ./build/vcpkg/bootstrap-vcpkg.sh
           ./build/vcpkg/vcpkg install configcat[core,sha] --triplet universal-osx-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: MacOS
           path: |
@@ -96,7 +96,7 @@ jobs:
           ./build/vcpkg/bootstrap-vcpkg.sh
           ./build/vcpkg/vcpkg install configcat[core,sha] --triplet arm64-ios-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: iOS
           path: |
@@ -104,7 +104,7 @@ jobs:
             ./build/vcpkg/installed/*/lib/libhash-library.a
 
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -121,7 +121,7 @@ jobs:
 
           ./build/vcpkg/vcpkg install configcat[core,sha] --triplet x64-linux-unreal --overlay-triplets "$GITHUB_WORKSPACE/Extras/triplets"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Linux
           path: |
@@ -129,7 +129,7 @@ jobs:
             ./build/vcpkg/installed/*/lib/libhash-library.a
 
   publish-engine-plugin:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [build-win64, build-android, build-macos, build-ios, build-linux]
     name: 📦 Package Plugin
     strategy:
@@ -138,27 +138,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: Win64
           path: Source/ThirdParty/ConfigCatCppSDK/Binaries/Win64
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: Android
           path: Source/ThirdParty/ConfigCatCppSDK/Binaries/Android
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: MacOS
           path: Source/ThirdParty/ConfigCatCppSDK/Binaries/MacOS
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: iOS
           path: Source/ThirdParty/ConfigCatCppSDK/Binaries/iOS
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: Linux
           path: Source/ThirdParty/ConfigCatCppSDK/Binaries/Linux
