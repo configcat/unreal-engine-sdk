@@ -378,13 +378,7 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		{
 			if (WeakThis.IsValid())
 			{
-				const FString& StringError = UTF8_TO_TCHAR(Error.c_str());
-				const FString& StringException = UTF8_TO_TCHAR(unwrap_exception_message(Exception).c_str());
-
-				UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s Exception: %s"), *StringError, *StringException);
-
-				WeakThis->OnError.Broadcast(StringError, StringException);
-				WeakThis->OnErrorBp.Broadcast(StringError, StringException);
+				WeakThis->OnErrorHook(Error, Exception);
 			}
 		}
 	);
@@ -393,8 +387,7 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		{
 			if (WeakThis.IsValid())
 			{
-				WeakThis->OnClientReady.Broadcast();
-				WeakThis->OnClientReadyBP.Broadcast();
+				WeakThis->OnClientReadyHook();
 			}
 		}
 	);
@@ -403,10 +396,7 @@ void UConfigCatSubsystem::SetupClientHooks(ConfigCatOptions& Options)
 		{
 			if (WeakThis.IsValid())
 			{
-				UConfigCatSettingsWrapper* Config = UConfigCatSettingsWrapper::CreateSettings(InConfig);
-
-				WeakThis->OnConfigChanged.Broadcast(Config);
-				WeakThis->OnConfigChangedBp.Broadcast(Config);
+				WeakThis->OnConfigChangedHook(InConfig);
 			}
 		}
 	);
@@ -456,4 +446,47 @@ void UConfigCatSubsystem::SetupClientOverrides(ConfigCatOptions& Options)
 		// std::unordered_map<std::string, Value> OverrideFlags;
 		// Options.flagOverrides = std::make_shared<MapFlagOverrides>(OverrideFlags, Behaviour);
 	}
+}
+
+void UConfigCatSubsystem::OnErrorHook(const std::string& Error, const std::exception_ptr& Exception)
+{
+	const FString& StringError = UTF8_TO_TCHAR(Error.c_str());
+	const FString& StringException = UTF8_TO_TCHAR(unwrap_exception_message(Exception).c_str());
+
+	UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s Exception: %s"), *StringError, *StringException);
+
+	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr(this), StringError, StringException]()
+	{
+		if (WeakThis.IsValid())
+		{
+			WeakThis->OnError.Broadcast(StringError, StringException);
+			WeakThis->OnErrorBp.Broadcast(StringError, StringException);
+		}
+	});
+}
+
+void UConfigCatSubsystem::OnClientReadyHook()
+{
+	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr(this)]()
+	{
+		if (WeakThis.IsValid())
+		{
+			WeakThis->OnClientReady.Broadcast();
+			WeakThis->OnClientReadyBP.Broadcast();
+		}
+	});
+}
+
+void UConfigCatSubsystem::OnConfigChangedHook(const std::shared_ptr<const configcat::Settings>& InConfig)
+{
+	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr(this), InConfig]()
+	{
+		if (WeakThis.IsValid())
+		{
+			UConfigCatSettingsWrapper* Config = UConfigCatSettingsWrapper::CreateSettings(InConfig);
+
+			WeakThis->OnConfigChanged.Broadcast(Config);
+			WeakThis->OnConfigChangedBp.Broadcast(Config);
+		}
+	});
 }
