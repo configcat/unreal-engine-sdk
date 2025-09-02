@@ -21,8 +21,6 @@ public class ConfigCat : ModuleRules
 			"ConfigCatCppSdk"
 		});
 
-		PrivateIncludePaths.Add("ThirdParty");
-
 		if (Target.Version.MajorVersion < 5 || (Target.Version.MajorVersion == 5 && Target.Version.MinorVersion < 3))
 		{
 			// The first request using the Auto Polling mode blocks the main thread until the HTTP requests on a secondary thread are complete

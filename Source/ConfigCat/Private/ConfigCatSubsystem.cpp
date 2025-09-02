@@ -2,10 +2,10 @@
 
 #include "ConfigCatSubsystem.h"
 
-#include <ConfigCatCppSDK/Include/configcat.h>
-#include <ConfigCatCppSDK/Include/configcatclient.h>
-#include <ConfigCatCppSDK/Include/fileoverridedatasource.h>
-#include <ConfigCatCppSDK/Include/mapoverridedatasource.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/configcat.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/configcatclient.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/fileoverridedatasource.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/mapoverridedatasource.h>
 #include <Async/Async.h>
 #include <HAL/FileManager.h>
 #include <HAL/PlatformFileManager.h>

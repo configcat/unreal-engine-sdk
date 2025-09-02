@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/httpsessionadapter.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/httpsessionadapter.h>
 #include <Interfaces/IHttpRequest.h>
 
 #include <memory>

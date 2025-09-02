@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/log.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/log.h>
 
 /**
  * Implementation of the configcat::ILogger so we can display the messages directly inside Unreal

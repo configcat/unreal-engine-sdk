@@ -2,7 +2,7 @@
 
 #include "ConfigCatNetworkAdapter.h"
 
-#include <ConfigCatCppSDK/Include/pollingmode.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/pollingmode.h>
 #include <HttpManager.h>
 #include <HttpModule.h>
 #include <Interfaces/IHttpResponse.h>

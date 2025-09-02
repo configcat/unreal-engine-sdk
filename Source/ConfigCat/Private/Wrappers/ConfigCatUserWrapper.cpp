@@ -2,7 +2,7 @@
 
 #include "Wrappers/ConfigCatUserWrapper.h"
 
-#include <ConfigCatCppSDK/Include/configcatuser.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/configcatuser.h>
 
 using namespace configcat;
 
