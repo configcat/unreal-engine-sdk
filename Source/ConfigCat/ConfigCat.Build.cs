@@ -21,7 +21,8 @@ public class ConfigCat : ModuleRules
 			"ConfigCatCppSdk"
 		});
 
-		PrivateIncludePaths.Add("ThirdParty");
+		var thirdPartyRoot = Path.GetFullPath(Path.Combine(ModuleDirectory, "../ThirdParty/"));
+		PublicIncludePaths.Add(thirdPartyRoot);
 
 		if (Target.Version.MajorVersion < 5 || (Target.Version.MajorVersion == 5 && Target.Version.MinorVersion < 3))
 		{
