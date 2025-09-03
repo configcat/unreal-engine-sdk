@@ -456,7 +456,7 @@ void UConfigCatSubsystem::OnErrorHook(const std::string& Error, const std::excep
 
 	UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s Exception: %s"), *StringError, *StringException);
 
-	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr(this), StringError, StringException]()
+	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr<UConfigCatSubsystem>(this), StringError, StringException]()
 	{
 		if (WeakThis.IsValid())
 		{
@@ -468,7 +468,7 @@ void UConfigCatSubsystem::OnErrorHook(const std::string& Error, const std::excep
 
 void UConfigCatSubsystem::OnClientReadyHook()
 {
-	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr(this)]()
+	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr<UConfigCatSubsystem>(this)]()
 	{
 		if (WeakThis.IsValid())
 		{
@@ -480,7 +480,7 @@ void UConfigCatSubsystem::OnClientReadyHook()
 
 void UConfigCatSubsystem::OnConfigChangedHook(const std::shared_ptr<const configcat::Settings>& InConfig)
 {
-	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr(this), InConfig]()
+	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr<UConfigCatSubsystem>(this), InConfig]()
 	{
 		if (WeakThis.IsValid())
 		{
