@@ -132,6 +132,11 @@ public:
 	 */
 	UPROPERTY(Config, EditAnywhere, Category= "ConfigCat|Override", meta = (EditCondition = "OverrideMode != EOverrideMode::None", EditConditionHides))
 	EOverrideBehaviour OverrideBehaviour;
+	/**
+	 * Automatically initialization the SDK client. You can disable it if you want to manually initialize at a later stage.
+	 */
+	UPROPERTY(Config, EditAnywhere, Category = "ConfigCat|Subsystem")
+	bool bAutoInitialize = true;
 
 private:
 	// Begin UDeveloperSettings interface

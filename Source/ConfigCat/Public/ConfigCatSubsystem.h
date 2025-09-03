@@ -48,6 +48,11 @@ public:
 	static UConfigCatSubsystem* Get(const UObject* WorldContext);
 
 	/**
+	 * Performs the initialization of the SDK. See bAutoInitialize flag in the settings.
+	 */
+	UFUNCTION(BlueprintCallable, DisplayName = "Manual Initialization", Category = "FeatureFlags", meta = (Keywords = "ConfigCat"))
+	void PerformInitialize();
+	/**
 	 * Gets a feature flag of boolean value for a specific key. Optionally takes in a target user.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "Get Value (Boolean)", Category = "FeatureFlags", meta = (Keywords = "ConfigCat", AdvancedDisplay = "bDefaultValue, User", AutoCreateRefTerm = "User"))
