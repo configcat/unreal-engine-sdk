@@ -281,7 +281,7 @@ bool UConfigCatSubsystem::IsOffline() const
 	return ConfigCatClient->isOffline();
 }
 
-void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+void UConfigCatSubsystem::PerformInitialize()
 {
 #if PLATFORM_IOS && !FORCE_ANSI_ALLOCATOR
 	UE_LOG(LogConfigCat, Fatal, TEXT("ConfigCat for iOS currently requires 'FORCE_ANSI_ALLOCATOR=1' inside your PROJECTNAME.Target.cs"));
@@ -352,6 +352,15 @@ void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		ForceRefresh();
 	}
 #endif
+}
+
+void UConfigCatSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+	const UConfigCatSettings* ConfigCatSettings = GetDefault<UConfigCatSettings>();
+	if (ConfigCatSettings && ConfigCatSettings->bAutoInitialize)
+	{
+		PerformInitialize();
+	}
 }
 
 void UConfigCatSubsystem::Deinitialize()
