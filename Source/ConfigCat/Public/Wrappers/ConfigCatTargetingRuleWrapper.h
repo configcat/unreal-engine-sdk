@@ -141,11 +141,11 @@ struct CONFIGCAT_API FConfigCatConditionContainer
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ConditionContainer", meta = (Keywords = "ConfigCat"))
-	UConfigCatUserConditionWrapper* UserCondition;
+	UConfigCatUserConditionWrapper* UserCondition = nullptr;
 	UPROPERTY(BlueprintReadOnly, Category = "ConditionContainer", meta = (Keywords = "ConfigCat"))
-	UConfigCatPrerequisiteFlagConditionWrapper* PrerequisiteFlagCondition;
+	UConfigCatPrerequisiteFlagConditionWrapper* PrerequisiteFlagCondition = nullptr;
 	UPROPERTY(BlueprintReadOnly, Category = "ConditionContainer", meta = (Keywords = "ConfigCat"))
-	UConfigCatSegmentConditionWrapper* SegmentCondition;
+	UConfigCatSegmentConditionWrapper* SegmentCondition = nullptr;
 };
 
 USTRUCT(BlueprintType, meta = (DisplayName = "ConfigCat Then Container"))
