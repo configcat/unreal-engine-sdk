@@ -4,8 +4,11 @@
 
 #include <CoreMinimal.h>
 #include <Subsystems/GameInstanceSubsystem.h>
-#include <memory>
 
+#include <memory>
+#include <string>
+
+#include "Wrappers/ConfigCatSettingValueContainerWrapper.h"
 #include "Wrappers/ConfigCatUserWrapper.h"
 
 #include "ConfigCatSubsystem.generated.h"
@@ -189,6 +192,18 @@ private:
 	 *Sets up the ConfigCatOptions to use the appropriate overrides based on plugin settings.
 	 */
 	void SetupClientOverrides(configcat::ConfigCatOptions& Options);
+	/**
+	 * Callback executed when the native configcat client encounters an error.
+	 */
+	void OnErrorHook(const std::string& Error, const std::exception_ptr& Exception);
+	/**
+	 * Callback executed when the native configcat client is ready.
+	 */
+	void OnClientReadyHook();
+	/**
+	 * Callback executed when the native configcat client receives a new configuration.
+	 */
+	void OnConfigChangedHook(const std::shared_ptr<const configcat::Settings>& InConfig);
 	/**
 	 * Internal pointer to the configcat client singleton.
 	 */

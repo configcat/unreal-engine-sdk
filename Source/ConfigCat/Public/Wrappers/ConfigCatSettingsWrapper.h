@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/config.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/config.h>
 
 #include <memory>
 

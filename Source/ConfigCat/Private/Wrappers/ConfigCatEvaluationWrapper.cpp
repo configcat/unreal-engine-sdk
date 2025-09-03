@@ -2,7 +2,7 @@
 
 #include "Wrappers/ConfigCatEvaluationWrapper.h"
 
-#include "ConfigCatCppSDK/Include/log.h"
+#include "ThirdParty/ConfigCatCppSDK/Include/log.h"
 
 #include "Wrappers/ConfigCatPercentageOptionWrapper.h"
 #include "Wrappers/ConfigCatTargetingRuleWrapper.h"

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <ConfigCatCppSDK/Include/evaluationdetails.h>
+#include <ThirdParty/ConfigCatCppSDK/Include/evaluationdetails.h>
 
 #include "Misc/DateTime.h"
 #include <memory>
