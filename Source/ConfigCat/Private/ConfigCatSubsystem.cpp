@@ -344,7 +344,17 @@ void UConfigCatSubsystem::PerformInitialize()
 	SetupClientHooks(Options);
 	SetupClientOverrides(Options);
 
-	ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
+	try
+	{
+		ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
+	}
+	catch (const std::exception& e)
+	{
+		const FString& ExceptionString = UTF8_TO_TCHAR(e.what());
+		const FString& ErrorMessage = FString::Printf(TEXT("ConfigCatSDK initialization failed with error: %s"), *ExceptionString);
+		PrintError(ErrorMessage);
+		return;
+	}
 
 #ifdef CONFIGCAT_HTTPTHREAD_WORKAROUND
 	if (ConfigCatSettings->PollingMode == EPollingMode::Auto)
