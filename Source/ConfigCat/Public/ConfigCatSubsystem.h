@@ -27,6 +27,7 @@ using FOnClientReady = FSimpleMulticastDelegate;
 using FOnConfigChanged = TMulticastDelegate<void(UConfigCatSettingsWrapper* Config)>;
 using FOnFlagEvaluated = TMulticastDelegate<void(UConfigCatEvaluationWrapper* Details)>;
 using FOnError = TMulticastDelegate<void(const FString& Error, const FString& Exception)>;
+using FOnConfigureOptions = TMulticastDelegate<void(configcat::ConfigCatOptions& Options)>;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClientReadyBP);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConfigChangedBp, UConfigCatSettingsWrapper*, Config);
@@ -183,6 +184,10 @@ public:
 	 */
 	UPROPERTY(BlueprintAssignable)
 	FOnErrorBp OnErrorBp;
+	/**
+	 * Allows customization of the initializations options before the client is created.
+	 */
+	FOnConfigureOptions OnConfigureOptions;	
 
 private:
 	// Begin UGameInstanceSubsystem interface
