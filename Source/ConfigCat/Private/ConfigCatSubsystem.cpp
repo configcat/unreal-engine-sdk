@@ -344,6 +344,8 @@ void UConfigCatSubsystem::PerformInitialize()
 	SetupClientHooks(Options);
 	SetupClientOverrides(Options);
 
+	OnConfigureOptions.Broadcast(Options);
+
 	try
 	{
 		ConfigCatClient = ConfigCatClient::get(SdkKey, &Options);
@@ -472,8 +474,6 @@ void UConfigCatSubsystem::OnErrorHook(const std::string& Error, const std::excep
 {
 	const FString& StringError = UTF8_TO_TCHAR(Error.c_str());
 	const FString& StringException = UTF8_TO_TCHAR(unwrap_exception_message(Exception).c_str());
-
-	UE_LOG(LogConfigCat, Error, TEXT("ConfigCatClient Error: %s Exception: %s"), *StringError, *StringException);
 
 	AsyncTask(ENamedThreads::GameThread, [WeakThis = TWeakObjectPtr<UConfigCatSubsystem>(this), StringError, StringException]()
 	{
