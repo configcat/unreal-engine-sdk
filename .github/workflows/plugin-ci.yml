@@ -13,7 +13,7 @@ env:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest-4-core
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -48,6 +48,7 @@ jobs:
     needs: build-linux
     with:
       plugin_code: configcat-sdk
+      runner: ubuntu-latest-4-core
     secrets:
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}  
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}  
