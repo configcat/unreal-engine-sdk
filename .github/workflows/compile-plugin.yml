@@ -99,4 +99,6 @@ jobs:
       - name: Build & package
         id: package-app
         run: |
-          docker exec -w /workspace/plugin/ unreal ue4 package
+          uid=$(id -u) # the GH action user ID
+          gid=1000     # the ue4 group in the docker container
+          docker exec --user $uid:$gid -w /workspace/plugin/ unreal ue4 package
