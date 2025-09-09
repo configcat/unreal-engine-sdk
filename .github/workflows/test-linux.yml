@@ -52,6 +52,7 @@ jobs:
           WORKSPACE_PATH: ${{ github.workspace }}
           UNREAL_VERSION: ${{ inputs.unreal-version }}
         run: |
+          echo ${{ secrets.DOCKER_TOKEN }} | docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           # We start the container with the user ID of the parent GH action user to avoid permission issues on volume.
           # For UE 5.4 we have to enable ipv6 to fix container startup issues. See https://github.com/adamrehn/ue4-docker/issues/357
           uid=$(id -u) # the GH action user ID
@@ -69,12 +70,6 @@ jobs:
             --network ip6net -p 80:80 \
             ghcr.io/epicgames/unreal-engine:dev-slim-"$UNREAL_VERSION"
           docker logout ghcr.io
-          # Add the user so it has a home directory (needed to run tests later on)
-          docker exec --user root unreal useradd -u $uid -g $gid --create-home $user
-          # Ensure CA certs are in the right directory (needed for running tests)
-          docker exec --user root unreal bash -c "
-            mkdir -p /etc/pki/tls/certs ;
-            cp /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt "
 
           # Chown some paths to the GH user to make UE5 work properly. We can't just chown the whole UnrealEngine or
           # docker would implicitly have to copy it to the container and we would run out of space on the GH runner.
@@ -112,3 +107,6 @@ jobs:
         id: package-app
         run: |
           docker exec -w /workspace/plugin/ unreal ue4 package
+
+
+
