@@ -43,19 +43,6 @@ jobs:
           name: configcat-sdk
           path: ${{ github.workspace }}
 
-  # plugin-ci:
-  #   needs: build-linux
-  #   name: Linux UE ${{ matrix.unreal }}
-  #   secrets: inherit
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       unreal: ['5.6']
-  #   uses: ./.github/workflows/test-linux.yml
-  #   with:
-  #     unreal-version: ${{ matrix.unreal }}
-  #     plugin_code: configcat-sdk
-
   plugin-ci:
     uses:  ./.github/workflows/compile-plugin.yml
     needs: build-linux
