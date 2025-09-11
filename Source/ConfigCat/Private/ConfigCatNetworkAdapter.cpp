@@ -74,7 +74,7 @@ Response ConfigCatNetworkAdapter::get(
 	const FString Url = UTF8_TO_TCHAR(url.c_str());
 	GetRequest->SetURL(Url);
 
-	if (proxies.empty() != 0)
+	if (!proxies.empty())
 	{
 		UE_LOG(LogConfigCat, Warning, TEXT("Unreal Engine doesn't have a built-in proxy for HTTPS requests, ignoring proxies."));
 	}
