@@ -44,7 +44,7 @@ jobs:
           path: ${{ github.workspace }}
 
   plugin-ci:
-    uses:  outoftheboxplugins/BuildMachines/.github/workflows/compile-plugin.yml@master
+    uses:  ./.github/workflows/compile-plugin.yml
     needs: build-linux
     with:
       plugin_code: configcat-sdk
