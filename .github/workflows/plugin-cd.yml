@@ -14,7 +14,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install forced MSVC
         run: |
@@ -47,7 +47,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install via vcpkg
         run: |
@@ -67,7 +67,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install via vcpkg
         run: |
@@ -87,7 +87,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install via vcpkg
         run: |
@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install via vcpkg
         run: |
@@ -134,9 +134,9 @@ jobs:
     name: 📦 Package Plugin
     strategy:
       matrix:
-        version: ['5.4', '5.5', '5.6']
+        version: ['5.5', '5.6', '5.7']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/download-artifact@v4
         with:

@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       ue_version:
-        default: "5.6"
+        default: "5.7"
         type: string
       plugin_code:
         default: ""
@@ -14,34 +14,25 @@ on:
         required: true
 
 jobs:
-  test:
-    name: Test UE ${{ inputs.ue_version }}
-    runs-on: ubuntu-latest-4-core
+  compile:
+    name: Compile UE ${{ inputs.ue_version }}
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Free disk space
-        if: ${{ steps.exists.outputs.value == 0 }}
-        run: |
-          # time df -h
-          sudo time swapoff -a
-          sudo time rm -f /swapfile
-          sudo time rm -rf /usr/local/lib/android
-          sudo time rm -rf /usr/share/dotnet
-          sudo time rm -rf /usr/share/swift
-          sudo time rm -rf /usr/local/share/powershell
-          sudo time rm -rf /usr/local/.ghcup
-          sudo time rm -rf /usr/local/lib/node_modules
-          sudo time rm -rf /usr/local/share/boost
-          sudo time rm -rf /usr/lib/google-cloud-sdk
-          sudo time rm -rf /usr/lib/jvm
-          sudo time rm -rf /opt/pipx
-          sudo time rm -rf /opt/ghc
-          sudo time rm -rf "$AGENT_TOOLSDIRECTORY"
-          sudo time apt-get clean
-          sudo time rm -rf /var/lib/apt/lists/*
-          # time docker rmi $(docker image ls -aq)
-          # time du --max-depth=3 --threshold=100M -h /usr /opt /var 2>/dev/null | sort -hr
-          df -h
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v10
+        with:
+          root-reserve-mb: 2048
+          swap-size-mb: 1024
+          build-mount-path: /var/lib/docker
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+          remove-docker-images: 'true'
+
+      - name: Restart Docker
+        run: sudo systemctl restart docker
 
       - name: Start Docker container
         run: |
@@ -69,8 +60,9 @@ jobs:
           docker exec --user root unreal bash -c "
             chown -R $uid /home/ue4/UnrealEngine/Engine/Binaries/ThirdParty/Mono/Linux ;
             chown -R $uid /home/ue4/UnrealEngine/Engine/Plugins/VirtualProduction/CaptureData ;
-            chown -R $uid /home/ue4/UnrealEngine/Engine/Binaries/ThirdParty/DotNet "
-            
+            chown -R $uid /home/ue4/UnrealEngine/Engine/Binaries/ThirdParty/DotNet ;
+            chown -R $uid /home/ue4/.config "
+
           # Add the user so it has a home directory (needed for the pip cache later on)
           docker exec --user root unreal useradd -u $uid -g $gid --create-home $user
 
@@ -85,7 +77,7 @@ jobs:
           pip3 install -Iv ue4cli==0.0.54 ;
           ue4 setroot /home/ue4/UnrealEngine '
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: ${{ inputs.plugin_code == '' }}
         with:
           path: plugin
@@ -99,4 +91,4 @@ jobs:
       - name: Build & package
         id: package-app
         run: |
-          docker exec --user root -w /workspace/plugin/ unreal ue4 package
+          docker exec -w /workspace/plugin/ unreal ue4 package
