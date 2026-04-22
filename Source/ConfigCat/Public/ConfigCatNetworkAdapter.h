@@ -15,7 +15,7 @@ namespace configcat
 /**
  * Implementation of the configcat::HttpSessionAdapter so we can handle HTTP requests directly inside Unreal
  */
-class ConfigCatNetworkAdapter : public configcat::HttpSessionAdapter
+class CONFIGCAT_API ConfigCatNetworkAdapter : public configcat::HttpSessionAdapter
 {
 public:
 	explicit ConfigCatNetworkAdapter(const std::shared_ptr<configcat::PollingMode>& InPollingMode);
